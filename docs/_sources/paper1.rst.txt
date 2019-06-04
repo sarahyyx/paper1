@@ -1,0 +1,7 @@
+paper1 module
+=============
+
+.. automodule:: paper1
+   :members:
+   :undoc-members:
+   :show-inheritance:
