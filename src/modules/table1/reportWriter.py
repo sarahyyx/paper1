@@ -26,7 +26,7 @@ This report will generate the information required for Table 1 of the paper.
 ## Description of Table 1:
 The three races considered and their abbreviations are as follows:
 Asian Americans - AA
-Native Hawaiian/Pacific Islander - NH/PI
+Native Hawaiian/Pacific Islander - NHPI
 Multi-Racial - MR
 
 Other variables of interest are:
@@ -47,7 +47,7 @@ def genRace(logger, r):
 |Race |Count          |
 |-----|---------------| 
 |AA   |{r["AA"][0]}   |
-|NH/PI|{r["NH/PI"][0]}|
+|NHPI|{r["NHPI"][0]}|
 |MR   |{r["MR"][0]}   |
 '''
 
@@ -67,13 +67,13 @@ def genRaceAge(logger, r):
 
     report = f'''
 ### Number of patients grouped by race and age
-|Age  |AA|%|NH/PI|%|MR|%|
+|Age  |AA|%|NHPI|%|MR|%|
 |-----|--|-|-----|-|--|-|
-|1-11 |{r["AA"][1][0]}|{genPC(r["AA"][1][0],r["AA"][0])}|{r["NH/PI"][1][0]}|{genPC(r["NH/PI"][1][0],r["NH/PI"][0])}|{r["MR"][1][0]}|{genPC(r["MR"][1][0],r["MR"][0])}|
-|12-17|{r["AA"][1][1]}|{genPC(r["AA"][1][1],r["AA"][0])}|{r["NH/PI"][1][1]}|{genPC(r["NH/PI"][1][1],r["NH/PI"][0])}|{r["MR"][1][1]}|{genPC(r["MR"][1][1],r["MR"][0])}|
-|18-34|{r["AA"][1][2]}|{genPC(r["AA"][1][2],r["AA"][0])}|{r["NH/PI"][1][2]}|{genPC(r["NH/PI"][1][2],r["NH/PI"][0])}|{r["MR"][1][2]}|{genPC(r["MR"][1][2],r["MR"][0])}|
-|35-49|{r["AA"][1][3]}|{genPC(r["AA"][1][3],r["AA"][0])}|{r["NH/PI"][1][3]}|{genPC(r["NH/PI"][1][3],r["NH/PI"][0])}|{r["MR"][1][3]}|{genPC(r["MR"][1][3],r["MR"][0])}|
-|50+  |{r["AA"][1][4]}|{genPC(r["AA"][1][4],r["AA"][0])}|{r["NH/PI"][1][4]}|{genPC(r["NH/PI"][1][4],r["NH/PI"][0])}|{r["MR"][1][4]}|{genPC(r["MR"][1][4],r["MR"][0])}|
+|1-11 |{r["AA"][1][0]}|{genPC(r["AA"][1][0],r["AA"][0])}|{r["NHPI"][1][0]}|{genPC(r["NHPI"][1][0],r["NHPI"][0])}|{r["MR"][1][0]}|{genPC(r["MR"][1][0],r["MR"][0])}|
+|12-17|{r["AA"][1][1]}|{genPC(r["AA"][1][1],r["AA"][0])}|{r["NHPI"][1][1]}|{genPC(r["NHPI"][1][1],r["NHPI"][0])}|{r["MR"][1][1]}|{genPC(r["MR"][1][1],r["MR"][0])}|
+|18-34|{r["AA"][1][2]}|{genPC(r["AA"][1][2],r["AA"][0])}|{r["NHPI"][1][2]}|{genPC(r["NHPI"][1][2],r["NHPI"][0])}|{r["MR"][1][2]}|{genPC(r["MR"][1][2],r["MR"][0])}|
+|35-49|{r["AA"][1][3]}|{genPC(r["AA"][1][3],r["AA"][0])}|{r["NHPI"][1][3]}|{genPC(r["NHPI"][1][3],r["NHPI"][0])}|{r["MR"][1][3]}|{genPC(r["MR"][1][3],r["MR"][0])}|
+|50+  |{r["AA"][1][4]}|{genPC(r["AA"][1][4],r["AA"][0])}|{r["NHPI"][1][4]}|{genPC(r["NHPI"][1][4],r["NHPI"][0])}|{r["MR"][1][4]}|{genPC(r["MR"][1][4],r["MR"][0])}|
 '''
 
     with open('../report/table1Report.md', 'a+') as f:
@@ -86,10 +86,10 @@ def genRaceSex(logger, r):
 
     report = f'''
 ### Number of patients grouped by race and sex
-|Sex|AA|%|NH/PI|%|MR|%|
+|Sex|AA|%|NHPI|%|MR|%|
 |---|--|-|-----|-|--|-|
-|Male  |{r["AA"][2][0]}|{genPC(r["AA"][2][0],r["AA"][0])}%|{r["NH/PI"][2][0]}|{genPC(r["NH/PI"][2][0],r["NH/PI"][0])}%|{r["MR"][2][0]}|{genPC(r["MR"][2][0],r["MR"][0])}%|
-|Female|{r["AA"][2][1]}|{genPC(r["AA"][2][1],r["AA"][0])}%|{r["NH/PI"][2][1]}|{genPC(r["NH/PI"][2][1],r["NH/PI"][0])}%|{r["MR"][2][1]}|{genPC(r["MR"][2][1],r["MR"][0])}%|
+|Male  |{r["AA"][2][0]}|{genPC(r["AA"][2][0],r["AA"][0])}%|{r["NHPI"][2][0]}|{genPC(r["NHPI"][2][0],r["NHPI"][0])}%|{r["MR"][2][0]}|{genPC(r["MR"][2][0],r["MR"][0])}%|
+|Female|{r["AA"][2][1]}|{genPC(r["AA"][2][1],r["AA"][0])}%|{r["NHPI"][2][1]}|{genPC(r["NHPI"][2][1],r["NHPI"][0])}%|{r["MR"][2][1]}|{genPC(r["MR"][2][1],r["MR"][0])}%|
 '''
 
     with open('../report/table1Report.md', 'a+') as f:
@@ -102,10 +102,10 @@ def genRaceSetting(logger, r):
 
     report = f'''
 ### Number of patients grouped by race and setting
-|Setting|AA|%|NH/PI|%|MR|%|
+|Setting|AA|%|NHPI|%|MR|%|
 |-------|--|-|-----|-|--|-|
-|Hospital            |{r["AA"][3][0]}|{genPC(r["AA"][3][0],r["AA"][0])}|{r["NH/PI"][3][0]}|{genPC(r["NH/PI"][3][0],r["NH/PI"][0])}|{r["MR"][3][0]}|{genPC(r["MR"][3][0],r["MR"][0])}|
-|Mental Health Center|{r["AA"][3][1]}|{genPC(r["AA"][3][1],r["AA"][0])}|{r["NH/PI"][3][1]}|{genPC(r["NH/PI"][3][1],r["NH/PI"][0])}|{r["MR"][3][1]}|{genPC(r["MR"][3][1],r["MR"][0])}|
+|Hospital            |{r["AA"][3][0]}|{genPC(r["AA"][3][0],r["AA"][0])}|{r["NHPI"][3][0]}|{genPC(r["NHPI"][3][0],r["NHPI"][0])}|{r["MR"][3][0]}|{genPC(r["MR"][3][0],r["MR"][0])}|
+|Mental Health Center|{r["AA"][3][1]}|{genPC(r["AA"][3][1],r["AA"][0])}|{r["NHPI"][3][1]}|{genPC(r["NHPI"][3][1],r["NHPI"][0])}|{r["MR"][3][1]}|{genPC(r["MR"][3][1],r["MR"][0])}|
 '''
 
     with open('../report/table1Report.md', 'a+') as f:

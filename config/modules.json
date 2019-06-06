@@ -14,6 +14,13 @@
         "owner"      : ""
     },
     {
+        "moduleName" : "fig1",
+        "path"       : "modules/fig1/fig1.py",
+        "execute"    : false,
+        "description": "",
+        "owner"      : ""
+    },
+    {
         "moduleName" : "celeryCheck",
         "path"       : "modules/celeryCheck/celeryCheck.py",
         "execute"    : false,
