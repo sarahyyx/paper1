@@ -32,7 +32,7 @@ def genRaceDict(logger, inputCSV):
     try:
         raceDict = {
                 'AA': [],
-                'NH/PI': [],
+                'NHPI': [],
                 'MR': []
         }
 
@@ -72,28 +72,28 @@ def main(logger, resultsDict):
 
     countDict = {
         "AA": [],
-        "NH/PI":[],
+        "NHPI":[],
         "MR":[]
     }
 
     raceCounts = queryDB.countMainRace()
     countDict["AA"].append(raceCounts[0])
-    countDict["NH/PI"].append(raceCounts[1])
+    countDict["NHPI"].append(raceCounts[1])
     countDict["MR"].append(raceCounts[2])
 
     raceAgeCounts = queryDB.countRaceAge()
     countDict["AA"].append(raceAgeCounts[0])
-    countDict["NH/PI"].append(raceAgeCounts[1])
+    countDict["NHPI"].append(raceAgeCounts[1])
     countDict["MR"].append(raceAgeCounts[2])
 
     raceSexCounts = queryDB.countRaceSex()
     countDict["AA"].append(raceSexCounts[0])
-    countDict["NH/PI"].append(raceSexCounts[1])
+    countDict["NHPI"].append(raceSexCounts[1])
     countDict["MR"].append(raceSexCounts[2])
 
     raceSettingCounts = queryDB.countRaceSetting()
     countDict["AA"].append(raceSettingCounts[0])
-    countDict["NH/PI"].append(raceSettingCounts[1])
+    countDict["NHPI"].append(raceSettingCounts[1])
     countDict["MR"].append(raceSettingCounts[2])
 
     print(countDict)

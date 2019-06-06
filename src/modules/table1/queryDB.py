@@ -20,7 +20,7 @@ def getRace(logger):
     '''print a line
     
     This function was used to get the race and count(race) for ALL the races in raw_data.background
-    After manucal selection and grouping, the races under each race in the paper (AA, NH/PI, MR) were manually entered into the json config file
+    After manucal selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file
     Function was delected from the main after use
     
     Parameters
