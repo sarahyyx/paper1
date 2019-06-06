@@ -7,9 +7,16 @@
         "owner"      : ""
     },
     {
+        "moduleName" : "reportWriter",
+        "path"       : "modules/reportWriter/reportWriter.py",
+        "execute"    : true,
+        "description": "",
+        "owner"      : ""
+    },
+    {
         "moduleName" : "table1",
         "path"       : "modules/table1/table1.py",
-        "execute"    : true,
+        "execute"    : false,
         "description": "",
         "owner"      : ""
     },

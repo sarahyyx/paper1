@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import operator
 import csv
+import json
 
 from psycopg2.sql import SQL, Identifier, Literal
 
@@ -98,13 +99,16 @@ def main(logger, resultsDict):
 
     print(countDict)
 
+    obj = json.dumps(countDict)
+    f = open("../data/final/sample.json","w+")
+    f.write(obj)
+    f.close()
+
     reportWriter.genIntro()
     reportWriter.genRace(countDict)
     reportWriter.genRaceAge(countDict)
     reportWriter.genRaceSex(countDict)
     reportWriter.genRaceSetting(countDict)
-
-    # queryDB.pushData(('1', 'Inpatient', 'M', 'Asian', '11111', '11111'))
 
     print('Getting out of module table1')
     print('-'*30)

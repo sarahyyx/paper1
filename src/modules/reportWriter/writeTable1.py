@@ -10,7 +10,6 @@ from multiprocessing import Pool
 from time import sleep
 
 config = jsonref.load(open('../config/config.json'))
-dbSummary_config = jsonref.load(open('../config/modules/table1.json'))
 logBase = config['logging']['logBase'] + '.modules.table1.reportWriter'
 
 @lD.log(logBase + '.genIntro')
