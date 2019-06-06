@@ -28,14 +28,21 @@ def genStr(logger, dir):
         The file directory you want to obtain your concencated string from
     '''
     try: 
+        
+        dsmnoList = []
         dsmnoStr = ""
 
         f = open(dir, "r")
 
         for line in tqdm(f):
-            line = line.rstrip()
-            dsmnoStr = dsmnoStr + "\"" + line + "\"" + ","
+            number = line.rstrip()
+            dsmnoList.append(number)
 
+        dsmnoList = list(dict.fromkeys(dsmnoList))
+        print(dsmnoList)
+
+        for number in dsmnoList:
+            dsmnoStr = dsmnoStr + "\"" + number + "\"" + ","
         print(dsmnoStr)
 
         f.close()

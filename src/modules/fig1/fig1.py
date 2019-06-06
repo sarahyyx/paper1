@@ -55,7 +55,7 @@ def main(logger, resultsDict):
 
     countDict = {}
 
-    # utils.genStr("../data/raw_data/dsmno.txt")
+    utils.genStr("../data/raw_data/dsmno.txt")
     # utils.genPatients()
 
     queryDB.genDiagCount()
