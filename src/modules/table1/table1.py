@@ -99,7 +99,7 @@ def main(logger, resultsDict):
     print(countDict)
 
     obj = json.dumps(countDict)
-    f = open("../data/final/sample.json","w+")
+    f = open("../data/final/sampleCount.json","w+")
     f.write(obj)
     f.close()
 
