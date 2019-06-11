@@ -19,8 +19,6 @@ def genIntro(logger):
     
     report = f'''
 
-# Report on Paper 1: Comorbid Substance Use Disorders
-
 ## Description of Figure 1:
 The Axis I/II disorders that are considered and their abbreviations are as follows:
 Mood - mood
