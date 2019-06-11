@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import operator
 import csv
+import json
 
 from psycopg2.sql import SQL, Identifier, Literal
 
 from lib.databaseIO import pgIO
 from modules.table1 import queryDB
-from modules.table1 import reportWriter
 
 config = jsonref.load(open('../config/config.json'))
 table1_config = jsonref.load(open('../config/modules/table1.json'))
@@ -98,13 +98,10 @@ def main(logger, resultsDict):
 
     print(countDict)
 
-    reportWriter.genIntro()
-    reportWriter.genRace(countDict)
-    reportWriter.genRaceAge(countDict)
-    reportWriter.genRaceSex(countDict)
-    reportWriter.genRaceSetting(countDict)
-
-    # queryDB.pushData(('1', 'Inpatient', 'M', 'Asian', '11111', '11111'))
+    obj = json.dumps(countDict)
+    f = open("../data/final/sampleCount.json","w+")
+    f.write(obj)
+    f.close()
 
     print('Getting out of module table1')
     print('-'*30)

@@ -1,18 +1,13 @@
 from logs import logDecorator as lD 
 import jsonref, pprint
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-import operator
-import csv, json
 
-from psycopg2.sql import SQL, Identifier, Literal
+import json
 
-from lib.databaseIO import pgIO
-from modules.fig1 import utils
-from modules.fig1 import queryDB
+from modules.reportWriter import writeTable1
+from modules.reportWriter import plotFig1
 
 config = jsonref.load(open('../config/config.json'))
-logBase = config['logging']['logBase'] + '.modules.fig1.fig1'
+logBase = config['logging']['logBase'] + '.modules.module1.module1'
 
 
 @lD.log(logBase + '.main')
@@ -34,22 +29,25 @@ def main(logger, resultsDict):
     '''
 
     print('='*30)
-    print('Main function of fig1')
+    print('Main function of reportWriter module')
     print('='*30)
 
-    filePath = "../data/final/sampleCount.json"
-    countDict = queryDB.genDiagCount(filePath)
+    with open("../data/final/sampleCount.json") as json_file:  
+        table1Dict = json.load(json_file)
+    
+    writeTable1.genIntro()
+    writeTable1.genRace(table1Dict)
+    writeTable1.genRaceAge(table1Dict)
+    writeTable1.genRaceSex(table1Dict)
+    writeTable1.genRaceSetting(table1Dict)
 
-    print(countDict)
+    with open("../data/final/diagnosesCount.json") as json_file:  
+        fig1Dict = json.load(json_file)
+    
+    plotFig1.genIntro()
+    plotFig1.genFig(fig1Dict)
 
-    final_countDict = utils.removeLowPrev(countDict)
-
-    obj = json.dumps(final_countDict)
-    f = open("../data/final/diagnosesCount.json","w+")
-    f.write(obj)
-    f.close()
-
-    print('Getting out of fig1')
+    print('Getting out of reportWriter module')
     print('-'*30)
 
     return

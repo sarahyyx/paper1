@@ -9,13 +9,27 @@
     {
         "moduleName" : "table1",
         "path"       : "modules/table1/table1.py",
-        "execute"    : true,
+        "execute"    : false,
         "description": "",
         "owner"      : ""
     },
     {
         "moduleName" : "fig1",
         "path"       : "modules/fig1/fig1.py",
+        "execute"    : false,
+        "description": "",
+        "owner"      : ""
+    },
+    {
+        "moduleName" : "table2",
+        "path"       : "modules/table2/table2.py",
+        "execute"    : true,
+        "description": "",
+        "owner"      : ""
+    },
+    {
+        "moduleName" : "reportWriter",
+        "path"       : "modules/reportWriter/reportWriter.py",
         "execute"    : false,
         "description": "",
         "owner"      : ""

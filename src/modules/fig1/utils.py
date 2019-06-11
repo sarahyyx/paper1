@@ -28,14 +28,21 @@ def genStr(logger, dir):
         The file directory you want to obtain your concencated string from
     '''
     try: 
+        
+        dsmnoList = []
         dsmnoStr = ""
 
         f = open(dir, "r")
 
         for line in tqdm(f):
-            line = line.rstrip()
-            dsmnoStr = dsmnoStr + "\"" + line + "\"" + ","
+            number = line.rstrip()
+            dsmnoList.append(number)
 
+        dsmnoList = list(dict.fromkeys(dsmnoList))
+        print(dsmnoList)
+
+        for number in dsmnoList:
+            dsmnoStr = dsmnoStr + "\"" + number + "\"" + ","
         print(dsmnoStr)
 
         f.close()
@@ -84,3 +91,22 @@ def genPatients(logger):
         logger.error('Failed to generate list of patients because of {}'.format(e))
 
     return 
+
+@lD.log(logBase + '.removeLowPrev')
+def removeLowPrev(logger, d):
+    '''
+    This function removes those diagnoses that have a low prevalence    
+    Parameters
+    ----------
+    logger : {logging.Logger}
+        The logger used for logging error information
+    '''
+    try: 
+
+        result = {k: v for k, v in d.items() if max(v) >= fig1_config["params"]["min_prevalence"]}
+        print(result)
+
+    except Exception as e:
+        logger.error('Failed to remove low prevalence because of {}'.format(e))
+
+    return result

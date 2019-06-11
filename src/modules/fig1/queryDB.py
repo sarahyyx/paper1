@@ -5,7 +5,7 @@ from psycopg2.sql import SQL, Identifier, Literal
 from lib.databaseIO import pgIO
 from collections import Counter
 from textwrap import wrap
-import csv
+import csv, json
 
 from tqdm import tqdm
 from multiprocessing import Pool
@@ -16,63 +16,71 @@ logBase = config['logging']['logBase'] + '.modules.fig1.queryDB'
 
 
 @lD.log(logBase + '.genDiagCount')
-def genDiagCount(logger):
-    '''
-    This function generates the number of patients with a certain diagnosis
+def genDiagCount(logger, filePath):
+    '''[summary]
     
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
+    This function generates the percentage of users per race that has a certain diagnosis
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+        filePath {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
     '''
     try:
-        
-        results = {
-            "AA": 0,
-            "NHPI": 0,
-            "MR": 0
+        resultsDict = {
+            "mood": [],
+            "anxiety": [],
+            "adjustment": [],
+            "adhd": [],
+            "sud": [],
+            "psyc": [],
+            "pers": [],
+            "childhood": [],
+            "impulse": [],
+            "cognitive": [],
+            "eating": [],
+            "smtf": [],
+            "disso": [],
+            "sleep": [],
+            "fd": []
         }
 
-        disorder = fig1_config["params"]["mood"]
-        race = "MR"
+        with open(filePath) as json_file:  
+            table1results = json.load(json_file)
 
-        #get csv containing the unique composite keys for each race
-        inputCSV = f"../data/raw_data/{race}_keys.csv"
-
-        with open(inputCSV) as f:
-            readCSV = csv.reader(f, delimiter=',')
-            
-            #for each patient
-            for row in tqdm(readCSV): 
-
+        for category in resultsDict:
+            for race in fig1_config["inputs"]["races"]:
                 query = SQL('''
                 SELECT 
-                    dsmno
-                FROM
-                    raw_data.pdiagnose t1
-                WHERE
-                    t1.siteid = {} AND t1.backgroundid = {}
+                    count(*)
+                FROM 
+                    sarah.diagnoses t1
+                INNER JOIN 
+                    sarah.newtable1data t2
+                ON 
+                    t1.siteid = t2.siteid
+                AND 
+                    t1.backgroundid = t2.backgroundid
+                WHERE 
+                    t1.{} is true
+                AND 
+                    t2.race = {}
                 ''').format(
-                    Literal(row[0]),
-                    Literal(row[1])
+                    Identifier(category),
+                    Literal(race)
                 )
-                data = pgIO.getAllData(query)
-                data = [d[0] for d in data]
+                data = [d[0] for d in pgIO.getAllData(query)]
+                data = round((data[0]/table1results[race][0])*100, 1)
+                resultsDict[category].append(data) #percentages
 
-                #remove duplicates
-                patient_dsmo_list = list(dict.fromkeys(data))
-
-                #compare dsmno of patient and of disorder
-                if True in [item in patient_dsmo_list for item in disorder]:
-                    results[race] += 1
-
-                
-        f.close()
-            
-        print(results)
-
+        json_file.close()
 
     except Exception as e:
         logger.error('Failed to generate count {}'.format(e))
 
-    return 
+    return resultsDict

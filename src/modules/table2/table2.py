@@ -1,25 +1,20 @@
 from logs import logDecorator as lD 
 import jsonref, pprint
 
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+import operator
+import csv
+import json
+
+from psycopg2.sql import SQL, Identifier, Literal
+
+from lib.databaseIO import pgIO
+from modules.table2 import queryDB
+
 config = jsonref.load(open('../config/config.json'))
-logBase = config['logging']['logBase'] + '.modules.module1.module1'
-
-
-@lD.log(logBase + '.doSomething')
-def doSomething(logger):
-    '''print a line
-    
-    This function simply prints a single line
-    
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
-    '''
-
-    print('We are in module 1')
-
-    return
+table2_config = jsonref.load(open('../config/modules/table2.json'))
+logBase = config['logging']['logBase'] + '.modules.table2.table2'
 
 @lD.log(logBase + '.main')
 def main(logger, resultsDict):
@@ -40,14 +35,12 @@ def main(logger, resultsDict):
     '''
 
     print('='*30)
-    print('Main function of module 1')
+    print('Main function of module table2')
     print('='*30)
-    print('We get a copy of the result dictionary over here ...')
-    pprint.pprint(resultsDict)
 
-    doSomething()
+    queryDB.test()
 
-    print('Getting out of Module 1')
+    print('Getting out of module table2')
     print('-'*30)
 
     return
