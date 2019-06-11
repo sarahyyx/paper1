@@ -37,11 +37,14 @@ def main(logger, resultsDict):
     print('Main function of fig1')
     print('='*30)
 
-    countDict = queryDB.genDiagCount()
+    filePath = "../data/final/sampleCount.json"
+    countDict = queryDB.genDiagCount(filePath)
 
     print(countDict)
 
-    obj = json.dumps(countDict)
+    final_countDict = utils.removeLowPrev(countDict)
+
+    obj = json.dumps(final_countDict)
     f = open("../data/final/diagnosesCount.json","w+")
     f.write(obj)
     f.close()

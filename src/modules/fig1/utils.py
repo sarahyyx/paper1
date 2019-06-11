@@ -91,3 +91,22 @@ def genPatients(logger):
         logger.error('Failed to generate list of patients because of {}'.format(e))
 
     return 
+
+@lD.log(logBase + '.removeLowPrev')
+def removeLowPrev(logger, d):
+    '''
+    This function removes those diagnoses that have a low prevalence    
+    Parameters
+    ----------
+    logger : {logging.Logger}
+        The logger used for logging error information
+    '''
+    try: 
+
+        result = {k: v for k, v in d.items() if max(v) >= fig1_config["params"]["min_prevalence"]}
+        print(result)
+
+    except Exception as e:
+        logger.error('Failed to remove low prevalence because of {}'.format(e))
+
+    return result

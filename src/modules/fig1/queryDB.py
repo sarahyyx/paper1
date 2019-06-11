@@ -16,14 +16,20 @@ logBase = config['logging']['logBase'] + '.modules.fig1.queryDB'
 
 
 @lD.log(logBase + '.genDiagCount')
-def genDiagCount(logger):
-    '''
-    This function generates the number of patients with a certain diagnosis
+def genDiagCount(logger, filePath):
+    '''[summary]
     
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
+    This function generates the percentage of users per race that has a certain diagnosis
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+        filePath {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
     '''
     try:
         resultsDict = {
@@ -44,12 +50,10 @@ def genDiagCount(logger):
             "fd": []
         }
 
-        filePath = "../data/final/sample.json"
         with open(filePath) as json_file:  
             table1results = json.load(json_file)
 
         for category in resultsDict:
-            print(category)
             for race in fig1_config["inputs"]["races"]:
                 query = SQL('''
                 SELECT 
