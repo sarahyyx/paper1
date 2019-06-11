@@ -2,6 +2,7 @@ from logs import logDecorator as lD
 import jsonref, pprint
 import numpy as np  
 import matplotlib.pyplot as plt
+import csv
 
 from psycopg2.sql import SQL, Identifier, Literal
 from lib.databaseIO import pgIO
@@ -20,8 +21,8 @@ def getRace(logger):
     '''print a line
     
     This function was used to get the race and count(race) for ALL the races in raw_data.background
-    After manucal selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file
-    Function was delected from the main after use
+    After manual selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file
+    Function was deleted from the main after use
     
     Parameters
     ----------
@@ -47,6 +48,54 @@ def getRace(logger):
 
     return data
 
+@lD.log(logBase + '.getTable1data')
+def getTable1data(logger):
+    '''print a line
+    
+    This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper
+    Variables that are used to filter at this stage are age, visit_type, sex and race. 
+    Variable values that are to be included are found in the config file
+    
+    Parameters
+    ----------
+    logger : {logging.Logger}
+        The logger used for logging error information
+    '''
+
+    try:
+        query = SQL('''
+        SELECT 
+            t1.age,
+            t1.visit_type, 
+            t2.sex,
+            t2.race,
+            t1.siteid,
+            t1.backgroundid
+        FROM 
+            raw_data.typepatient t1
+        INNER JOIN 
+            raw_data.background t2
+        ON
+            t1.backgroundid = t2.id
+        AND
+            t1.siteid = t2.siteid
+        WHERE 
+            CAST (t1.age AS INTEGER) < 100
+        AND
+            t1.visit_type in {}
+        AND
+            t2.sex in {}
+        AND
+            t2.race in {}
+        ''').format(
+            Literal(tuple(table1_config["params"]["setting"]["all"])),
+            Literal(tuple(table1_config["params"]["sexes"]["all"])),
+            Literal(tuple(table1_config["params"]["races"]["all"]))
+            )
+    except Exception as e:
+        logger.error('Failed to generate table {}'.format(e))
+    return
+
 @lD.log(logBase + '.countMainRace')
 def countMainRace(logger):
     '''
@@ -65,7 +114,13 @@ def countMainRace(logger):
             SELECT
                 COUNT(*)
             FROM 
-                sarah.newtable1data
+                sarah.newtable1data t1
+            INNER JOIN 
+                sarah.diagnoses t2
+            ON
+                t1.backgroundid = t2.backgroundid
+            AND
+                t1.siteid = t2.siteid
             WHERE
                 race = {}
             ''').format(
@@ -98,9 +153,15 @@ def countRaceAge(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data
+                    sarah.newtable1data t1
+                INNER JOIN 
+                    sarah.diagnoses t2
+                ON
+                    t1.backgroundid = t2.backgroundid
+                AND
+                    t1.siteid = t2.siteid
                 WHERE 
-                    age >= {} AND age <= {} and race = {}
+                    t1.age >= {} AND t1.age <= {} and t1.race = {}
                 ''').format(
                     Literal(lower),
                     Literal(upper),
@@ -135,9 +196,15 @@ def countRaceSex(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data
+                    sarah.newtable1data t1
+                INNER JOIN 
+                    sarah.diagnoses t2
+                ON
+                    t1.backgroundid = t2.backgroundid
+                AND
+                    t1.siteid = t2.siteid
                 WHERE 
-                    sex = {} AND race = {}
+                    t1.sex = {} AND t1.race = {}
                 ''').format(
                     Literal(sex),
                     Literal(race)
@@ -170,9 +237,15 @@ def countRaceSetting(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data
+                    sarah.newtable1data t1
+                INNER JOIN 
+                    sarah.diagnoses t2
+                ON
+                    t1.backgroundid = t2.backgroundid
+                AND
+                    t1.siteid = t2.siteid
                 WHERE 
-                    visit_type = {} AND race = {}
+                    t1.visit_type = {} AND t1.race = {}
                 ''').format(
                     Literal(setting),
                     Literal(race)
@@ -186,93 +259,120 @@ def countRaceSetting(logger):
 
     return total
 
-@lD.log(logBase + '.pushData')
-def pushData(logger, dataTuple):
-    '''print a line
-    
-    This function takes in a tuple containing the data to be inserted
+@lD.log(logBase + '.genAllKeys')
+def genAllKeys(logger):
+    '''
+    This function generates a .csv file for each race's patients' (siteid, backgroundid)
     
     Parameters
     ----------
     logger : {logging.Logger}
         The logger used for logging error information
     '''
-
-    try:
-        
-        query = SQL('''
-        INSERT INTO test (age, visit_type, sex, race, siteid, backgroundid)
-        VALUES {};
-        ''').format(
-            Literal(dataTuple)
-        )
-
-        status = pgIO.commitData(query)
-        print(status)
-
-    except Exception as e:
-        logger.error('pushData failed because of {}'.format(e))
-
-    return
-
-@lD.log(logBase + '.getTable1dataPP')
-def getTable1dataPP(logger, data):
     try: 
-        data = [d[0] for d in data]
-    except Exception as e:
-        logger.error(f'{e}')
-        return Counter([])
-
-
-@lD.log(logBase + '.getTable1data')
-def getTable1data(logger):
-    '''print a line
-    
-    This function simply prints a single line
-    
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
-    '''
-    p = Pool()
-
-    try:
-        
-        query = SQL('''
+        query = '''
         SELECT 
-            t1.age,
-            t1.visit_type, 
-            t2.sex,
-            t2.race,
-            t1.siteid,
-            t1.backgroundid
-        FROM 
-            raw_data.typepatient t1
-        INNER JOIN 
-            raw_data.background t2
-        ON
-            t1.backgroundid = t2.id
-        AND
-            t1.siteid = t2.siteid
-        WHERE 
-            CAST (t1.age AS INTEGER) < 100
-        AND
-            t1.visit_type in {}
-        AND
-            t2.sex in {}
-        AND
-            t2.race in {}
-        ''').format(
-            Literal(tuple(table1_config["params"]["setting"]["all"])),
-            Literal(tuple(table1_config["params"]["sexes"]["all"])),
-            Literal(tuple(table1_config["params"]["races"]["all"]))
-            )
+            siteid, 
+            backgroundid
+        FROM
+            sarah.newtable1data
+        '''
 
-        dataIter = pgIO.getDataIterator(query, chunks= 1000)
+        data = pgIO.getAllData(query)
+        data = [(d[0], d[1]) for d in data]
+
+        csvfile = "../data/raw_data/All_keys.csv"
+
+        with open(csvfile,'w+') as output:
+            csv_output=csv.writer(output)
+
+            for row in data:
+                csv_output.writerow(row)
+        output.close()
+
+    except Exception as e:
+        logger.error('Failed to generate list of patients because of {}'.format(e))
+
+    return 
+
+@lD.log(logBase + '.addDiagCols')
+def addDiagCols(logger):
+    '''[summary]
+    
+    [description]
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+        all_userkeys = "../data/raw_data/All_keys.csv"
+
+        with open(all_userkeys) as f:
+            readCSV = csv.reader(f, delimiter=",")
+
+            for user in tqdm(readCSV):
+
+                getQuery = SQL('''
+                SELECT
+                    siteid,
+                    backgroundid,
+                    array_agg(distinct dsmno) dsmnos,
+                    array_agg(distinct dsmno) && array[{}] as mood,
+                    array_agg(distinct dsmno) && array[{}] as anxiety,
+                    array_agg(distinct dsmno) && array[{}] as adjustment,
+                    array_agg(distinct dsmno) && array[{}] as adhd,
+                    array_agg(distinct dsmno) && array[{}] as sud,
+                    array_agg(distinct dsmno) && array[{}] as psyc,
+                    array_agg(distinct dsmno) && array[{}] as pers,
+                    array_agg(distinct dsmno) && array[{}] as childhood,
+                    array_agg(distinct dsmno) && array[{}] as impulse,
+                    array_agg(distinct dsmno) && array[{}] as cognitive,
+                    array_agg(distinct dsmno) && array[{}] as eating,
+                    array_agg(distinct dsmno) && array[{}] as smtf,
+                    array_agg(distinct dsmno) && array[{}] as disso,
+                    array_agg(distinct dsmno) && array[{}] as sleep,
+                    array_agg(distinct dsmno) && array[{}] as fd
+                FROM
+                    raw_data.pdiagnose
+                WHERE
+                    siteid = {} and backgroundid = {}
+                GROUP BY
+                    siteid, backgroundid
+                ''').format(
+                    Literal(table1_config["params"]["categories"]["mood"]),
+                    Literal(table1_config["params"]["categories"]["anxiety"]),
+                    Literal(table1_config["params"]["categories"]["adjustment"]),
+                    Literal(table1_config["params"]["categories"]["adhd"]),
+                    Literal(table1_config["params"]["categories"]["sud"]),
+                    Literal(table1_config["params"]["categories"]["psyc"]),
+                    Literal(table1_config["params"]["categories"]["pers"]),
+                    Literal(table1_config["params"]["categories"]["childhood"]),
+                    Literal(table1_config["params"]["categories"]["impulse"]),
+                    Literal(table1_config["params"]["categories"]["cognitive"]),
+                    Literal(table1_config["params"]["categories"]["eating"]),
+                    Literal(table1_config["params"]["categories"]["smtf"]),
+                    Literal(table1_config["params"]["categories"]["disso"]),
+                    Literal(table1_config["params"]["categories"]["sleep"]),
+                    Literal(table1_config["params"]["categories"]["fd"]),
+                    Literal(user[0]),
+                    Literal(user[1])
+                )
+
+                data = pgIO.getAllData(getQuery)
+
+                pushQuery = '''
+                INSERT INTO 
+                    sarah.diagnoses(siteid, backgroundid, dsmnos, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)
+                VALUES
+                    %s
+                '''
+
+                print(pgIO.commitDataList(pushQuery, data))
 
 
     except Exception as e:
-        logger.error('createTable1data failed because of {}'.format(e))
-
+        logger. error('Failed to add columns because of {}'.format(e))
     return

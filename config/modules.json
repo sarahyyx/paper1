@@ -16,14 +16,14 @@
     {
         "moduleName" : "table1",
         "path"       : "modules/table1/table1.py",
-        "execute"    : false,
+        "execute"    : true,
         "description": "",
         "owner"      : ""
     },
     {
         "moduleName" : "fig1",
         "path"       : "modules/fig1/fig1.py",
-        "execute"    : true,
+        "execute"    : false,
         "description": "",
         "owner"      : ""
     },

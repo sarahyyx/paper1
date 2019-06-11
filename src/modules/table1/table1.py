@@ -11,7 +11,6 @@ from psycopg2.sql import SQL, Identifier, Literal
 
 from lib.databaseIO import pgIO
 from modules.table1 import queryDB
-from modules.table1 import reportWriter
 
 config = jsonref.load(open('../config/config.json'))
 table1_config = jsonref.load(open('../config/modules/table1.json'))
@@ -103,12 +102,6 @@ def main(logger, resultsDict):
     f = open("../data/final/sample.json","w+")
     f.write(obj)
     f.close()
-
-    reportWriter.genIntro()
-    reportWriter.genRace(countDict)
-    reportWriter.genRaceAge(countDict)
-    reportWriter.genRaceSex(countDict)
-    reportWriter.genRaceSetting(countDict)
 
     print('Getting out of module table1')
     print('-'*30)
