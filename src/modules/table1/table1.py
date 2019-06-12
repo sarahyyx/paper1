@@ -76,6 +76,9 @@ def main(logger, resultsDict):
         "MR":[]
     }
 
+    ## Run this line to create sarah.diagnoses table
+    queryDB.addDiagCols()
+
     raceCounts = queryDB.countMainRace()
     countDict["AA"].append(raceCounts[0])
     countDict["NHPI"].append(raceCounts[1])
