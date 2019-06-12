@@ -76,8 +76,11 @@ def main(logger, resultsDict):
         "MR":[]
     }
 
-    ## Run this line to create sarah.diagnoses table
-    queryDB.addDiagCols()
+    ## Run these two lines to create sarah.diagnoses table
+    ## TO DO AFTER CREATING:
+    ## In Postgresql, delete rows with all columns = false 
+    # queryDB.genAllKeys()
+    # queryDB.addDiagCols()
 
     raceCounts = queryDB.countMainRace()
     countDict["AA"].append(raceCounts[0])

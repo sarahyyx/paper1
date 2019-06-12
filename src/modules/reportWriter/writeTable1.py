@@ -43,11 +43,12 @@ Setting
 def genRace(logger, r):
 
     report = f'''
-|Race |Count          |
-|-----|---------------| 
-|AA   |{r["AA"][0]}   |
-|NHPI|{r["NHPI"][0]}|
-|MR   |{r["MR"][0]}   |
+|Race     |Count          |
+|---------|---------------| 
+|AA       |{r["AA"][0]}   |
+|NHPI     |{r["NHPI"][0]} |
+|MR       |{r["MR"][0]}   |
+|**Total**|{r["AA"][0]+r["NHPI"][0]+r["MR"][0]}|
 '''
 
     with open('../report/table1Report.md', 'a+') as f:
