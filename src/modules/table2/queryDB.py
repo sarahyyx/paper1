@@ -127,55 +127,6 @@ def createSUDcatsTable(logger):
         logger. error('Failed to create sudcats table because of {}'.format(e))
     return
 
-@lD.log(logBase + '.genSUDRaceKeys')
-def genSUDRaceKeys(logger):
-    '''
-    This function generates a .csv file for each race's SUD users' (siteid, backgroundid)
-    
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
-    '''
-    try: 
-        for race in table2_config["inputs"]["races"]: 
-            query = SQL('''
-            SELECT 
-                t2.siteid, 
-                t2.backgroundid
-            FROM
-                sarah.newtable1data t1
-            INNER JOIN
-                sarah.diagnoses t2
-            ON
-                t1.siteid = t2.siteid 
-            AND
-                t1.backgroundid = t2.backgroundid
-            WHERE
-                t1.race = {}
-            AND 
-                t2.sud = true
-            ''').format(
-                Literal(race)
-            )
-
-            data = pgIO.getAllData(query)
-            data = [(d[0], d[1]) for d in data]
-
-            csvfile = f"../data/raw_data/SUD{race}_keys.csv"
-
-            with open(csvfile,'w+') as output:
-                csv_output=csv.writer(output)
-
-                for row in data:
-                    csv_output.writerow(row)
-            output.close()
-
-    except Exception as e:
-        logger.error('Failed to generate list of patients because of {}'.format(e))
-
-    return
-
 @lD.log(logBase + '.allAgesGeneralSUD')
 def allAgesGeneralSUD(logger):
     try:
@@ -215,47 +166,36 @@ def allAgesGeneralSUD(logger):
         }
 
         for race in table2_config["inputs"]["races"]:
-
-            race_keys_path = f'../data/raw_data/SUD{race}_keys.csv'
-            with open(race_keys_path) as f:
-                readCSV = csv.reader(f, delimiter=",")
-
-                for user in tqdm(readCSV):
-
-                    query = SQL('''
-                    SELECT 
-                        t2.alc,
-                        t2.cannabis,
-                        t2.amphe,
-                        t2.halluc,
-                        t2.nicotin,
-                        t2.cocaine,
-                        t2.opioids,
-                        t2.sedate,
-                        t2.others,
-                        t2.polysub,
-                        t2.inhalant
-                    FROM
-                        sarah.newtable1data t1
-                    INNER JOIN 
-                        sarah.sudcats t2
-                    ON
-                        t1.siteid = t2.siteid 
-                    AND
-                        t1.backgroundid = t2.backgroundid
-                    WHERE 
-                        t1.race = {}
-                    AND
-                        t2.siteid = {} AND t2.backgroundid = {}
-                    ''').format(
-                        Literal(race),
-                        Literal(user[0]),
-                        Literal(user[1])
-                    )
-                    data = pgIO.getAllData(query)
-                    for tuple in data:
-                        if sum(list(tuple))>=2:
-                            count[race]+=1
+            query = SQL('''
+            SELECT 
+                t2.alc,
+                t2.cannabis,
+                t2.amphe,
+                t2.halluc,
+                t2.nicotin,
+                t2.cocaine,
+                t2.opioids,
+                t2.sedate,
+                t2.others,
+                t2.polysub,
+                t2.inhalant
+            FROM
+                sarah.newtable1data t1
+            INNER JOIN 
+                sarah.sudcats t2
+            ON
+                t1.siteid = t2.siteid 
+            AND
+                t1.backgroundid = t2.backgroundid
+            WHERE 
+                t1.race = {}
+            ''').format(
+                Literal(race)
+            )
+            data = pgIO.getAllData(query)
+            for tuple in data:
+                if sum(list(tuple))>=2:
+                    count[race]+=1
         for race in count:
             countDict["morethan2_sud"].append(count[race])
         print(countDict)
@@ -309,10 +249,10 @@ def allAgesCategorisedSUD(logger):
     except Exception as e:
         logger.error('Failed to find categorised SUD counts because of {}'.format(e))
 
-    return(countDict)
+    return countDict
 
-@lD.log(logBase + '.AgeBinnedGeneralSUD')
-def AgeBinnedGeneralSUD(logger):
+@lD.log(logBase + '.ageBinnedGeneralSUD')
+def ageBinnedGeneralSUD(logger):
     try:
 
         countDict = {
@@ -323,83 +263,146 @@ def AgeBinnedGeneralSUD(logger):
         # Find number of users in each race who have any SUD, separated into age bins
         any_sud = []
         for race in table2_config["inputs"]["races"]:
-            query = SQL('''
-            SELECT 
-                count(*)
-            FROM 
-                sarah.newtable1data t1
-            INNER JOIN 
-                sarah.diagnoses t2
-            ON 
-                t1.siteid = t2.siteid 
-            AND 
-                t1.backgroundid = t2.backgroundid
-            WHERE 
-                t1.race = {} 
-            AND 
-                t1.age BETWEEN {} AND {}
-            AND
-                t2.sud = true
-            ''').format(
-                Literal(race)
-            )
-            data = [d[0] for d in pgIO.getAllData(query)]
-            countDict["any_sud"].append(data[0])
+            counts = []
+            for lower, upper in zip(['1', '12', '18', '35', '50'], ['11', '17', '34', '49', '100']):
+                query = SQL('''
+                SELECT 
+                    count(*)
+                FROM 
+                    sarah.newtable1data t1
+                INNER JOIN 
+                    sarah.diagnoses t2
+                ON 
+                    t1.siteid = t2.siteid 
+                AND 
+                    t1.backgroundid = t2.backgroundid
+                WHERE 
+                    t1.race = {} 
+                AND 
+                    t1.age BETWEEN {} AND {}
+                AND
+                    t2.sud = true
+                ''').format(
+                    Literal(race),
+                    Literal(lower),
+                    Literal(upper)
+                )
+                data = [d[0] for d in pgIO.getAllData(query)]
+                counts.append(data[0])
+            countDict["any_sud"].append(counts)
 
         # Find number of users in each race who have >2 SUD, separated into age bins
         count = {
-            "AA": 0,
-            "NHPI": 0,
-            "MR": 0
+            "AA": {
+                "1": 0,
+                "12": 0,
+                "18": 0,
+                "35": 0,
+                "50": 0
+            },
+            "NHPI": {
+                "1": 0,
+                "12": 0,
+                "18": 0,
+                "35": 0,
+                "50": 0
+            },
+            "MR": {
+                "1": 0,
+                "12": 0,
+                "18": 0,
+                "35": 0,
+                "50": 0
+            }
         }
 
         for race in table2_config["inputs"]["races"]:
+            for lower, upper in zip(['1', '12', '18', '35', '50'], ['11', '17', '34', '49', '100']):
 
-            race_keys_path = f'../data/raw_data/SUD{race}_keys.csv'
-            with open(race_keys_path) as f:
-                readCSV = csv.reader(f, delimiter=",")
+                query = SQL('''
+                SELECT 
+                    t2.alc,
+                    t2.cannabis,
+                    t2.amphe,
+                    t2.halluc,
+                    t2.nicotin,
+                    t2.cocaine,
+                    t2.opioids,
+                    t2.sedate,
+                    t2.others,
+                    t2.polysub,
+                    t2.inhalant
+                FROM
+                    sarah.newtable1data t1
+                INNER JOIN 
+                    sarah.sudcats t2
+                ON
+                    t1.siteid = t2.siteid 
+                AND
+                    t1.backgroundid = t2.backgroundid
+                WHERE 
+                    t1.race = {}
+                AND
+                    t1.age BETWEEN {} AND {}
+                ''').format(
+                    Literal(race),
+                    Literal(lower),
+                    Literal(upper)
+                )
+                data = pgIO.getAllData(query)
+                for tuple in data:
+                    if sum(list(tuple))>=2:
+                        count[race][lower]+=1
 
-                for user in tqdm(readCSV):
-
-                    query = SQL('''
-                    SELECT 
-                        t2.alc,
-                        t2.cannabis,
-                        t2.amphe,
-                        t2.halluc,
-                        t2.nicotin,
-                        t2.cocaine,
-                        t2.opioids,
-                        t2.sedate,
-                        t2.others,
-                        t2.polysub,
-                        t2.inhalant
-                    FROM
-                        sarah.newtable1data t1
-                    INNER JOIN 
-                        sarah.sudcats t2
-                    ON
-                        t1.siteid = t2.siteid 
-                    AND
-                        t1.backgroundid = t2.backgroundid
-                    WHERE 
-                        t1.race = {}
-                    AND
-                        t2.siteid = {} AND t2.backgroundid = {}
-                    ''').format(
-                        Literal(race),
-                        Literal(user[0]),
-                        Literal(user[1])
-                    )
-                    data = pgIO.getAllData(query)
-                    for tuple in data:
-                        if sum(list(tuple))>=2:
-                            count[race]+=1
         for race in count:
-            countDict["morethan2_sud"].append(count[race])
-        print(countDict)
+            countDict["morethan2_sud"].append(list(count[race].values()))
 
     except Exception as e:
         logger.error('Failed to find general SUD counts because of {}'.format(e))
 
     return countDict
+
+@lD.log(logBase + '.ageBinnedCategorisedSUD')
+def ageBinnedCategorisedSUD(logger):
+    try:
+        countDict = {}
+
+        for sudcat in table2_config["params"]["sudcats"].keys():
+            list1 = []
+            for race in table2_config["inputs"]["races"]:
+                list2 = []
+                for lower, upper in zip(['1', '12', '18', '35', '50'], ['11', '17', '34', '49', '100']):
+                    query = SQL('''
+                    SELECT 
+                        count(*) 
+                    FROM 
+                        sarah.newtable1data t1
+                    INNER JOIN 
+                        sarah.sudcats t2
+                    ON 
+                        t1.siteid = t2.siteid 
+                    AND 
+                        t1.backgroundid = t2.backgroundid
+                    WHERE 
+                        t1.race = {}
+                    AND 
+                        t1.age BETWEEN {} AND {}
+                    AND 
+                        t2.{} = true
+                    ''').format(
+                        Literal(race),
+                        Literal(lower),
+                        Literal(upper),
+                        Identifier(sudcat)
+                    )
+                    data = [d[0] for d in pgIO.getAllData(query)]
+                    list2.append(data[0])
+                list1.append(list2)
+            countDict[sudcat] = list1
+
+        # print(countDict)
+
+    except Exception as e:
+        logger.error('Failed to find categorised SUD counts because of {}'.format(e))
+
+    return countDict 
