@@ -371,6 +371,7 @@ def addDiagCols(logger):
                 '''
 
                 print(pgIO.commitDataList(pushQuery, data))
+        f.close()
 
 
     except Exception as e:

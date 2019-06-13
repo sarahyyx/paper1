@@ -5,6 +5,7 @@ import json
 
 from modules.reportWriter import writeTable1
 from modules.reportWriter import plotFig1
+from modules.reportWriter import writeTable2
 
 config = jsonref.load(open('../config/config.json'))
 logBase = config['logging']['logBase'] + '.modules.module1.module1'
@@ -32,20 +33,35 @@ def main(logger, resultsDict):
     print('Main function of reportWriter module')
     print('='*30)
 
+    # Table 1 Info
     with open("../data/final/sampleCount.json") as json_file:  
         table1Dict = json.load(json_file)
-    
     writeTable1.genIntro()
     writeTable1.genRace(table1Dict)
     writeTable1.genRaceAge(table1Dict)
     writeTable1.genRaceSex(table1Dict)
     writeTable1.genRaceSetting(table1Dict)
 
+    # Figure 1 Info
     with open("../data/final/diagnosesCount.json") as json_file:  
         fig1Dict = json.load(json_file)
-    
     plotFig1.genIntro()
     plotFig1.genFig(fig1Dict)
+
+    # Table 2 Info
+    with open("../data/final/allAgesGeneralSUD.json") as json_file:  
+        table2_dict1 = json.load(json_file)
+    with open("../data/final/allAgesCategorisedSUD.json") as json_file:  
+        table2_dict2 = json.load(json_file)
+    with open("../data/final/ageBinnedGeneralSUD.json") as json_file:  
+        table2_dict3 = json.load(json_file)
+    with open("../data/final/ageBinnedCategorisedSUD.json") as json_file:  
+        table2_dict4 = json.load(json_file)
+    writeTable2.genIntro()
+    writeTable2.genTotalPrev(table2_dict1,table2_dict2,table1Dict)
+    writeTable2.genAAAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
+    writeTable2.genNHPIAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
+    writeTable2.genMRAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
 
     print('Getting out of reportWriter module')
     print('-'*30)

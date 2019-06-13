@@ -38,7 +38,37 @@ def main(logger, resultsDict):
     print('Main function of module table2')
     print('='*30)
 
-    queryDB.test()
+    ##Run these two lines to create sarah.sudcats table (only on first run)
+    # genSUDUserKeys()
+    # createSUDcatsTable()
+
+    # # Run this to generate user counts with any sud and >=2 SUDs, separated by race
+    # allAgesGeneralSUDCountDict = queryDB.allAgesGeneralSUD()
+    # obj = json.dumps(allAgesGeneralSUDCountDict)
+    # f = open("../data/final/allAgesGeneralSUD.json","w+")
+    # f.write(obj)
+    # f.close()
+
+    # # Run this to generate user counts for each category of sud, separated by race
+    # allAgesCategorisedCountDict = queryDB.allAgesCategorisedSUD()
+    # obj = json.dumps(allAgesCategorisedCountDict)
+    # f = open("../data/final/allAgesCategorisedSUD.json","w+")
+    # f.write(obj)
+    # f.close()
+
+    # # Run this to generate user counts with any sud and >=2 suds, separated by age and race bins
+    # ageBinnedGeneralSUDCountDict = queryDB.ageBinnedGeneralSUD()
+    # obj = json.dumps(ageBinnedGeneralSUDCountDict)
+    # f = open("../data/final/ageBinnedGeneralSUD.json","w+")
+    # f.write(obj)
+    # f.close()
+
+    # # Run this to generate user counts for each category of sud, separated by age and race
+    # ageBinnedCategorisedSUDCountDict = queryDB.ageBinnedCategorisedSUD()
+    # obj = json.dumps(ageBinnedCategorisedSUDCountDict)
+    # f = open("../data/final/ageBinnedCategorisedSUD.json","w+")
+    # f.write(obj)
+    # f.close()
 
     print('Getting out of module table2')
     print('-'*30)
