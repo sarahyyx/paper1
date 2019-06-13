@@ -2,7 +2,7 @@ from logs import logDecorator as lD
 import jsonref, pprint
 import numpy as np  
 import matplotlib.pyplot as plt
-import csv
+import csv, json
 
 from psycopg2.sql import SQL, Identifier, Literal
 from lib.databaseIO import pgIO
@@ -127,6 +127,31 @@ def createSUDcatsTable(logger):
         logger. error('Failed to create sudcats table because of {}'.format(e))
     return
 
+@lD.log(logBase + '.divByAllAges')
+def divByAllAges(logger, l):
+    '''[summary]
+    
+    This function takes in a list of counts and returns a list (of similar structure) with the percentage of the counts over the total
+    Arguments:
+        logger {[type]} -- [description]
+        l {list} -- l[0] is the no. of AA , l[1] is the no. of NHPI, l[2] is the no. of MR
+    '''
+    resultList = []
+    with open("../data/final/sampleCount.json") as json_file:
+        table1results = json.load(json_file)
+
+    allAA = table1results['AA'][0]
+    allNHPI = table1results['NHPI'][0]
+    allMR = table1results['MR'][0]
+
+    resultList.append(round((l[0]/allAA)*100,1))
+    resultList.append(round((l[1]/allNHPI)*100,1))
+    resultList.append(round((l[2]/allMR)*100,1))
+
+    json_file.close()
+
+    return resultList
+
 @lD.log(logBase + '.allAgesGeneralSUD')
 def allAgesGeneralSUD(logger):
     try:
@@ -198,12 +223,16 @@ def allAgesGeneralSUD(logger):
                     count[race]+=1
         for race in count:
             countDict["morethan2_sud"].append(count[race])
-        print(countDict)
+
+        # Change counts to percentage of the race sample
+        resultsDict = {}
+        for row in countDict:
+            resultsDict[row] = divByAllAges(countDict[row])
 
     except Exception as e:
         logger.error('Failed to find general SUD counts because of {}'.format(e))
 
-    return countDict
+    return resultsDict
 
 @lD.log(logBase + '.allAgesCategorisedSUD')
 def allAgesCategorisedSUD(logger):
@@ -246,10 +275,41 @@ def allAgesCategorisedSUD(logger):
                 data = [d[0] for d in pgIO.getAllData(query)]
                 countDict[sudcat].append(data[0])
 
+        # Change counts to percentage of the race sample
+        resultsDict = {}
+        for row in countDict:
+            resultsDict[row] = divByAllAges(countDict[row])
+
     except Exception as e:
         logger.error('Failed to find categorised SUD counts because of {}'.format(e))
 
-    return countDict
+    return resultsDict
+
+@lD.log(logBase + '.divByAgeBins')
+def divByAgeBins(logger, lol):
+    '''[summary]
+    
+    This function takes in a list of lists called lol, where lol[0] is the list of AAs, lol[0][0] is for ages 1-11 and lol[0][1] is for ages 12-17 and so forth
+    
+    Arguments:
+        logger {[type]} -- [description]
+        lol {list of lists} -- [description]
+    '''
+
+    resultLoL = []
+    with open("../data/final/sampleCount.json") as json_file:
+        table1results = json.load(json_file)
+
+    ageBinsAA = table1results['AA'][1]
+    ageBinsNHPI = table1results['NHPI'][1]
+    ageBinsMR = table1results['MR'][1]
+
+    resultLoL.append([round((x/y)*100, 1) for x, y in zip(lol[0], ageBinsAA)])
+    resultLoL.append([round((x/y)*100, 1) for x, y in zip(lol[1], ageBinsNHPI)])
+    resultLoL.append([round((x/y)*100, 1) for x, y in zip(lol[2], ageBinsMR)])
+
+    return resultLoL
+
 
 @lD.log(logBase + '.ageBinnedGeneralSUD')
 def ageBinnedGeneralSUD(logger):
@@ -357,10 +417,15 @@ def ageBinnedGeneralSUD(logger):
         for race in count:
             countDict["morethan2_sud"].append(list(count[race].values()))
 
+        # Change counts to percentage of the race sample
+        resultsDict = {}
+        for row in countDict:
+            resultsDict[row] = divByAgeBins(countDict[row])
+
     except Exception as e:
         logger.error('Failed to find general SUD counts because of {}'.format(e))
 
-    return countDict
+    return resultsDict
 
 @lD.log(logBase + '.ageBinnedCategorisedSUD')
 def ageBinnedCategorisedSUD(logger):
@@ -400,9 +465,12 @@ def ageBinnedCategorisedSUD(logger):
                 list1.append(list2)
             countDict[sudcat] = list1
 
-        # print(countDict)
+        # Change counts to percentage of the race sample
+        resultsDict = {}
+        for row in countDict:
+            resultsDict[row] = divByAgeBins(countDict[row])
 
     except Exception as e:
         logger.error('Failed to find categorised SUD counts because of {}'.format(e))
 
-    return countDict 
+    return resultsDict 

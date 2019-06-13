@@ -37,6 +37,8 @@ def main(logger, resultsDict):
     print('Main function of fig1')
     print('='*30)
 
+    filePath = "../data/final/sampleCount.json"
+
     countDict = queryDB.genDiagCount(filePath)
 
     print(countDict)
