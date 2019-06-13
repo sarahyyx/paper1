@@ -20,7 +20,7 @@ def genIntro(logger):
 # Report on Paper 1: Comorbid Substance Use Disorders
 
 ## Abstract: 
-This report will generate the information required for Table 1 of the paper.
+This report will generate the information required for the tables and figures of the paper.
 
 ## Description of Table 1:
 The three races considered and their abbreviations are as follows:
@@ -34,7 +34,7 @@ Sex
 Setting
 
         '''
-    with open('../report/table1Report.md', 'w+') as f:
+    with open('../report/paper1Report.md', 'w+') as f:
         f.write( report )
 
     return
@@ -51,7 +51,7 @@ def genRace(logger, r):
 |**Total**|{r["AA"][0]+r["NHPI"][0]+r["MR"][0]}|
 '''
 
-    with open('../report/table1Report.md', 'a+') as f:
+    with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
 
     return
@@ -76,7 +76,7 @@ def genRaceAge(logger, r):
 |50+  |{r["AA"][1][4]}|{genPC(r["AA"][1][4],r["AA"][0])}|{r["NHPI"][1][4]}|{genPC(r["NHPI"][1][4],r["NHPI"][0])}|{r["MR"][1][4]}|{genPC(r["MR"][1][4],r["MR"][0])}|
 '''
 
-    with open('../report/table1Report.md', 'a+') as f:
+    with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
 
     return
@@ -88,11 +88,11 @@ def genRaceSex(logger, r):
 ### Number of patients grouped by race and sex
 |Sex|AA|%|NHPI|%|MR|%|
 |---|--|-|-----|-|--|-|
-|Male  |{r["AA"][2][0]}|{genPC(r["AA"][2][0],r["AA"][0])}%|{r["NHPI"][2][0]}|{genPC(r["NHPI"][2][0],r["NHPI"][0])}%|{r["MR"][2][0]}|{genPC(r["MR"][2][0],r["MR"][0])}%|
-|Female|{r["AA"][2][1]}|{genPC(r["AA"][2][1],r["AA"][0])}%|{r["NHPI"][2][1]}|{genPC(r["NHPI"][2][1],r["NHPI"][0])}%|{r["MR"][2][1]}|{genPC(r["MR"][2][1],r["MR"][0])}%|
+|Male  |{r["AA"][2][0]}|{genPC(r["AA"][2][0],r["AA"][0])}|{r["NHPI"][2][0]}|{genPC(r["NHPI"][2][0],r["NHPI"][0])}|{r["MR"][2][0]}|{genPC(r["MR"][2][0],r["MR"][0])}|
+|Female|{r["AA"][2][1]}|{genPC(r["AA"][2][1],r["AA"][0])}|{r["NHPI"][2][1]}|{genPC(r["NHPI"][2][1],r["NHPI"][0])}|{r["MR"][2][1]}|{genPC(r["MR"][2][1],r["MR"][0])}|
 '''
 
-    with open('../report/table1Report.md', 'a+') as f:
+    with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
 
     return
@@ -106,9 +106,10 @@ def genRaceSetting(logger, r):
 |-------|--|-|-----|-|--|-|
 |Hospital            |{r["AA"][3][0]}|{genPC(r["AA"][3][0],r["AA"][0])}|{r["NHPI"][3][0]}|{genPC(r["NHPI"][3][0],r["NHPI"][0])}|{r["MR"][3][0]}|{genPC(r["MR"][3][0],r["MR"][0])}|
 |Mental Health Center|{r["AA"][3][1]}|{genPC(r["AA"][3][1],r["AA"][0])}|{r["NHPI"][3][1]}|{genPC(r["NHPI"][3][1],r["NHPI"][0])}|{r["MR"][3][1]}|{genPC(r["MR"][3][1],r["MR"][0])}|
+***
 '''
 
-    with open('../report/table1Report.md', 'a+') as f:
+    with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
 
     return

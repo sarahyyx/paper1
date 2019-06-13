@@ -23,14 +23,14 @@
     {
         "moduleName" : "table2",
         "path"       : "modules/table2/table2.py",
-        "execute"    : true,
+        "execute"    : false,
         "description": "",
         "owner"      : ""
     },
     {
         "moduleName" : "reportWriter",
         "path"       : "modules/reportWriter/reportWriter.py",
-        "execute"    : false,
+        "execute"    : true,
         "description": "",
         "owner"      : ""
     },

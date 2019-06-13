@@ -18,7 +18,7 @@ logBase = config['logging']['logBase'] + '.modules.table1.reportWriter'
 def genIntro(logger):
     
     report = f'''
-
+    
 ## Description of Figure 1:
 The Axis I/II disorders that are considered and their abbreviations are as follows:
 Mood - mood
@@ -40,7 +40,7 @@ Factitious Disorders - fd
 Disorders with less than 3% prevalence are not shown in the figure
 
         '''
-    with open('../report/table1Report.md', 'a+') as f:
+    with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
 
     return
@@ -96,7 +96,7 @@ def genFig(logger, r):
 ***
 '''
 
-        with open('../report/table1Report.md', 'a+') as f:
+        with open('../report/paper1Report.md', 'a+') as f:
             f.write( report )
 
     except Exception as e:
