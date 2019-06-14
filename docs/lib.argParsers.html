@@ -177,14 +177,9 @@
 </div>
 <div class="section" id="module-lib.argParsers.addAllParsers">
 <span id="lib-argparsers-addallparsers-module"></span><h2>lib.argParsers.addAllParsers module<a class="headerlink" href="#module-lib.argParsers.addAllParsers" title="Permalink to this headline">¶</a></h2>
-<dl class="data">
-<dt id="lib.argParsers.addAllParsers.config">
-<code class="sig-prename descclassname">lib.argParsers.addAllParsers.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#lib.argParsers.addAllParsers.config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="lib.argParsers.addAllParsers.decodeParsers">
-<code class="sig-prename descclassname">lib.argParsers.addAllParsers.</code><code class="sig-name descname">decodeParsers</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#decodeParsers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.decodeParsers" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lib.argParsers.addAllParsers.</code><code class="descname">decodeParsers</code><span class="sig-paren">(</span><em>logger</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#decodeParsers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.decodeParsers" title="Permalink to this definition">¶</a></dt>
 <dd><p>convert the parser namespace into a dict</p>
 <p>This takes the parsed arguments and converts the values
 into a dictionary that can be used …</p>
@@ -206,14 +201,9 @@ converted into their respective sub dictionaries</p>
 </dl>
 </dd></dl>
 
-<dl class="data">
-<dt id="lib.argParsers.addAllParsers.logBase">
-<code class="sig-prename descclassname">lib.argParsers.addAllParsers.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.lib.argParsers.addAllParsers'</em><a class="headerlink" href="#lib.argParsers.addAllParsers.logBase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="lib.argParsers.addAllParsers.parsersAdd">
-<code class="sig-prename descclassname">lib.argParsers.addAllParsers.</code><code class="sig-name descname">parsersAdd</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#parsersAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.parsersAdd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lib.argParsers.addAllParsers.</code><code class="descname">parsersAdd</code><span class="sig-paren">(</span><em>logger</em>, <em>parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#parsersAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.parsersAdd" title="Permalink to this definition">¶</a></dt>
 <dd><p>add all available CLI arguments to the parser</p>
 <p>This function is going to add all available parser
 information into the provided parser argument.</p>
@@ -238,7 +228,7 @@ the instance</p>
 
 <dl class="function">
 <dt id="lib.argParsers.addAllParsers.updateArgs">
-<code class="sig-prename descclassname">lib.argParsers.addAllParsers.</code><code class="sig-name descname">updateArgs</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">defaultDict</em>, <em class="sig-param">claDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#updateArgs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.updateArgs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lib.argParsers.addAllParsers.</code><code class="descname">updateArgs</code><span class="sig-paren">(</span><em>logger</em>, <em>defaultDict</em>, <em>claDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/addAllParsers.html#updateArgs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.addAllParsers.updateArgs" title="Permalink to this definition">¶</a></dt>
 <dd><p>helper function for decoding arguments</p>
 <p>This function takes the dictionary provided by the
 namespace arguments, and updates the dictionary that
@@ -269,7 +259,7 @@ is going to return, just role your own parser.</p>
 <span id="lib-argparsers-config-module"></span><h2>lib.argParsers.config module<a class="headerlink" href="#module-lib.argParsers.config" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="lib.argParsers.config.addParsers">
-<code class="sig-prename descclassname">lib.argParsers.config.</code><code class="sig-name descname">addParsers</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/config.html#addParsers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.config.addParsers" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lib.argParsers.config.</code><code class="descname">addParsers</code><span class="sig-paren">(</span><em>logger</em>, <em>parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/config.html#addParsers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.config.addParsers" title="Permalink to this definition">¶</a></dt>
 <dd><p>add argument parsers specific to the <code class="docutils literal notranslate"><span class="pre">config/config.json</span></code> file</p>
 <p>This function is kgoing to add argument parsers specific to the
 <code class="docutils literal notranslate"><span class="pre">config/config.json</span></code> file. This file has several options for
@@ -293,14 +283,9 @@ appended</p>
 </dl>
 </dd></dl>
 
-<dl class="data">
-<dt id="lib.argParsers.config.config">
-<code class="sig-prename descclassname">lib.argParsers.config.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#lib.argParsers.config.config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="lib.argParsers.config.decodeParser">
-<code class="sig-prename descclassname">lib.argParsers.config.</code><code class="sig-name descname">decodeParser</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/config.html#decodeParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.config.decodeParser" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lib.argParsers.config.</code><code class="descname">decodeParser</code><span class="sig-paren">(</span><em>logger</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/argParsers/config.html#decodeParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.argParsers.config.decodeParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>generate a dictionary from the parsed args</p>
 <p>The parsed args may/may not be present. When they are
 present, they are pretty hard to use. For this reason,
@@ -322,11 +307,6 @@ meaningful</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="data">
-<dt id="lib.argParsers.config.logBase">
-<code class="sig-prename descclassname">lib.argParsers.config.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.lib.argParsers.config'</em><a class="headerlink" href="#lib.argParsers.config.logBase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-lib.argParsers">

@@ -6,13 +6,16 @@ Subpackages
 
 .. toctree::
 
-   modules.celeryCheck
-   modules.module1
+    modules.celeryCheck
+    modules.fig1
+    modules.reportWriter
+    modules.table1
+    modules.table2
 
 Module contents
 ---------------
 
 .. automodule:: modules
-   :members:
-   :undoc-members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:
