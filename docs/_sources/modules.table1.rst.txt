@@ -1,21 +1,21 @@
-lib.argParsers package
+modules.table1 package
 ======================
 
 Submodules
 ----------
 
-lib.argParsers.addAllParsers module
------------------------------------
+modules.table1.queryDB module
+-----------------------------
 
-.. automodule:: lib.argParsers.addAllParsers
+.. automodule:: modules.table1.queryDB
     :members:
     :undoc-members:
     :show-inheritance:
 
-lib.argParsers.config module
+modules.table1.table1 module
 ----------------------------
 
-.. automodule:: lib.argParsers.config
+.. automodule:: modules.table1.table1
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +24,7 @@ lib.argParsers.config module
 Module contents
 ---------------
 
-.. automodule:: lib.argParsers
+.. automodule:: modules.table1
     :members:
     :undoc-members:
     :show-inheritance:

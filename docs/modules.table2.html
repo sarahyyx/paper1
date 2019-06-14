@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>modules.module1 package &mdash; src  documentation</title>
+  <title>modules.table2 package &mdash; src  documentation</title>
   
 
   
@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="paper1 module" href="paper1.html" />
-    <link rel="prev" title="modules.celeryCheck package" href="modules.celeryCheck.html" /> 
+    <link rel="prev" title="modules.table1 package" href="modules.table1.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,10 +87,14 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">modules package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="modules.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="modules.celeryCheck.html">modules.celeryCheck package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">modules.module1 package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.fig1.html">modules.fig1 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.reportWriter.html">modules.reportWriter package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.table1.html">modules.table1 package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">modules.table2 package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-modules.module1.module1">modules.module1.module1 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-modules.module1">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modules-table2-querydb-module">modules.table2.queryDB module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modules-table2-table2-module">modules.table2.table2 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-modules.table2">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -146,13 +150,13 @@
         
           <li><a href="modules.html">modules package</a> &raquo;</li>
         
-      <li>modules.module1 package</li>
+      <li>modules.table2 package</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/modules.module1.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/modules.table2.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -165,57 +169,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="modules-module1-package">
-<h1>modules.module1 package<a class="headerlink" href="#modules-module1-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="modules-table2-package">
+<h1>modules.table2 package<a class="headerlink" href="#modules-table2-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-modules.module1.module1">
-<span id="modules-module1-module1-module"></span><h2>modules.module1.module1 module<a class="headerlink" href="#module-modules.module1.module1" title="Permalink to this headline">¶</a></h2>
-<dl class="data">
-<dt id="modules.module1.module1.config">
-<code class="sig-prename descclassname">modules.module1.module1.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.module1.module1.config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="modules.module1.module1.doSomething">
-<code class="sig-prename descclassname">modules.module1.module1.</code><code class="sig-name descname">doSomething</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/module1/module1.html#doSomething"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.module1.module1.doSomething" title="Permalink to this definition">¶</a></dt>
-<dd><p>print a line</p>
-<p>This function simply prints a single line</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>logger</strong> (<em>{logging.Logger}</em>) – The logger used for logging error information</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="data">
-<dt id="modules.module1.module1.logBase">
-<code class="sig-prename descclassname">modules.module1.module1.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.module1.module1'</em><a class="headerlink" href="#modules.module1.module1.logBase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="modules.module1.module1.main">
-<code class="sig-prename descclassname">modules.module1.module1.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">resultsDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/module1/module1.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.module1.module1.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>main function for module1</p>
-<p>This function finishes all the tasks for the
-main function. This is a way in which a
-particular module is going to be executed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>logger</strong> (<em>{logging.Logger}</em>) – The logger used for logging error information</p></li>
-<li><p><strong>resultsDict</strong> (<em>{dict}</em>) – A dintionary containing information about the
-command line arguments. These can be used for
-overwriting command line arguments as needed.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="modules-table2-querydb-module">
+<h2>modules.table2.queryDB module<a class="headerlink" href="#modules-table2-querydb-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-modules.module1">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modules.module1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="modules-table2-table2-module">
+<h2>modules.table2.table2 module<a class="headerlink" href="#modules-table2-table2-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-modules.table2">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modules.table2" title="Permalink to this headline">¶</a></h2>
 <p>[one line description of the module]</p>
 <p>[this is a
 multiline description of what the module does.]</p>
@@ -283,7 +249,7 @@ changed.
         <a href="paper1.html" class="btn btn-neutral float-right" title="paper1 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="modules.celeryCheck.html" class="btn btn-neutral float-left" title="modules.celeryCheck package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.table1.html" class="btn btn-neutral float-left" title="modules.table1 package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
