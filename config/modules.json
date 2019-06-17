@@ -28,9 +28,16 @@
         "owner"      : ""
     },
     {
+        "moduleName" : "table3",
+        "path"       : "modules/table3/table3.py",
+        "execute"    : true,
+        "description": "",
+        "owner"      : ""
+    },
+    {
         "moduleName" : "reportWriter",
         "path"       : "modules/reportWriter/reportWriter.py",
-        "execute"    : true,
+        "execute"    : false,
         "description": "",
         "owner"      : ""
     },
