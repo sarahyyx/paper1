@@ -33,8 +33,6 @@ def getAgeSUDdata(logger, race):
         df {[type]} -- [description]
     '''
 
-
-
     try:
 
         query = SQL('''

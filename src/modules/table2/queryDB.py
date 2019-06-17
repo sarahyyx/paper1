@@ -43,7 +43,7 @@ def genSUDUserKeys(logger):
         csvfile = "../data/raw_data/SUDUser_keys.csv"
 
         with open(csvfile,'w+') as output:
-            csv_output=csv.writer(output)
+            csv_output = csv.writer(output)
 
             for row in data:
                 csv_output.writerow(row)

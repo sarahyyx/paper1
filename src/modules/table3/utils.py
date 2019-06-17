@@ -37,16 +37,18 @@ def logRegress(logger, df):
 
         print("Performing Logistic Regression...")
 
-        # include condition to check if logRegress can be performed? e.g. sample size too small etc.
+        # include condition to check if logRegress can be performed? e.g. sample size too small etc.???
+
+
         train_cols = df.columns[1:]
         logit = sm.Logit(df['sud'], df[train_cols])
         result = logit.fit()
 
         # Get odds, which are assessed by coeff[race/agebin/sex/setting]
-        coeff = result.params
-        odds = round(np.exp(coeff), 3)
+        coeff = round(result.params, 3)
+        # odds = round(np.exp(coeff), 3)
 
     except Exception as e:
         logger.error('logRegress failed because of {}'.format(e))
 
-    return odds
+    return coeff
