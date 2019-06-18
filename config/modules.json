@@ -30,6 +30,13 @@
     {
         "moduleName" : "table3",
         "path"       : "modules/table3/table3.py",
+        "execute"    : false,
+        "description": "",
+        "owner"      : ""
+    },
+    {
+        "moduleName" : "table4",
+        "path"       : "modules/table3/table3.py",
         "execute"    : true,
         "description": "",
         "owner"      : ""

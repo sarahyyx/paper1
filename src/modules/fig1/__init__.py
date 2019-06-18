@@ -1,7 +1,7 @@
-'''[one line description of the module]
+'''This module generates the data for Figure 1 and plots the bar charts.
 
-[this is a 
-multiline description of what the module does.] 
+This module finds the prevalence of each disorder among the races, as a percentage of the 
+total number of people in that race. This data is then plotted on a bar chart and the figure is saved. 
 
 Before you Begin
 ================

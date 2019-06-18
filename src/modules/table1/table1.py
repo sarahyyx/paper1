@@ -19,14 +19,20 @@ logBase = config['logging']['logBase'] + '.modules.table1.table1'
 
 @lD.log(logBase + '.genRaceDict')
 def genRaceDict(logger, inputCSV):
-    '''print a line
+    '''generates a dictionary with the race str values under each race
     
-    This function simply prints a single line
+    This function generates a dict with all the str values under a race from the raceCount CSV
     
-    Parameters
-    ----------
-    logger : {logging.Logger}
-        The logger used for logging error information
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+        inputCSV {filepath that contains the csv} -- first column "race" contains the race strings, second column "count" contains their counts, and the third column "paper_race" contains the overarching race specified in the paper
+
+    
+    Returns:
+        raceDict -- dictionary that contains all the race strings under each specified race in the paper
     '''
 
     try:
