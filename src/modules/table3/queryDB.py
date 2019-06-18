@@ -87,8 +87,8 @@ def addmorethan2sudcolumn(logger):
 
     return 
 
-@lD.log(logBase + '.getRaceSUDdata')
-def getRaceSUDdata(logger):
+@lD.log(logBase + '.createDF_allRaces_anySUD')
+def createDF_allRaces_anySUD(logger):
     '''[summary]
     
     [description]
@@ -107,117 +107,12 @@ def getRaceSUDdata(logger):
 
         query = '''
         SELECT 
+            t2.sud,
             t1.race,
-            t2.sud
-        FROM 
-            sarah.newtable1data t1
-        INNER JOIN 
-            sarah.diagnoses t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
-        WHERE
-            t1.age BETWEEN 12 AND 100
-        '''
-
-        data = pgIO.getAllData(query)
-        race_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
-
-        d = {'sud': sud_data, 'race': race_data}
-        df = pd.DataFrame(data=d)
-
-        # Dummify the race column, change sud column to binary
-        df.replace({False:0, True:1}, inplace=True)
-        dummy_races = pd.get_dummies(df['race'])
-        df = df[['sud']].join(dummy_races)
-        df['intercept'] = 1.0
-
-    except Exception as e:
-        logger.error('getRaceSUDdata failed because of {}'.format(e))
-
-    return df
-
-@lD.log(logBase + '.getAgeSUDdata')
-def getAgeSUDdata(logger):
-    '''[summary]
-    
-    [description]
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
-    '''
-
-    try:
-
-        query = '''
-        SELECT 
             t1.age,
-            t2.sud
-        FROM 
-            sarah.newtable1data t1
-        INNER JOIN 
-            sarah.diagnoses t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
-        WHERE
-            t1.age BETWEEN 12 AND 100
-        '''
-
-        data = pgIO.getAllData(query)
-        age_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
-
-        d = {'sud': sud_data, 'age': age_data}
-        df = pd.DataFrame(data=d)
-
-        #Dummify the age column, change sud column to binary
-        df.replace({False:0, True:1}, inplace=True)
-        df.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
-        df.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
-        df.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
-        df.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
-
-        dummy_ages = pd.get_dummies(df['age'])
-        df = df[['sud']].join(dummy_ages)
-        df['intercept'] = 1.0
-
-    except Exception as e:
-        logger.error('getRaceAgedata failed because of {}'.format(e))
-
-    return df
-
-@lD.log(logBase + '.getSexSUDdata')
-def getSexSUDdata(logger):
-    '''[summary]
-    
-    [description]
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
-    '''
-
-    try:
-
-        query = '''
-        SELECT 
             t1.sex,
-            t2.sud
+            t1.visit_type
+            
         FROM 
             sarah.newtable1data t1
         INNER JOIN 
@@ -231,25 +126,44 @@ def getSexSUDdata(logger):
         '''
 
         data = pgIO.getAllData(query)
-        sex_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
+        sud_data = [d[0] for d in data]
+        race_data = [d[1] for d in data]
+        age_data = [d[2] for d in data]
+        sex_data = [d[3] for d in data]
+        setting_data = [d[4] for d in data]
 
-        d = {'sud': sud_data, 'sex': sex_data}
-        df = pd.DataFrame(data=d)
+        d = {'sud': sud_data, 'race': race_data, 'age': age_data, 'sex': sex_data, 'setting': setting_data}
+        main = pd.DataFrame(data=d)
+        df = main.copy()
 
-        # Dummify the sex column, change sud column to binary
+        # Change sud column to binary, dummify the other columns
         df.replace({False:0, True:1}, inplace=True)
-        dummy_sexes = pd.get_dummies(df['sex'])
-        df = df[['sud']].join(dummy_sexes)
+
+        dummy_races = pd.get_dummies(main['race'])
+        df = df[['sud']].join(dummy_races.ix[:, 'MR':])
+
+        main.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
+        main.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
+        main.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
+        main.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
+        dummy_ages = pd.get_dummies(main['age'])
+        df = df[['sud', 'MR', 'NHPI']].join(dummy_ages.ix[:, :'35-49'])
+
+        dummy_sexes = pd.get_dummies(main['sex'])
+        df = df[['sud', 'MR', 'NHPI', '12-17', '18-34', '35-49']].join(dummy_sexes.ix[:, 'M':])
+
+        dummy_setting = pd.get_dummies(main['setting'])
+        df = df[['sud', 'MR', 'NHPI', '12-17', '18-34', '35-49', 'M']].join(dummy_setting.ix[:, :'Hospital'])
+        
         df['intercept'] = 1.0
 
     except Exception as e:
-        logger.error('getSexSUDdata failed because of {}'.format(e))
+        logger.error('createDF_allRaces_anySUD failed because of {}'.format(e))
 
     return df
 
-@lD.log(logBase + '.getSettingSUDdata')
-def getSettingSUDdata(logger):
+@lD.log(logBase + '.createDF_allRaces_morethan2SUD')
+def createDF_allRaces_morethan2SUD(logger):
     '''[summary]
     
     [description]
@@ -268,169 +182,12 @@ def getSettingSUDdata(logger):
 
         query = '''
         SELECT 
-            t1.visit_type,
-            t2.sud
-        FROM 
-            sarah.newtable1data t1
-        INNER JOIN 
-            sarah.diagnoses t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
-        WHERE
-            t1.age BETWEEN 12 AND 100
-        '''
-
-        data = pgIO.getAllData(query)
-        setting_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
-
-        d = {'sud': sud_data, 'setting': setting_data}
-        df = pd.DataFrame(data=d)
-
-        # Dummify the setting column, change sud column to binary
-        df.replace({False:0, True:1}, inplace=True)
-        dummy_setting = pd.get_dummies(df['setting'])
-        df = df[['sud']].join(dummy_setting)
-        df['intercept'] = 1.0
-
-    except Exception as e:
-        logger.error('getSettingSUDdata failed because of {}'.format(e))
-
-    return df
-
-@lD.log(logBase + '.getRace2SUDdata')
-def getRace2SUDdata(logger):
-    '''[summary]
-    
-    [description]
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
-    '''
-
-    try:
-
-        query = '''
-        SELECT 
+            t2.morethan2sud,
             t1.race,
-            t2.morethan2sud
-        FROM 
-            sarah.newtable1data t1
-        INNER JOIN 
-            sarah.sudcats t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
-        WHERE
-            t1.age BETWEEN 12 AND 100
-        '''
-
-        data = pgIO.getAllData(query)
-        race_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
-
-        d = {'sud': sud_data, 'race': race_data}
-        df = pd.DataFrame(data=d)
-
-        # Dummify the race column, change sud column to binary
-        df.replace({False:0, True:1}, inplace=True)
-        dummy_races = pd.get_dummies(df['race'])
-        df = df[['sud']].join(dummy_races)
-        df['intercept'] = 1.0
-
-    except Exception as e:
-        logger.error('getRace2SUDdata failed because of {}'.format(e))
-
-    return df
-
-@lD.log(logBase + '.getAge2SUDdata')
-def getAge2SUDdata(logger):
-    '''[summary]
-    
-    [description]
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
-    '''
-
-    try:
-
-        query = '''
-        SELECT 
             t1.age,
-            t2.morethan2sud
-        FROM 
-            sarah.newtable1data t1
-        INNER JOIN 
-            sarah.sudcats t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
-        WHERE
-            t1.age BETWEEN 12 AND 100
-        '''
-
-        data = pgIO.getAllData(query)
-        age_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
-
-        d = {'sud': sud_data, 'age': age_data}
-        df = pd.DataFrame(data=d)
-
-        #Dummify the age column, change sud column to binary
-        df.replace({False:0, True:1}, inplace=True)
-        df.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
-        df.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
-        df.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
-        df.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
-
-        dummy_ages = pd.get_dummies(df['age'])
-        df = df[['sud']].join(dummy_ages)
-        df['intercept'] = 1.0
-
-    except Exception as e:
-        logger.error('getAge2SUDdata failed because of {}'.format(e))
-
-    return df
-
-@lD.log(logBase + '.getSex2SUDdata')
-def getSex2SUDdata(logger):
-    '''[summary]
-    
-    [description]
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
-    '''
-
-    try:
-
-        query = '''
-        SELECT 
             t1.sex,
-            t2.morethan2sud
+            t1.visit_type
+            
         FROM 
             sarah.newtable1data t1
         INNER JOIN 
@@ -444,25 +201,44 @@ def getSex2SUDdata(logger):
         '''
 
         data = pgIO.getAllData(query)
-        sex_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
+        sud_data = [d[0] for d in data]
+        race_data = [d[1] for d in data]
+        age_data = [d[2] for d in data]
+        sex_data = [d[3] for d in data]
+        setting_data = [d[4] for d in data]
 
-        d = {'sud': sud_data, 'sex': sex_data}
-        df = pd.DataFrame(data=d)
+        d = {'sud': sud_data, 'race': race_data, 'age': age_data, 'sex': sex_data, 'setting': setting_data}
+        main = pd.DataFrame(data=d)
+        df = main.copy()
 
-        # Dummify the sex column, change sud column to binary
+        # Change sud column to binary, dummify the other columns
         df.replace({False:0, True:1}, inplace=True)
-        dummy_sexes = pd.get_dummies(df['sex'])
-        df = df[['sud']].join(dummy_sexes)
+
+        dummy_races = pd.get_dummies(main['race'])
+        df = df[['sud']].join(dummy_races.ix[:, 'MR':])
+
+        main.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
+        main.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
+        main.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
+        main.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
+        dummy_ages = pd.get_dummies(main['age'])
+        df = df[['sud', 'MR', 'NHPI']].join(dummy_ages.ix[:, :'35-49'])
+
+        dummy_sexes = pd.get_dummies(main['sex'])
+        df = df[['sud', 'MR', 'NHPI', '12-17', '18-34', '35-49']].join(dummy_sexes.ix[:, 'M':])
+
+        dummy_setting = pd.get_dummies(main['setting'])
+        df = df[['sud', 'MR', 'NHPI', '12-17', '18-34', '35-49', 'M']].join(dummy_setting.ix[:, :'Hospital'])
+        
         df['intercept'] = 1.0
 
     except Exception as e:
-        logger.error('getSex2SUDdata failed because of {}'.format(e))
+        logger.error('createDF_allRaces_morethan2SUD failed because of {}'.format(e))
 
     return df
 
-@lD.log(logBase + '.getSetting2SUDdata')
-def getSetting2SUDdata(logger):
+@lD.log(logBase + '.createDF_byRace_anySUD')
+def createDF_byRace_anySUD(logger, race):
     '''[summary]
     
     [description]
@@ -472,6 +248,7 @@ def getSetting2SUDdata(logger):
     
     Arguments:
         logger {[type]} -- [description]
+        race {[type]} -- [description]
     
     Returns:
         [type] -- [description]
@@ -479,10 +256,88 @@ def getSetting2SUDdata(logger):
 
     try:
 
-        query = '''
+        query = SQL('''
         SELECT 
-            t1.visit_type,
-            t2.morethan2sud
+            t2.sud,
+            t1.age,
+            t1.sex,
+            t1.visit_type
+            
+        FROM 
+            sarah.newtable1data t1
+        INNER JOIN 
+            sarah.diagnoses t2
+        ON 
+            t1.siteid = t2.siteid 
+        AND 
+            t1.backgroundid = t2.backgroundid
+        WHERE
+            t1.age BETWEEN 12 AND 100
+        AND 
+            t1.race = {}
+        ''').format(
+            Literal(race)
+        )
+
+        data = pgIO.getAllData(query)
+        sud_data = [d[0] for d in data]
+        age_data = [d[1] for d in data]
+        sex_data = [d[2] for d in data]
+        setting_data = [d[3] for d in data]
+
+        d = {'sud': sud_data, 'age': age_data, 'sex': sex_data, 'setting': setting_data}
+        main = pd.DataFrame(data=d)
+        df = main.copy()
+
+        # Change sud column to binary, dummify the other columns
+        df.replace({False:0, True:1}, inplace=True)
+
+        main.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
+        main.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
+        main.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
+        main.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
+        dummy_ages = pd.get_dummies(main['age'])
+        df = df[['sud']].join(dummy_ages.ix[:, :'35-49'])
+
+        dummy_sexes = pd.get_dummies(main['sex'])
+        df = df[['sud', '12-17', '18-34', '35-49']].join(dummy_sexes.ix[:, 'M':])
+
+        dummy_setting = pd.get_dummies(main['setting'])
+        df = df[['sud', '12-17', '18-34', '35-49', 'M']].join(dummy_setting.ix[:, :'Hospital'])
+        
+        df['intercept'] = 1.0
+
+    except Exception as e:
+        logger.error('createDF_byRace_anySUD failed because of {}'.format(e))
+
+    return df
+
+@lD.log(logBase + '.createDF_byRace_morethan2SUD')
+def createDF_byRace_morethan2SUD(logger, race):
+    '''[summary]
+    
+    [description]
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+        race {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    '''
+
+    try:
+
+        query = SQL('''
+        SELECT 
+            t2.morethan2sud,
+            t1.age,
+            t1.sex,
+            t1.visit_type
+            
         FROM 
             sarah.newtable1data t1
         INNER JOIN 
@@ -493,22 +348,41 @@ def getSetting2SUDdata(logger):
             t1.backgroundid = t2.backgroundid
         WHERE
             t1.age BETWEEN 12 AND 100
-        '''
+        AND 
+            t1.race = {}
+        ''').format(
+            Literal(race)
+        )
 
         data = pgIO.getAllData(query)
-        setting_data = [d[0] for d in data]
-        sud_data = [d[1] for d in data]
+        sud_data = [d[0] for d in data]
+        age_data = [d[1] for d in data]
+        sex_data = [d[2] for d in data]
+        setting_data = [d[3] for d in data]
 
-        d = {'sud': sud_data, 'setting': setting_data}
-        df = pd.DataFrame(data=d)
+        d = {'sud': sud_data, 'age': age_data, 'sex': sex_data, 'setting': setting_data}
+        main = pd.DataFrame(data=d)
+        df = main.copy()
 
-        # Dummify the setting column, change sud column to binary
+        # Change sud column to binary, dummify the other columns
         df.replace({False:0, True:1}, inplace=True)
-        dummy_setting = pd.get_dummies(df['setting'])
-        df = df[['sud']].join(dummy_setting)
+
+        main.replace(to_replace=list(range(12, 18)), value="12-17", inplace=True)
+        main.replace(to_replace=list(range(18, 35)), value="18-34", inplace=True)
+        main.replace(to_replace=list(range(35, 50)), value="35-49", inplace=True)
+        main.replace(to_replace=list(range(50, 100)), value="50+", inplace=True)
+        dummy_ages = pd.get_dummies(main['age'])
+        df = df[['sud']].join(dummy_ages.ix[:, :'35-49'])
+
+        dummy_sexes = pd.get_dummies(main['sex'])
+        df = df[['sud', '12-17', '18-34', '35-49']].join(dummy_sexes.ix[:, 'M':])
+
+        dummy_setting = pd.get_dummies(main['setting'])
+        df = df[['sud', '12-17', '18-34', '35-49', 'M']].join(dummy_setting.ix[:, :'Hospital'])
+        
         df['intercept'] = 1.0
 
     except Exception as e:
-        logger.error('getSetting2SUDdata failed because of {}'.format(e))
+        logger.error('createDF_byRace_morethan2SUD failed because of {}'.format(e))
 
     return df

@@ -22,7 +22,7 @@ logBase = config['logging']['logBase'] + '.modules.table3.table3'
 def logRegress(logger, df):
     '''[summary]
     
-    This function gets the odds (the exponential of the logistic regression coefficients) for a df that is passed in
+    This function gets the logistic regression coefficients for a dataframe that is passed in
 
     
     Decorators:
@@ -37,18 +37,22 @@ def logRegress(logger, df):
 
         print("Performing Logistic Regression...")
 
-        # include condition to check if logRegress can be performed? e.g. sample size too small etc.???
-
-
         train_cols = df.columns[1:]
         logit = sm.Logit(df['sud'], df[train_cols])
         result = logit.fit()
 
         # Get odds, which are assessed by coeff[race/agebin/sex/setting]
-        coeff = round(result.params, 3)
-        # odds = round(np.exp(coeff), 3)
+        params = result.params
+        conf = result.conf_int()
+        conf['OR'] = params
+        
+        conf.columns = ['2.5%', '97.5%', 'OR']
+        CI_OR_df = np.exp(conf)
+        resultsDF = CI_OR_df[['OR']].join(CI_OR_df.ix[:,:'97.5%'])
+
+        print(resultsDF)
 
     except Exception as e:
         logger.error('logRegress failed because of {}'.format(e))
 
-    return coeff
+    return resultsDF

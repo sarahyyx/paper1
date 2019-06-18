@@ -12,7 +12,6 @@ from psycopg2.sql import SQL, Identifier, Literal
 from lib.databaseIO import pgIO
 from modules.table3 import queryDB
 from modules.table3 import utils
-from modules.table3 import queryDB_race
 
 config = jsonref.load(open('../config/config.json'))
 table3_config = jsonref.load(open('../config/modules/table3.json'))
@@ -43,133 +42,94 @@ def main(logger, resultsDict):
     ## Run this line to create the column "morethan2sud"
     # queryDB.addmorethan2sudcolumn()
 
-    # First value of each list is for any_sud, second value is for more_than2_sud
-    allResultsDict = {
-        "races":{
-            "AA":[],
-            "NHPI":[],
-            "MR":[]
-        },
-        "ageBins":{
-            "12-17":[],
-            "18-34":[],
-            "35-49":[],
-            "50+":[]
-        },
-        "sexes":{
-            "M":[],
-            "F":[]
-        },
-        "settings":{
-            "Hospital":[],
-            "Mental Health Center":[]
-        }
+    # First value of each list is for anysud, second value is for morethan2sud
+    allRaces_ResultsDict = {
+        "NHPI":[],
+        "MR":[],
+        "12-17":[],
+        "18-34":[],
+        "35-49":[],
+        "M":[],
+        "Hospital":[]
     }
 
-    # race_anySUD_df = queryDB.getRaceSUDdata()
-    # results = utils.logRegress(race_anySUD_df)
-    # for race in allResultsDict["races"]:
-    #     allResultsDict["races"][race].append(results[race])
+    anysud_df = queryDB.createDF_allRaces_anySUD()
+    anysud_results = utils.logRegress(anysud_df)
 
-    # agebins_anySUD_df = queryDB.getAgeSUDdata()
-    # results = utils.logRegress(agebins_anySUD_df)
-    # for agebin in allResultsDict["ageBins"]:
-    #     allResultsDict["ageBins"][agebin].append(results[agebin])
+    morethan2sud_df = queryDB.createDF_allRaces_morethan2SUD()
+    morethan2sud_results = utils.logRegress(morethan2sud_df)
 
-    # sex_anySUD_df = queryDB.getSexSUDdata()
-    # results = utils.logRegress(sex_anySUD_df)
-    # for sex in allResultsDict["sexes"]:
-    #     allResultsDict["sexes"][sex].append(results[sex])
+    for x in allRaces_ResultsDict:
 
-    # setting_anySUD_df = queryDB.getSettingSUDdata()
-    # results = utils.logRegress(setting_anySUD_df)
-    # for setting in allResultsDict["settings"]:
-    #     allResultsDict["settings"][setting].append(results[setting])
+        x_anysud_list = []
+        for i in anysud_results.loc[x]:
+            x_anysud_list.append(round(i,2))
+        allRaces_ResultsDict[x].append(x_anysud_list)
 
-    # race_2SUD_df = queryDB.getRace2SUDdata()
-    # results = utils.logRegress(race_2SUD_df)
-    # for race in allResultsDict["races"]:
-    #     allResultsDict["races"][race].append(results[race])
+        x_morethan2sud_list = []
+        for i in morethan2sud_results.loc[x]:
+            x_morethan2sud_list.append(round(i,2))
+        allRaces_ResultsDict[x].append(x_morethan2sud_list)
 
-    # agebins_2SUD_df = queryDB.getAge2SUDdata()
-    # results = utils.logRegress(agebins_2SUD_df)
-    # for agebin in allResultsDict["ageBins"]:
-    #     allResultsDict["ageBins"][agebin].append(results[agebin])
+    # print(allRaces_ResultsDict)
 
-    # sex_2SUD_df = queryDB.getSex2SUDdata()
-    # results = utils.logRegress(sex_2SUD_df)
-    # for sex in allResultsDict["sexes"]:
-    #     allResultsDict["sexes"][sex].append(results[sex])
-
-    # setting_2SUD_df = queryDB.getSetting2SUDdata()
-    # results = utils.logRegress(setting_2SUD_df)
-    # for setting in allResultsDict["settings"]:
-    #     allResultsDict["settings"][setting].append(results[setting])
-
-    # print(allResultsDict)
-
-    raceResultsDict = {
-        "any_sud":{
-            "ageBins": [],
-            "sexes": [],
-            "settings": []
-        },
-        "morethan2_sud":{
-            "agebins": [],
-            "sexes": [],
-            "settings": []
-        }
+    anysud_races_ResultsDict = {
+        "12-17":[],
+        "18-34":[],
+        "35-49":[],
+        "M":[],
+        "Hospital":[]
     }
 
-    for race in allResultsDict["races"]:
-        print(f"I AM IN {race}")
+    for race in table3_config["inputs"]["races"]:
+        print(f"I AM IN RACE {race}")
+        race_anysud_df = queryDB.createDF_byRace_anySUD(race)
+        race_anysud_results = utils.logRegress(race_anysud_df)
 
-        ageList = []
-        agebins_anySUD_race_df = queryDB_race.getAgeSUDdata(race)
-        results = utils.logRegress(agebins_anySUD_race_df)
-        for agebin in allResultsDict["ageBins"]:
-            ageList.append(results[agebin])
-        raceResultsDict["any_sud"]["ageBins"].append(ageList)
+        race_morethan2sud_df = queryDB.createDF_byRace_morethan2SUD(race)
+        race_morethan2sud_results = utils.logRegress(race_morethan2sud_df)
 
-        sexList = []
-        sex_anySUD_race_df = queryDB_race.getSexSUDdata(race)
-        results = utils.logRegress(sex_anySUD_race_df)
-        for sex in allResultsDict["sexes"]:
-            sexList.append(results[sex])
-        raceResultsDict["any_sud"]["sexes"].append(sexList)
+        for x in races_ResultsDict:
+            
+            x_anysud_list = []
+            for i in race_anysud_results.loc[x]:
+                x_anysud_list.append(round(i,2))
+            races_ResultsDict[x].append(x_anysud_list)
 
-        # # Singular Matrix Error for AA only
-        # settingList = []
-        # setting_anySUD_race_df = queryDB_race.getSettingSUDdata(race)
-        # results = utils.logRegress(setting_anySUD_race_df)
-        # for setting in allResultsDict["settings"]:
-        #     settingList.append(results[setting])
-        # raceResultsDict["any_sud"]["settings"].append(settingList)
+            x_morethan2sud_list = []
+            for i in race_morethan2sud_results.loc[x]:
+                x_morethan2sud_list.append(round(i,2))
+            races_ResultsDict[x].append(x_morethan2sud_list)
 
-        # # Singular Matrix Error
-        # age2List = []
-        # agebins_2SUD_race_df = queryDB_race.getAge2SUDdata(race)
-        # results = utils.logRegress(agebins_2SUD_race_df)
-        # for agebin in allResultsDict["ageBins"]:
-        #     age2List.append(results[agebin])
-        # raceResultsDict["morethan2_sud"]["ageBins"].append(ageList)
+    morethan2sud_races_ResultsDict = {
+        "12-17":[],
+        "18-34":[],
+        "35-49":[],
+        "M":[],
+        "Hospital":[]
+    }
 
-        sex2List = []
-        sex_2SUD_race_df = queryDB_race.getSex2SUDdata(race)
-        results = utils.logRegress(sex_2SUD_race_df)
-        for sex in allResultsDict["sexes"]:
-            sex2List.append(results[sex])
-        raceResultsDict["morethan2_sud"]["sexes"].append(sex2List)
+    for race in table3_config["inputs"]["races"]:
+        print(f"I AM IN RACE {race}")
+        race_anysud_df = queryDB.createDF_byRace_anySUD(race)
+        race_anysud_results = utils.logRegress(race_anysud_df)
 
-        # # Singular Matrix Error
-        # setting2List = []
-        # setting_2SUD_race_df = queryDB_race.getSetting2SUDdata(race)
-        # results = utils.logRegress(setting_2SUD_race_df)
-        # for setting in allResultsDict["settings"]:
-        #     setting2List.append(results[setting])
-        # raceResultsDict["morethan2_sud"]["settings"].append(setting2List)
+        race_morethan2sud_df = queryDB.createDF_byRace_morethan2SUD(race)
+        race_morethan2sud_results = utils.logRegress(race_morethan2sud_df)
 
-    print(raceResultsDict)
+        for x in races_ResultsDict:
+            
+            x_anysud_list = []
+            for i in race_anysud_results.loc[x]:
+                x_anysud_list.append(round(i,2))
+            races_ResultsDict[x].append(x_anysud_list)
+
+            x_morethan2sud_list = []
+            for i in race_morethan2sud_results.loc[x]:
+                x_morethan2sud_list.append(round(i,2))
+            races_ResultsDict[x].append(x_morethan2sud_list)
+
+    print(races_ResultsDict)
 
     print('Getting out of module table3')
     print('-'*30)
