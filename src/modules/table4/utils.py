@@ -15,8 +15,8 @@ from tqdm import tqdm
 from multiprocessing import Pool
 
 config = jsonref.load(open('../config/config.json'))
-table3_config = jsonref.load(open('../config/modules/table3.json'))
-logBase = config['logging']['logBase'] + '.modules.table3.table3'
+table4_config = jsonref.load(open('../config/modules/table4.json'))
+logBase = config['logging']['logBase'] + '.modules.table4.table4'
 
 @lD.log(logBase + '.logRegress')
 def logRegress(logger, df):
@@ -37,6 +37,17 @@ def logRegress(logger, df):
 
         print("Performing Logistic Regression...")
 
+        # Drop columns who do not meet the minimum percentage of people diagnosed with the disorder
+        row_count = df.shape[0]
+        columns_to_drop = []
+        copy_of_df = df.copy()
+
+        for column, count in copy_of_df.apply(lambda column: (column == 1).sum()).iteritems():
+            if count/row_count <= 0.005:
+                columns_to_drop.append(column)
+        print("These columns are dropped: " + str(columns_to_drop))
+        df.drop(columns_to_drop, axis=1, inplace=True)
+ 
         train_cols = df.columns[1:]
         logit = sm.Logit(df['sud'], df[train_cols])
         result = logit.fit()
@@ -53,4 +64,4 @@ def logRegress(logger, df):
     except Exception as e:
         logger.error('logRegress failed because of {}'.format(e))
 
-    return resultsDF
+    return resultsDF, columns_to_drop

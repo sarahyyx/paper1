@@ -72,6 +72,10 @@ def main(logger, resultsDict):
         allRaces_ResultsDict[x].append(x_morethan2sud_list)
 
     # print(allRaces_ResultsDict)
+    obj = json.dumps(allRaces_ResultsDict)
+    f = open("../data/final/oddsratios_allRaces.json","w+")
+    f.write(obj)
+    f.close()
 
     anysud_races_ResultsDict = {
         "12-17":[],
@@ -83,23 +87,22 @@ def main(logger, resultsDict):
 
     for race in table3_config["inputs"]["races"]:
         print(f"I AM IN RACE {race}")
+
         race_anysud_df = queryDB.createDF_byRace_anySUD(race)
         race_anysud_results = utils.logRegress(race_anysud_df)
 
-        race_morethan2sud_df = queryDB.createDF_byRace_morethan2SUD(race)
-        race_morethan2sud_results = utils.logRegress(race_morethan2sud_df)
-
-        for x in races_ResultsDict:
+        for x in anysud_races_ResultsDict:
             
             x_anysud_list = []
             for i in race_anysud_results.loc[x]:
                 x_anysud_list.append(round(i,2))
-            races_ResultsDict[x].append(x_anysud_list)
+            anysud_races_ResultsDict[x].append(x_anysud_list)
 
-            x_morethan2sud_list = []
-            for i in race_morethan2sud_results.loc[x]:
-                x_morethan2sud_list.append(round(i,2))
-            races_ResultsDict[x].append(x_morethan2sud_list)
+    # print(anysud_races_ResultsDict)
+    obj = json.dumps(anysud_races_ResultsDict)
+    f = open("../data/final/oddsratios_anysud_byRace.json","w+")
+    f.write(obj)
+    f.close()
 
     morethan2sud_races_ResultsDict = {
         "12-17":[],
@@ -111,25 +114,22 @@ def main(logger, resultsDict):
 
     for race in table3_config["inputs"]["races"]:
         print(f"I AM IN RACE {race}")
-        race_anysud_df = queryDB.createDF_byRace_anySUD(race)
-        race_anysud_results = utils.logRegress(race_anysud_df)
 
         race_morethan2sud_df = queryDB.createDF_byRace_morethan2SUD(race)
         race_morethan2sud_results = utils.logRegress(race_morethan2sud_df)
 
-        for x in races_ResultsDict:
-            
-            x_anysud_list = []
-            for i in race_anysud_results.loc[x]:
-                x_anysud_list.append(round(i,2))
-            races_ResultsDict[x].append(x_anysud_list)
+        for x in morethan2sud_races_ResultsDict:
 
             x_morethan2sud_list = []
             for i in race_morethan2sud_results.loc[x]:
                 x_morethan2sud_list.append(round(i,2))
-            races_ResultsDict[x].append(x_morethan2sud_list)
+            morethan2sud_races_ResultsDict[x].append(x_morethan2sud_list)
 
-    print(races_ResultsDict)
+    # print(morethan2sud_races_ResultsDict)
+    obj = json.dumps(morethan2sud_races_ResultsDict)
+    f = open("../data/final/oddsratios_morethan2sud_byRace.json","w+")
+    f.write(obj)
+    f.close()
 
     print('Getting out of module table3')
     print('-'*30)

@@ -10,11 +10,12 @@ import json
 from psycopg2.sql import SQL, Identifier, Literal
 
 from lib.databaseIO import pgIO
-from modules.table2 import queryDB
+from modules.table4 import queryDB
+from modules.table4 import utils
 
 config = jsonref.load(open('../config/config.json'))
-table2_config = jsonref.load(open('../config/modules/table2.json'))
-logBase = config['logging']['logBase'] + '.modules.table2.table2'
+table4_config = jsonref.load(open('../config/modules/table4.json'))
+logBase = config['logging']['logBase'] + '.modules.table4.table4'
 
 @lD.log(logBase + '.main')
 def main(logger, resultsDict):
@@ -35,42 +36,49 @@ def main(logger, resultsDict):
     '''
 
     print('='*30)
-    print('Main function of module table2')
+    print('Main function of module table4')
     print('='*30)
 
-    ##Run these two lines to create sarah.sudcats table (only on first run)
-    # genSUDUserKeys()
-    # createSUDcatsTable()
+    resultsDict = {
+        "mood": [],
+        "anxiety": [],
+        "adjustment": [],
+        "adhd": [],
+        "psyc": [],
+        "pers": [],
+        "childhood": [],
+        "impulse": [],
+        "cognitive": [],
+        "eating": [],
+        "smtf": [],
+        "disso": [],
+        "sleep": [],
+        "fd": []
+    }
 
-    # # Run this to generate user counts with any sud and >=2 SUDs, separated by race
-    # allAgesGeneralSUDCountDict = queryDB.allAgesGeneralSUD()
-    # obj = json.dumps(allAgesGeneralSUDCountDict)
-    # f = open("../data/final/allAgesGeneralSUD.json","w+")
-    # f.write(obj)
-    # f.close()
+    for race in table4_config["inputs"]["races"]:
+        print(f"I AM IN {race}!")
+        race_df = queryDB.createDF_byRace_anySUD(race)
+        race_results, columns_dropped = utils.logRegress(race_df)
 
-    # # Run this to generate user counts for each category of sud, separated by race
-    # allAgesCategorisedCountDict = queryDB.allAgesCategorisedSUD()
-    # obj = json.dumps(allAgesCategorisedCountDict)
-    # f = open("../data/final/allAgesCategorisedSUD.json","w+")
-    # f.write(obj)
-    # f.close()
+        for column in columns_dropped:
+            resultsDict[column].append([0,0,0])
+        for disorder in resultsDict:
+            for i, row in race_results.iterrows():
+                if disorder == i:
+                    disorder_list = []
+                    disorder_list.append(round(row['OR'],2))
+                    disorder_list.append(round(row['2.5%'],2))
+                    disorder_list.append(round(row['97.5%'],2))
+                    resultsDict[disorder].append(disorder_list)
+    
+    # print(resultsDict)
+    obj = json.dumps(resultsDict)
+    f = open("../data/final/table4data.json","w+")
+    f.write(obj)
+    f.close()
 
-    # # Run this to generate user counts with any sud and >=2 suds, separated by age and race bins
-    # ageBinnedGeneralSUDCountDict = queryDB.ageBinnedGeneralSUD()
-    # obj = json.dumps(ageBinnedGeneralSUDCountDict)
-    # f = open("../data/final/ageBinnedGeneralSUD.json","w+")
-    # f.write(obj)
-    # f.close()
-
-    # # Run this to generate user counts for each category of sud, separated by age and race
-    # ageBinnedCategorisedSUDCountDict = queryDB.ageBinnedCategorisedSUD()
-    # obj = json.dumps(ageBinnedCategorisedSUDCountDict)
-    # f = open("../data/final/ageBinnedCategorisedSUD.json","w+")
-    # f.write(obj)
-    # f.close()
-
-    print('Getting out of module table2')
+    print('Getting out of module table4')
     print('-'*30)
 
     return
