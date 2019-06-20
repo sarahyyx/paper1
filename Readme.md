@@ -1,6 +1,7 @@
 # paper1
 
 This project aims to extract all the data needed to replicate the analyses done in the research paper: 
+
 [Comorbid substance use disorders with other Axis I and II mental disorders among treatment-seeking Asian Americans, Native Hawaiians/Pacific Islanders, and mixed-race people](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3846388/).
 
 ## Getting Started
@@ -13,7 +14,7 @@ You will need to have a valid Python installation on your system. This has been 
 
 ## Installing
 
-The folloiwing installations are for \*nix-like systems. This is currently tested in the following system: `Ubuntu 18.10`. 
+The following installations are for \*nix-like systems. This is currently tested in the following system: `Ubuntu 18.10`. 
 
 For installation, first close this repository, and generate the virtual environment required for running the programs. 
 
