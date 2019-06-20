@@ -10,7 +10,7 @@ from multiprocessing import Pool
 from time import sleep
 
 config = jsonref.load(open('../config/config.json'))
-logBase = config['logging']['logBase'] + '.modules.table1.reportWriter'
+logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
 
 @lD.log(logBase + '.genIntro')
 def genIntro(logger):
@@ -131,7 +131,7 @@ def genMRAgeBinnedPrev(logger, r1, r2, r3):
     report = f'''
 
 
-### Multi-Racial, separated into age bins
+### Mixed-Race, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 |**DSM-IV diagnosis**|**Total: {r3['MR'][1][0]}**|**Total: {r3['MR'][1][1]}**|**Total: {r3['MR'][1][2]}**|**Total: {r3['MR'][1][3]}**|**Total: {r3['MR'][1][4]}**|'''

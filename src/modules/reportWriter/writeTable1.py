@@ -10,7 +10,7 @@ from multiprocessing import Pool
 from time import sleep
 
 config = jsonref.load(open('../config/config.json'))
-logBase = config['logging']['logBase'] + '.modules.table1.reportWriter'
+logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
 
 @lD.log(logBase + '.genIntro')
 def genIntro(logger):
