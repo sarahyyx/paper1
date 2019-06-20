@@ -6,10 +6,11 @@ import json
 from modules.reportWriter import writeTable1
 from modules.reportWriter import plotFig1
 from modules.reportWriter import writeTable2
+from modules.reportWriter import writeTable3
+from modules.reportWriter import writeTable4
 
 config = jsonref.load(open('../config/config.json'))
-logBase = config['logging']['logBase'] + '.modules.module1.module1'
-
+logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
 
 @lD.log(logBase + '.main')
 def main(logger, resultsDict):
@@ -62,6 +63,23 @@ def main(logger, resultsDict):
     writeTable2.genAAAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
     writeTable2.genNHPIAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
     writeTable2.genMRAgeBinnedPrev(table2_dict3,table2_dict4,table1Dict)
+
+    # Table 3 Info
+    with open("../data/final/oddsratios_allRaces.json") as json_file:  
+        table3_dict1 = json.load(json_file)
+    with open("../data/final/oddsratios_anysud_byRace.json") as json_file:  
+        table3_dict2 = json.load(json_file)
+    with open("../data/final/oddsratios_morethan2sud_byRace.json") as json_file:  
+        table3_dict3 = json.load(json_file)
+    writeTable3.genIntro()
+    writeTable3.oddsRatiosAllRaces(table3_dict1,table1Dict)
+    writeTable3.oddsRatiosByRace(table3_dict2, table3_dict3, table1Dict)
+
+    # Table 4 Info
+    with open("../data/final/table4data.json") as json_file:
+        table4Dict = json.load(json_file)
+    writeTable4.genIntro()
+    writeTable4.oddsRatiosByRace(table4Dict, table1Dict)
 
     print('Getting out of reportWriter module')
     print('-'*30)

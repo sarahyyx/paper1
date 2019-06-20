@@ -62,7 +62,7 @@ def main(logger, resultsDict):
         race_results, columns_dropped = utils.logRegress(race_df)
 
         for column in columns_dropped:
-            resultsDict[column].append([0,0,0])
+            resultsDict[column].append([ "-", "-" , "-"])
         for disorder in resultsDict:
             for i, row in race_results.iterrows():
                 if disorder == i:
@@ -71,7 +71,7 @@ def main(logger, resultsDict):
                     disorder_list.append(round(row['2.5%'],2))
                     disorder_list.append(round(row['97.5%'],2))
                     resultsDict[disorder].append(disorder_list)
-    
+
     # print(resultsDict)
     obj = json.dumps(resultsDict)
     f = open("../data/final/table4data.json","w+")
