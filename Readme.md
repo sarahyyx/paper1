@@ -1,6 +1,6 @@
 # paper1
 
-One Paragraph of project description goes here
+This project aims to extract all the data needed to replicate the analyses done in the research paper: [Comorbid substance use disorders with other Axis I and II mental disorders among treatment-seeking Asian Americans, Native Hawaiians/Pacific Islanders, and mixed-race people](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3846388/).
 
 ## Getting Started
 
@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Prerequisites
 
-You will need to have a valid Python installation on your system. This has been tested with Python 3.6. It does not assume a particulay version of python, however, it makes no assertions of proper working, either on this version of Python, or on another. 
+You will need to have a valid Python installation on your system. This has been tested with Python 3.6. It does not assume a particular version of python, however, it makes no assertions of proper working, either on this version of Python, or on another. 
 
 ## Installing
 
