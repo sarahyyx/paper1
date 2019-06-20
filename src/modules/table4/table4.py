@@ -72,7 +72,12 @@ def main(logger, resultsDict):
                     disorder_list.append(round(row['97.5%'],2))
                     resultsDict[disorder].append(disorder_list)
 
-    # print(resultsDict)
+    # Remove odds ratios where odds ratio == 0
+    for disorder in resultsDict:
+        for n, raceList in enumerate(resultsDict[disorder]):
+            if raceList[0] == 0.0:
+                resultsDict[disorder][n] = ["-", "-", "-"]
+
     obj = json.dumps(resultsDict)
     f = open("../data/final/table4data.json","w+")
     f.write(obj)

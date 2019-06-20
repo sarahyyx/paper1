@@ -111,7 +111,7 @@ Inhalants - inhalant
 |opioids               |2.6|2.0|5.9|
 |sedate               |0.5|0.3|0.8|
 |others               |0.3|0.1|0.3|
-|polysub               |0.0|0.0|0.0|
+|polysub               |-|-|-|
 |inhalant               |0.5|0.7|0.5|
 ***
 
@@ -120,19 +120,19 @@ Inhalants - inhalant
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 |**DSM-IV diagnosis**|**Total: 124**|**Total: 226**|**Total: 540**|**Total: 357**|**Total: 263**|
-|any_sud               |0.0|18.1|30.0|19.9|10.6|
-|morethan2_sud               |0.0|6.6|8.3|4.8|2.3|
-|alc               |0.0|8.4|16.9|10.4|8.4|
-|cannabis               |0.0|12.8|9.8|4.5|1.1|
-|amphe               |0.0|0.4|1.9|0.8|0.0|
-|halluc               |0.0|0.4|0.4|0.3|0.0|
-|nicotin               |0.0|0.9|2.4|1.4|1.5|
-|cocaine               |0.0|0.0|2.8|3.4|1.9|
-|opioids               |0.0|0.4|5.2|2.5|0.4|
-|sedate               |0.0|0.4|0.9|0.3|0.0|
-|others               |0.0|0.4|0.7|0.0|0.0|
-|polysub               |0.0|0.0|0.0|0.0|0.0|
-|inhalant               |0.0|0.9|0.9|0.3|0.0|
+|any_sud               |-|18.1|30.0|19.9|10.6|
+|morethan2_sud               |-|6.6|8.3|4.8|2.3|
+|alc               |-|8.4|16.9|10.4|8.4|
+|cannabis               |-|12.8|9.8|4.5|1.1|
+|amphe               |-|0.4|1.9|0.8|-|
+|halluc               |-|0.4|0.4|0.3|-|
+|nicotin               |-|0.9|2.4|1.4|1.5|
+|cocaine               |-|-|2.8|3.4|1.9|
+|opioids               |-|0.4|5.2|2.5|0.4|
+|sedate               |-|0.4|0.9|0.3|-|
+|others               |-|0.4|0.7|-|-|
+|polysub               |-|-|-|-|-|
+|inhalant               |-|0.9|0.9|0.3|-|
 ***
 
 
@@ -144,15 +144,15 @@ Inhalants - inhalant
 |morethan2_sud               |0.3|3.2|7.7|5.2|3.6|
 |alc               |0.3|3.8|12.8|12.5|14.5|
 |cannabis               |0.3|12.2|12.5|5.2|1.5|
-|amphe               |0.0|0.1|0.4|0.4|0.6|
-|halluc               |0.0|0.1|0.1|0.2|0.3|
-|nicotin               |0.0|0.2|0.3|0.6|1.5|
-|cocaine               |0.0|0.4|3.2|4.6|1.8|
+|amphe               |-|0.1|0.4|0.4|0.6|
+|halluc               |-|0.1|0.1|0.2|0.3|
+|nicotin               |-|0.2|0.3|0.6|1.5|
+|cocaine               |-|0.4|3.2|4.6|1.8|
 |opioids               |0.3|0.2|2.2|3.2|5.7|
-|sedate               |0.0|0.0|0.4|0.4|1.2|
-|others               |0.0|0.0|0.3|0.0|0.3|
-|polysub               |0.0|0.0|0.0|0.0|0.0|
-|inhalant               |0.0|0.2|2.1|0.6|0.0|
+|sedate               |-|-|0.4|0.4|1.2|
+|others               |-|-|0.3|-|0.3|
+|polysub               |-|-|-|-|-|
+|inhalant               |-|0.2|2.1|0.6|-|
 ***
 
 
@@ -161,20 +161,20 @@ Inhalants - inhalant
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 |**DSM-IV diagnosis**|**Total: 1313**|**Total: 1274**|**Total: 1796**|**Total: 1424**|**Total: 1328**|
 |any_sud               |0.3|7.8|35.2|38.6|31.5|
-|morethan2_sud               |0.0|1.8|10.3|13.4|8.9|
-|alc               |0.0|2.0|13.1|13.1|11.3|
+|morethan2_sud               |-|1.8|10.3|13.4|8.9|
+|alc               |-|2.0|13.1|13.1|11.3|
 |cannabis               |0.1|6.5|18.3|8.4|3.2|
-|amphe               |0.0|0.2|2.1|0.5|0.4|
-|halluc               |0.0|0.0|0.4|0.0|0.2|
-|nicotin               |0.0|0.3|3.5|4.7|4.1|
-|cocaine               |0.0|0.0|4.0|8.5|5.8|
-|opioids               |0.0|0.1|3.0|12.9|13.9|
-|sedate               |0.0|0.2|0.7|1.8|1.5|
-|others               |0.0|0.1|0.4|0.7|0.4|
-|polysub               |0.0|0.0|0.0|0.0|0.0|
-|inhalant               |0.0|0.4|0.9|0.9|0.2|
+|amphe               |-|0.2|2.1|0.5|0.4|
+|halluc               |-|-|0.4|-|0.2|
+|nicotin               |-|0.3|3.5|4.7|4.1|
+|cocaine               |-|-|4.0|8.5|5.8|
+|opioids               |-|0.1|3.0|12.9|13.9|
+|sedate               |-|0.2|0.7|1.8|1.5|
+|others               |-|0.1|0.4|0.7|0.4|
+|polysub               |-|-|-|-|-|
+|inhalant               |-|0.4|0.9|0.9|0.2|
 ***
-
+***
 ## Description of Table 3:
 This table contains the odds ratios and confidence intervals after a logistic regression is performed for the following samples:
 * All races, aged 12 and older
@@ -285,3 +285,86 @@ Logistic regression is performed for:
 |Male vs Female                    |1.21       |0.98 - 1.49|
 |*Treatment Setting*               |                      |          |
 |Hospital vs Mental Health Center  |0.87|0.65 - 1.16|
+
+***
+## Description of Table 4:
+This table contains the odds ratios and confidence intervals after a logistic regression is performed for each race:
+* Asian Americans, aged 12 and older
+* Native Hawaiian, aged 12 and older
+* Mixed Race, aged 12 and older
+
+Logistic regression is performed for comorbidity of any SUD with other mental health disorders in the list below:
+Mood - mood
+Anxiety - anxiety
+Adjustment - adjustment
+ADHD/CD/ODD/DBD - adhd
+Substance Use Disorder - sud
+Psychotic - psyc
+Personality - pers
+Childhood-onset - childhood
+Impulse-control - impulse
+Cognitive - cognitive
+Eating - eating
+Somatoform - smtf
+Dissociation - disso
+Sleep - sleep
+Factitious Disorders - fd
+        
+
+### Asian Americans, aged 12 or older
+|Logistic Regression, Any SUD|N = 1386   |          |
+|----------------------------|----------------------------|----------|
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
+|mood                  |0.18        |0.13 - 0.25|
+|anxiety                  |0.3        |0.18 - 0.48|
+|adjustment                  |0.19        |0.13 - 0.28|
+|adhd                  |0.43        |0.23 - 0.8|
+|psyc                  |0.27        |0.16 - 0.45|
+|pers                  |1.32        |0.81 - 2.15|
+|childhood                  |0.2        |0.07 - 0.6|
+|impulse                  |1.04        |0.37 - 2.92|
+|cognitive                  |-        |- - -|
+|eating                  |0.36        |0.12 - 1.14|
+|smtf                  |-        |- - -|
+|disso                  |-        |- - -|
+|sleep                  |0.08        |0.02 - 0.36|
+|fd                  |-        |- - -|
+***
+### Native Hawaiians/Pacific Islanders, aged 12 or older
+|Logistic Regression, Any SUD|N = 2383 |          |
+|----------------------------|----------------------------|----------|
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
+|mood                  |0.86        |0.69 - 1.08|
+|anxiety                  |0.51        |0.36 - 0.72|
+|adjustment                  |0.57        |0.47 - 0.7|
+|adhd                  |1.02        |0.74 - 1.4|
+|psyc                  |1.04        |0.73 - 1.48|
+|pers                  |2.46        |1.92 - 3.16|
+|childhood                  |0.41        |0.24 - 0.71|
+|impulse                  |1.06        |0.76 - 1.48|
+|cognitive                  |0.52        |0.17 - 1.53|
+|eating                  |1.16        |0.44 - 3.02|
+|smtf                  |-        |- - -|
+|disso                  |1.68        |0.58 - 4.84|
+|sleep                  |-        |- - -|
+|fd                  |-        |- - -|
+***
+### Mixed Race, aged 12 or older
+|Logistic Regression, Any SUD|N = 5822   |          |
+|----------------------------|----------------------------|----------|
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
+|mood                  |0.49        |0.43 - 0.56|
+|anxiety                  |0.51        |0.43 - 0.61|
+|adjustment                  |0.43        |0.38 - 0.5|
+|adhd                  |0.21        |0.16 - 0.27|
+|psyc                  |0.89        |0.74 - 1.06|
+|pers                  |2.23        |1.91 - 2.6|
+|childhood                  |0.5        |0.36 - 0.71|
+|impulse                  |0.9        |0.59 - 1.37|
+|cognitive                  |0.41        |0.16 - 1.01|
+|eating                  |1.03        |0.45 - 2.36|
+|smtf                  |0.27        |0.08 - 0.92|
+|disso                  |1.72        |0.8 - 3.68|
+|sleep                  |0.51        |0.33 - 0.79|
+|fd                  |-        |- - -|
+***

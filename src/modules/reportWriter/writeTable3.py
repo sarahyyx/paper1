@@ -16,7 +16,7 @@ logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
 def genIntro(logger):
     
     report = f'''
-
+***
 ## Description of Table 3:
 This table contains the odds ratios and confidence intervals after a logistic regression is performed for the following samples:
 * All races, aged 12 and older

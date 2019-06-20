@@ -16,15 +16,29 @@ logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
 def genIntro(logger):
     
     report = f'''
-
+***
 ## Description of Table 4:
 This table contains the odds ratios and confidence intervals after a logistic regression is performed for each race:
 * Asian Americans, aged 12 and older
 * Native Hawaiian, aged 12 and older
 * Mixed Race, aged 12 and older
 
-Logistic regression is performed for comorbidity of any SUD with other mental health disorders.
-
+Logistic regression is performed for comorbidity of any SUD with other mental health disorders in the list below:
+Mood - mood
+Anxiety - anxiety
+Adjustment - adjustment
+ADHD/CD/ODD/DBD - adhd
+Substance Use Disorder - sud
+Psychotic - psyc
+Personality - pers
+Childhood-onset - childhood
+Impulse-control - impulse
+Cognitive - cognitive
+Eating - eating
+Somatoform - smtf
+Dissociation - disso
+Sleep - sleep
+Factitious Disorders - fd
         '''
     with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
@@ -32,7 +46,7 @@ Logistic regression is performed for comorbidity of any SUD with other mental he
     return
 
 @lD.log(logBase + '.oddsRatiosByRace')
-def oddsRatiosByRace(logger, r1, r2, r3):
+def oddsRatiosByRace(logger, r1, r2):
 
     sampleabove12 = {
         "AA": 0,
@@ -40,80 +54,49 @@ def oddsRatiosByRace(logger, r1, r2, r3):
         "MR": 0
     }
 
-    for race in r3:
+    for race in r2:
         for i in range(1,5):
-            sampleabove12[race] += r3[race][1][i]
+            sampleabove12[race] += r2[race][1][i]
 
     report = f'''
 
 ### Asian Americans, aged 12 or older
 |Logistic Regression, Any SUD|N = {sampleabove12["AA"]}   |          |
 |----------------------------|----------------------------|----------|
-|**Any SUD**                 |**Odds Ratio**              |**95% CI**|
-|*Age in years*              |                            |          |
-|12 - 17 vs 50+              |{r1["12-17"][0][0]}         |{r1["12-17"][0][1]} - {r1["12-17"][0][2]}|
-|18 - 34 vs 50+              |{r1["18-34"][0][0]}         |{r1["18-34"][0][1]} - {r1["18-34"][0][2]}|
-|35 - 49 vs 50+              |{r1["35-49"][0][0]}         |{r1["35-49"][0][1]} - {r1["35-49"][0][2]}|
-|*Sex*                       |                            |          |
-|Male vs Female              |{r1["M"][0][0]}             |{r1["M"][0][1]} - {r1["M"][0][2]}|
-|*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|{r1["Hospital"][0][0]}  |{r1["Hospital"][0][1]} - {r1["Hospital"][0][2]}|
-|**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
-|*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |{r2["12-17"][0][0]}   |{r2["12-17"][0][1]} - {r2["12-17"][0][2]}|
-|18 - 34 vs 50+                    |{r2["18-34"][0][0]}   |{r2["18-34"][0][1]} - {r2["18-34"][0][2]}|
-|35 - 49 vs 50+                    |{r2["35-49"][0][0]}   |{r2["35-49"][0][1]} - {r2["35-49"][0][2]}|
-|*Sex*                             |                      |          |
-|Male vs Female                    |{r2["M"][0][0]}       |{r2["M"][0][1]} - {r2["M"][0][2]}|
-|*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |{r2["Hospital"][0][0]}|{r2["Hospital"][0][1]} - {r2["Hospital"][0][2]}|
-***
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|'''
+    
+    for disorder in r1:
+        report = report + f'''
+|{disorder}                  |{r1[disorder][0][0]}        |{r1[disorder][0][1]} - {r1[disorder][0][2]}|'''
 
+    report = report + f'''
+***'''
+
+    report = report + f'''
 ### Native Hawaiians/Pacific Islanders, aged 12 or older
 |Logistic Regression, Any SUD|N = {sampleabove12["NHPI"]} |          |
 |----------------------------|----------------------------|----------|
-|**Any SUD**                 |**Odds Ratio**              |**95% CI**|
-|*Age in years*              |                            |          |
-|12 - 17 vs 50+              |{r1["12-17"][1][0]}         |{r1["12-17"][1][1]} - {r1["12-17"][1][2]}|
-|18 - 34 vs 50+              |{r1["18-34"][1][0]}         |{r1["18-34"][1][1]} - {r1["18-34"][1][2]}|
-|35 - 49 vs 50+              |{r1["35-49"][1][0]}         |{r1["35-49"][1][1]} - {r1["35-49"][1][2]}|
-|*Sex*                       |                            |          |
-|Male vs Female              |{r1["M"][1][0]}             |{r1["M"][1][1]} - {r1["M"][1][2]}|
-|*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|{r1["Hospital"][1][0]}  |{r1["Hospital"][1][1]} - {r1["Hospital"][1][2]}|
-|**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
-|*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |{r2["12-17"][1][0]}   |{r2["12-17"][1][1]} - {r2["12-17"][1][2]}|
-|18 - 34 vs 50+                    |{r2["18-34"][1][0]}   |{r2["18-34"][1][1]} - {r2["18-34"][1][2]}|
-|35 - 49 vs 50+                    |{r2["35-49"][1][0]}   |{r2["35-49"][1][1]} - {r2["35-49"][1][2]}|
-|*Sex*                             |                      |          |
-|Male vs Female                    |{r2["M"][1][0]}       |{r2["M"][1][1]} - {r2["M"][1][2]}|
-|*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |{r2["Hospital"][1][0]}|{r2["Hospital"][1][1]} - {r2["Hospital"][1][2]}|
-***
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|'''
 
+    for disorder in r1:
+        report = report + f'''
+|{disorder}                  |{r1[disorder][1][0]}        |{r1[disorder][1][1]} - {r1[disorder][1][2]}|'''
+
+    report = report + f'''
+***'''
+
+    report = report + f'''
 ### Mixed Race, aged 12 or older
 |Logistic Regression, Any SUD|N = {sampleabove12["MR"]}   |          |
 |----------------------------|----------------------------|----------|
-|**Any SUD**                 |**Odds Ratio**              |**95% CI**|
-|*Age in years*              |                            |          |
-|12 - 17 vs 50+              |{r1["12-17"][2][0]}         |{r1["12-17"][2][1]} - {r1["12-17"][2][2]}|
-|18 - 34 vs 50+              |{r1["18-34"][2][0]}         |{r1["18-34"][2][1]} - {r1["18-34"][2][2]}|
-|35 - 49 vs 50+              |{r1["35-49"][2][0]}         |{r1["35-49"][2][1]} - {r1["35-49"][2][2]}|
-|*Sex*                       |                            |          |
-|Male vs Female              |{r1["M"][2][0]}             |{r1["M"][2][1]} - {r1["M"][2][2]}|
-|*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|{r1["Hospital"][2][0]}  |{r1["Hospital"][2][1]} - {r1["Hospital"][2][2]}|
-|**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
-|*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |{r2["12-17"][2][0]}   |{r2["12-17"][2][1]} - {r2["12-17"][2][2]}|
-|18 - 34 vs 50+                    |{r2["18-34"][2][0]}   |{r2["18-34"][2][1]} - {r2["18-34"][2][2]}|
-|35 - 49 vs 50+                    |{r2["35-49"][2][0]}   |{r2["35-49"][2][1]} - {r2["35-49"][2][2]}|
-|*Sex*                             |                      |          |
-|Male vs Female                    |{r2["M"][2][0]}       |{r2["M"][2][1]} - {r2["M"][2][2]}|
-|*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |{r2["Hospital"][2][0]}|{r2["Hospital"][2][1]} - {r2["Hospital"][2][2]}|
-'''
+|**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|'''
+
+    for disorder in r1:
+        report = report + f'''
+|{disorder}                  |{r1[disorder][2][0]}        |{r1[disorder][2][1]} - {r1[disorder][2][2]}|'''
+
+    report = report + f'''
+***'''
 
     with open('../report/paper1Report.md', 'a+') as f:
         f.write( report )
