@@ -8,55 +8,50 @@ modules.reportWriter.plotFig1 module
 ------------------------------------
 
 .. automodule:: modules.reportWriter.plotFig1
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.reportWriter module
 ----------------------------------------
 
 .. automodule:: modules.reportWriter.reportWriter
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.writeTable1 module
 ---------------------------------------
 
 .. automodule:: modules.reportWriter.writeTable1
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.writeTable2 module
 ---------------------------------------
 
 .. automodule:: modules.reportWriter.writeTable2
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.writeTable3 module
 ---------------------------------------
 
 .. automodule:: modules.reportWriter.writeTable3
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.writeTable4 module
 ---------------------------------------
 
 .. automodule:: modules.reportWriter.writeTable4
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: modules.reportWriter
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

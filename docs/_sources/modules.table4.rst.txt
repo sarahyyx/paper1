@@ -8,31 +8,29 @@ modules.table4.queryDB module
 -----------------------------
 
 .. automodule:: modules.table4.queryDB
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.table4.table4 module
 ----------------------------
 
 .. automodule:: modules.table4.table4
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.table4.utils module
 ---------------------------
 
 .. automodule:: modules.table4.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: modules.table4
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

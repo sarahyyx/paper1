@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.table1.table1 &mdash; src  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> src
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../lib.html">lib package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../logs.html">logs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">modules package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper1.html">paper1 module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">src</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>modules.table1.table1</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for modules.table1.table1</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">logs</span> <span class="k">import</span> <span class="n">logDecorator</span> <span class="k">as</span> <span class="n">lD</span> 
+<span class="kn">import</span> <span class="nn">jsonref</span><span class="o">,</span> <span class="nn">pprint</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">psycopg2.sql</span> <span class="k">import</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Literal</span>
+
+<span class="kn">from</span> <span class="nn">lib.databaseIO</span> <span class="k">import</span> <span class="n">pgIO</span>
+<span class="kn">from</span> <span class="nn">modules.table1</span> <span class="k">import</span> <span class="n">queryDB</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/config.json&#39;</span><span class="p">))</span>
+<span class="n">table1_config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/modules/table1.json&#39;</span><span class="p">))</span>
+<span class="n">logBase</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;logBase&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.modules.table1.table1&#39;</span>
+
+
+<div class="viewcode-block" id="genRaceDict"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.table1.genRaceDict">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genRaceDict&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">genRaceDict</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">inputCSV</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;generates a dictionary with the race str values under each race</span>
+<span class="sd">    </span>
+<span class="sd">    This function generates a dict with all the str values under a race from the raceCount CSV</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">        inputCSV {filepath that contains the csv} -- first column &quot;race&quot; contains the race strings, second column &quot;count&quot; contains their counts, and the third column &quot;paper_race&quot; contains the overarching race specified in the paper</span>
+
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        raceDict -- dictionary that contains all the race strings under each specified race in the paper</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">raceDict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;AA&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s1">&#39;NHPI&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s1">&#39;MR&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputCSV</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">readCSV</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">readCSV</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">race</span><span class="p">:</span>
+                        <span class="n">raceDict</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;genRaceDict failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">raceDict</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.table1.main">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.main&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">resultsDict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;main function for module1</span>
+<span class="sd">    </span>
+<span class="sd">    This function finishes all the tasks for the</span>
+<span class="sd">    main function. This is a way in which a </span>
+<span class="sd">    particular module is going to be executed. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    resultsDict: {dict}</span>
+<span class="sd">        A dintionary containing information about the </span>
+<span class="sd">        command line arguments. These can be used for</span>
+<span class="sd">        overwriting command line arguments as needed.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Main function of module table1&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AA&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;NHPI&quot;</span><span class="p">:[],</span>
+        <span class="s2">&quot;MR&quot;</span><span class="p">:[]</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Run these two lines to create sarah.diagnoses table</span>
+    <span class="n">queryDB</span><span class="o">.</span><span class="n">genAllKeys</span><span class="p">()</span>
+    <span class="n">queryDB</span><span class="o">.</span><span class="n">addDiagCols</span><span class="p">()</span>
+    <span class="c1">## TO DO AFTER CREATING:</span>
+    <span class="c1">## In Postgresql, delete rows with all columns = false </span>
+
+    <span class="c1"># raceCounts = queryDB.countMainRace()</span>
+    <span class="c1"># countDict[&quot;AA&quot;].append(raceCounts[0])</span>
+    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceCounts[1])</span>
+    <span class="c1"># countDict[&quot;MR&quot;].append(raceCounts[2])</span>
+
+    <span class="c1"># raceAgeCounts = queryDB.countRaceAge()</span>
+    <span class="c1"># countDict[&quot;AA&quot;].append(raceAgeCounts[0])</span>
+    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceAgeCounts[1])</span>
+    <span class="c1"># countDict[&quot;MR&quot;].append(raceAgeCounts[2])</span>
+
+    <span class="c1"># raceSexCounts = queryDB.countRaceSex()</span>
+    <span class="c1"># countDict[&quot;AA&quot;].append(raceSexCounts[0])</span>
+    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceSexCounts[1])</span>
+    <span class="c1"># countDict[&quot;MR&quot;].append(raceSexCounts[2])</span>
+
+    <span class="c1"># raceSettingCounts = queryDB.countRaceSetting()</span>
+    <span class="c1"># countDict[&quot;AA&quot;].append(raceSettingCounts[0])</span>
+    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceSettingCounts[1])</span>
+    <span class="c1"># countDict[&quot;MR&quot;].append(raceSettingCounts[2])</span>
+
+    <span class="c1"># print(countDict)</span>
+
+    <span class="c1"># obj = json.dumps(countDict)</span>
+    <span class="c1"># f = open(&quot;../data/final/sampleCount.json&quot;,&quot;w+&quot;)</span>
+    <span class="c1"># f.write(obj)</span>
+    <span class="c1"># f.close()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Getting out of module table1&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Author
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

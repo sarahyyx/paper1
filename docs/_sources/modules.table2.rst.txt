@@ -8,23 +8,22 @@ modules.table2.queryDB module
 -----------------------------
 
 .. automodule:: modules.table2.queryDB
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.table2.table2 module
 ----------------------------
 
 .. automodule:: modules.table2.table2
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: modules.table2
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

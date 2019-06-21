@@ -8,23 +8,22 @@ lib.argParsers.addAllParsers module
 -----------------------------------
 
 .. automodule:: lib.argParsers.addAllParsers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 lib.argParsers.config module
 ----------------------------
 
 .. automodule:: lib.argParsers.config
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: lib.argParsers
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
