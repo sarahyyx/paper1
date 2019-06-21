@@ -49,7 +49,7 @@ def getRace(logger):
     return data
 
 @lD.log(logBase + '.getTable1data')
-def getTable1data(logger):
+def createTable1(logger):
     '''print a line
     
     This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper
@@ -275,13 +275,13 @@ def genAllKeys(logger):
             siteid, 
             backgroundid
         FROM
-            sarah.newtable1data
+            sarah.test2
         '''
 
         data = pgIO.getAllData(query)
         data = [(d[0], d[1]) for d in data]
 
-        csvfile = "../data/raw_data/All_keys.csv"
+        csvfile = "../data/raw_data/firstfilter_allkeys.csv"
 
         with open(csvfile,'w+') as output:
             csv_output=csv.writer(output)
@@ -308,7 +308,7 @@ def addDiagCols(logger):
         logger {[type]} -- [description]
     '''
     try:
-        all_userkeys = "../data/raw_data/All_keys.csv"
+        all_userkeys = "../data/raw_data/firstfilter_allkeys.csv"
 
         with open(all_userkeys) as f:
             readCSV = csv.reader(f, delimiter=",")
@@ -319,7 +319,6 @@ def addDiagCols(logger):
                 SELECT
                     siteid,
                     backgroundid,
-                    array_agg(distinct dsmno) dsmnos,
                     array_agg(distinct dsmno) && array[{}] as mood,
                     array_agg(distinct dsmno) && array[{}] as anxiety,
                     array_agg(distinct dsmno) && array[{}] as adjustment,
@@ -365,7 +364,7 @@ def addDiagCols(logger):
 
                 pushQuery = '''
                 INSERT INTO 
-                    sarah.diagnoses(siteid, backgroundid, dsmnos, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)
+                    sarah.test3(siteid, backgroundid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)
                 VALUES
                     %s
                 '''

@@ -13,7 +13,7 @@ You will need to have a valid Python installation on your system. This has been 
 
 ## Installing
 
-The folloiwing installations are for \*nix-like systems. This is currently tested in the following system: `Ubuntu 18.10`. 
+The following installations are for \*nix-like systems. This is currently tested in the following system: `Ubuntu 18.10`. 
 
 For installation, first close this repository, and generate the virtual environment required for running the programs. 
 
