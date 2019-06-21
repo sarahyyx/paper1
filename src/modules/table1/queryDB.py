@@ -20,7 +20,8 @@ logBase = config['logging']['logBase'] + '.modules.table1.table1'
 def getRace(logger):
     '''print a line
     
-    This function was used to get the race and count(race) for ALL the races in raw_data.background
+    This function was used to generate the data for the raceCount.csv file, which 
+    gets the race and count(race) for ALL the races in raw_data.background.
     After manual selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file
     Function was deleted from the main after use
     

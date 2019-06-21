@@ -90,8 +90,8 @@
 <li class="toctree-l3"><a class="reference internal" href="modules.fig1.html">modules.fig1 package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">modules.reportWriter package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modules-reportwriter-plotfig1-module">modules.reportWriter.plotFig1 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modules-reportwriter-reportwriter-module">modules.reportWriter.reportWriter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.plotFig1">modules.reportWriter.plotFig1 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.reportWriter">modules.reportWriter.reportWriter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable1">modules.reportWriter.writeTable1 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable2">modules.reportWriter.writeTable2 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable3">modules.reportWriter.writeTable3 module</a></li>
@@ -180,101 +180,190 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="modules-reportwriter-plotfig1-module">
-<h2>modules.reportWriter.plotFig1 module<a class="headerlink" href="#modules-reportwriter-plotfig1-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-modules.reportWriter.plotFig1">
+<span id="modules-reportwriter-plotfig1-module"></span><h2>modules.reportWriter.plotFig1 module<a class="headerlink" href="#module-modules.reportWriter.plotFig1" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.plotFig1.config">
+<code class="sig-prename descclassname">modules.reportWriter.plotFig1.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.plotFig1.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="modules.reportWriter.plotFig1.genFig">
+<code class="sig-prename descclassname">modules.reportWriter.plotFig1.</code><code class="sig-name descname">genFig</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/plotFig1.html#genFig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.plotFig1.genFig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="modules.reportWriter.plotFig1.genIntro">
+<code class="sig-prename descclassname">modules.reportWriter.plotFig1.</code><code class="sig-name descname">genIntro</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/plotFig1.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.plotFig1.genIntro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.plotFig1.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.plotFig1.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.plotFig1.logBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="modules-reportwriter-reportwriter-module">
-<h2>modules.reportWriter.reportWriter module<a class="headerlink" href="#modules-reportwriter-reportwriter-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-modules.reportWriter.reportWriter">
+<span id="modules-reportwriter-reportwriter-module"></span><h2>modules.reportWriter.reportWriter module<a class="headerlink" href="#module-modules.reportWriter.reportWriter" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.reportWriter.config">
+<code class="sig-prename descclassname">modules.reportWriter.reportWriter.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.reportWriter.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.reportWriter.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.reportWriter.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.reportWriter.logBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="modules.reportWriter.reportWriter.main">
+<code class="sig-prename descclassname">modules.reportWriter.reportWriter.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">resultsDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/reportWriter.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.reportWriter.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>main function for module1</p>
+<p>This function finishes all the tasks for the
+main function. This is a way in which a
+particular module is going to be executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger</strong> (<em>{logging.Logger}</em>) – The logger used for logging error information</p></li>
+<li><p><strong>resultsDict</strong> (<em>{dict}</em>) – A dintionary containing information about the
+command line arguments. These can be used for
+overwriting command line arguments as needed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-modules.reportWriter.writeTable1">
 <span id="modules-reportwriter-writetable1-module"></span><h2>modules.reportWriter.writeTable1 module<a class="headerlink" href="#module-modules.reportWriter.writeTable1" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.writeTable1.config">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.writeTable1.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genIntro">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genIntro</code><span class="sig-paren">(</span><em>logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genIntro" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genIntro</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genIntro" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genPC">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genPC</code><span class="sig-paren">(</span><em>logger</em>, <em>n</em>, <em>d</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genPC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genPC</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">n</em>, <em class="sig-param">d</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genPC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genRace">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genRace</code><span class="sig-paren">(</span><em>logger</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genRace</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genRaceAge">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genRaceAge</code><span class="sig-paren">(</span><em>logger</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceAge" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genRaceAge</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceAge" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genRaceSetting">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genRaceSetting</code><span class="sig-paren">(</span><em>logger</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceSetting" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genRaceSetting</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceSetting" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable1.genRaceSex">
-<code class="descclassname">modules.reportWriter.writeTable1.</code><code class="descname">genRaceSex</code><span class="sig-paren">(</span><em>logger</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceSex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceSex" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">genRaceSex</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable1.html#genRaceSex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable1.genRaceSex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.writeTable1.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable1.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.writeTable1.logBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-modules.reportWriter.writeTable2">
 <span id="modules-reportwriter-writetable2-module"></span><h2>modules.reportWriter.writeTable2 module<a class="headerlink" href="#module-modules.reportWriter.writeTable2" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.writeTable2.config">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.writeTable2.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="modules.reportWriter.writeTable2.genAAAgeBinnedPrev">
-<code class="descclassname">modules.reportWriter.writeTable2.</code><code class="descname">genAAAgeBinnedPrev</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em>, <em>r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genAAAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genAAAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">genAAAgeBinnedPrev</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em>, <em class="sig-param">r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genAAAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genAAAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable2.genIntro">
-<code class="descclassname">modules.reportWriter.writeTable2.</code><code class="descname">genIntro</code><span class="sig-paren">(</span><em>logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genIntro" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">genIntro</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genIntro" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable2.genMRAgeBinnedPrev">
-<code class="descclassname">modules.reportWriter.writeTable2.</code><code class="descname">genMRAgeBinnedPrev</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em>, <em>r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genMRAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genMRAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">genMRAgeBinnedPrev</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em>, <em class="sig-param">r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genMRAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genMRAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable2.genNHPIAgeBinnedPrev">
-<code class="descclassname">modules.reportWriter.writeTable2.</code><code class="descname">genNHPIAgeBinnedPrev</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em>, <em>r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genNHPIAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genNHPIAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">genNHPIAgeBinnedPrev</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em>, <em class="sig-param">r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genNHPIAgeBinnedPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genNHPIAgeBinnedPrev" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable2.genTotalPrev">
-<code class="descclassname">modules.reportWriter.writeTable2.</code><code class="descname">genTotalPrev</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em>, <em>r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genTotalPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genTotalPrev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">genTotalPrev</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em>, <em class="sig-param">r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable2.html#genTotalPrev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable2.genTotalPrev" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.writeTable2.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable2.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.writeTable2.logBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-modules.reportWriter.writeTable3">
 <span id="modules-reportwriter-writetable3-module"></span><h2>modules.reportWriter.writeTable3 module<a class="headerlink" href="#module-modules.reportWriter.writeTable3" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.writeTable3.config">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable3.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.writeTable3.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="modules.reportWriter.writeTable3.genIntro">
-<code class="descclassname">modules.reportWriter.writeTable3.</code><code class="descname">genIntro</code><span class="sig-paren">(</span><em>logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.genIntro" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable3.</code><code class="sig-name descname">genIntro</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.genIntro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.writeTable3.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable3.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.writeTable3.logBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable3.oddsRatiosAllRaces">
-<code class="descclassname">modules.reportWriter.writeTable3.</code><code class="descname">oddsRatiosAllRaces</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#oddsRatiosAllRaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.oddsRatiosAllRaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable3.</code><code class="sig-name descname">oddsRatiosAllRaces</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#oddsRatiosAllRaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.oddsRatiosAllRaces" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable3.oddsRatiosByRace">
-<code class="descclassname">modules.reportWriter.writeTable3.</code><code class="descname">oddsRatiosByRace</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em>, <em>r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#oddsRatiosByRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.oddsRatiosByRace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable3.</code><code class="sig-name descname">oddsRatiosByRace</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em>, <em class="sig-param">r3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable3.html#oddsRatiosByRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable3.oddsRatiosByRace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-modules.reportWriter.writeTable4">
 <span id="modules-reportwriter-writetable4-module"></span><h2>modules.reportWriter.writeTable4 module<a class="headerlink" href="#module-modules.reportWriter.writeTable4" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.writeTable4.config">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable4.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.writeTable4.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="modules.reportWriter.writeTable4.genIntro">
-<code class="descclassname">modules.reportWriter.writeTable4.</code><code class="descname">genIntro</code><span class="sig-paren">(</span><em>logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable4.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable4.genIntro" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable4.</code><code class="sig-name descname">genIntro</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable4.html#genIntro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable4.genIntro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.writeTable4.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.writeTable4.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.writeTable4.logBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="modules.reportWriter.writeTable4.oddsRatiosByRace">
-<code class="descclassname">modules.reportWriter.writeTable4.</code><code class="descname">oddsRatiosByRace</code><span class="sig-paren">(</span><em>logger</em>, <em>r1</em>, <em>r2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable4.html#oddsRatiosByRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable4.oddsRatiosByRace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">modules.reportWriter.writeTable4.</code><code class="sig-name descname">oddsRatiosByRace</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">r1</em>, <em class="sig-param">r2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeTable4.html#oddsRatiosByRace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeTable4.oddsRatiosByRace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

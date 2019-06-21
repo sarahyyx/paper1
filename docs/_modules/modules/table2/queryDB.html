@@ -1,0 +1,667 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.table2.queryDB &mdash; src  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> src
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../lib.html">lib package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../logs.html">logs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">modules package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper1.html">paper1 module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">src</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>modules.table2.queryDB</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for modules.table2.queryDB</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">logs</span> <span class="k">import</span> <span class="n">logDecorator</span> <span class="k">as</span> <span class="n">lD</span> 
+<span class="kn">import</span> <span class="nn">jsonref</span><span class="o">,</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">psycopg2.sql</span> <span class="k">import</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">lib.databaseIO</span> <span class="k">import</span> <span class="n">pgIO</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="k">import</span> <span class="n">wrap</span>
+
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/config.json&#39;</span><span class="p">))</span>
+<span class="n">table2_config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/modules/table2.json&#39;</span><span class="p">))</span>
+<span class="n">logBase</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;logBase&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.modules.table2.table2&#39;</span>
+
+<div class="viewcode-block" id="genSUDUserKeys"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.genSUDUserKeys">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genSUDUserKeys&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">genSUDUserKeys</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function generates a .csv file for each SUD patients&#39; (siteid, backgroundid)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span> 
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT </span>
+<span class="s1">            siteid, </span>
+<span class="s1">            backgroundid</span>
+<span class="s1">        FROM</span>
+<span class="s1">            sarah.diagnoses</span>
+<span class="s1">        WHERE</span>
+<span class="s1">            sud = true</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+        <span class="n">csvfile</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/SUDUser_keys.csv&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span><span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">csv_output</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">csv_output</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to generate list of SUD users because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> </div>
+
+<div class="viewcode-block" id="createSUDcatsTable"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.createSUDcatsTable">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createSUDcatsTable&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createSUDcatsTable</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;[summary]</span>
+<span class="sd">    </span>
+<span class="sd">    [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">all_userkeys</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/SUDUser_keys.csv&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">all_userkeys</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">readCSV</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">readCSV</span><span class="p">):</span>
+
+                <span class="n">getQuery</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT</span>
+<span class="s1">                    siteid,</span>
+<span class="s1">                    backgroundid,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as alc,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as cannabis,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as amphe,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as halluc,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as nicotin,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as cocaine,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as opioids,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sedate,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as others,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as polysub,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as inhalant</span>
+<span class="s1">                FROM</span>
+<span class="s1">                    raw_data.pdiagnose</span>
+<span class="s1">                WHERE</span>
+<span class="s1">                    siteid = </span><span class="si">{}</span><span class="s1"> and backgroundid = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                GROUP BY</span>
+<span class="s1">                    siteid, backgroundid</span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;alc&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;cannabis&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;amphe&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;halluc&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;nicotin&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;cocaine&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;opioids&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;sedate&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;others&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;polysub&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">][</span><span class="s2">&quot;inhalant&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="p">)</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">getQuery</span><span class="p">)</span>
+
+                <span class="n">pushQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                INSERT INTO </span>
+<span class="s1">                    sarah.sudcats(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)</span>
+<span class="s1">                VALUES</span>
+<span class="s1">                    </span><span class="si">%s</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitDataList</span><span class="p">(</span><span class="n">pushQuery</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to create sudcats table because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="divByAllAges"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.divByAllAges">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.divByAllAges&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">divByAllAges</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;[summary]</span>
+<span class="sd">    </span>
+<span class="sd">    This function takes in a list of counts and returns a list (of similar structure) with the percentage of the counts over the total</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">        l {list} -- l[0] is the no. of AA , l[1] is the no. of NHPI, l[2] is the no. of MR</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">resultList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../data/final/sampleCount.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">table1results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+    <span class="n">allAA</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">allNHPI</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;NHPI&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">allMR</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;MR&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">resultList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">allAA</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">resultList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">allNHPI</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">resultList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">allMR</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">json_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">resultList</span></div>
+
+<div class="viewcode-block" id="allAgesGeneralSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.allAgesGeneralSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.allAgesGeneralSUD&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">allAgesGeneralSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;any_sud&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;morethan2_sud&quot;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Find number of users in each race who have any SUD</span>
+        <span class="n">any_sud</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            SELECT </span>
+<span class="s1">                count(*)</span>
+<span class="s1">            FROM </span>
+<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">            INNER JOIN</span>
+<span class="s1">                sarah.sudcats t2</span>
+<span class="s1">            ON</span>
+<span class="s1">                t1.siteid = t2.siteid </span>
+<span class="s1">            AND</span>
+<span class="s1">                t1.backgroundid = t2.backgroundid</span>
+<span class="s1">            WHERE </span>
+<span class="s1">                t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+            <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;any_sud&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Find number of users in each race who have &gt;2 SUD</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;AA&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;NHPI&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;MR&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            SELECT </span>
+<span class="s1">                t2.alc,</span>
+<span class="s1">                t2.cannabis,</span>
+<span class="s1">                t2.amphe,</span>
+<span class="s1">                t2.halluc,</span>
+<span class="s1">                t2.nicotin,</span>
+<span class="s1">                t2.cocaine,</span>
+<span class="s1">                t2.opioids,</span>
+<span class="s1">                t2.sedate,</span>
+<span class="s1">                t2.others,</span>
+<span class="s1">                t2.polysub,</span>
+<span class="s1">                t2.inhalant</span>
+<span class="s1">            FROM</span>
+<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">            INNER JOIN </span>
+<span class="s1">                sarah.sudcats t2</span>
+<span class="s1">            ON</span>
+<span class="s1">                t1.siteid = t2.siteid </span>
+<span class="s1">            AND</span>
+<span class="s1">                t1.backgroundid = t2.backgroundid</span>
+<span class="s1">            WHERE </span>
+<span class="s1">                t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="k">for</span> <span class="nb">tuple</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">tuple</span><span class="p">))</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+                    <span class="n">count</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
+            <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;morethan2_sud&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">[</span><span class="n">race</span><span class="p">])</span>
+
+        <span class="c1"># Change counts to percentage of the race sample</span>
+        <span class="n">resultsDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">countDict</span><span class="p">:</span>
+            <span class="n">resultsDict</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">divByAllAges</span><span class="p">(</span><span class="n">countDict</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to find general SUD counts because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">resultsDict</span></div>
+
+<div class="viewcode-block" id="allAgesCategorisedSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.allAgesCategorisedSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.allAgesCategorisedSUD&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">allAgesCategorisedSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;alc&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;cannabis&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;amphe&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;halluc&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;nicotin&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;cocaine&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;opioids&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;sedate&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;others&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;polysub&quot;</span><span class="p">:[],</span>
+            <span class="s2">&quot;inhalant&quot;</span><span class="p">:[]</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">sudcat</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">]:</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT </span>
+<span class="s1">                    count(*) </span>
+<span class="s1">                FROM </span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.sudcats t2</span>
+<span class="s1">                ON </span>
+<span class="s1">                    t1.siteid = t2.siteid </span>
+<span class="s1">                AND </span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                AND </span>
+<span class="s1">                    t2.</span><span class="si">{}</span><span class="s1"> = true</span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                    <span class="n">Identifier</span><span class="p">(</span><span class="n">sudcat</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                <span class="n">countDict</span><span class="p">[</span><span class="n">sudcat</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Change counts to percentage of the race sample</span>
+        <span class="n">resultsDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">countDict</span><span class="p">:</span>
+            <span class="n">resultsDict</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">divByAllAges</span><span class="p">(</span><span class="n">countDict</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to find categorised SUD counts because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">resultsDict</span></div>
+
+<div class="viewcode-block" id="divByAgeBins"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.divByAgeBins">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.divByAgeBins&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">divByAgeBins</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">lol</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;[summary]</span>
+<span class="sd">    </span>
+<span class="sd">    This function takes in a list of lists called lol, where lol[0] is the list of AAs, lol[0][0] is for ages 1-11 and lol[0][1] is for ages 12-17 and so forth</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">        lol {list of lists} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">resultLoL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../data/final/sampleCount.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">table1results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+    <span class="n">ageBinsAA</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ageBinsNHPI</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;NHPI&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ageBinsMR</span> <span class="o">=</span> <span class="n">table1results</span><span class="p">[</span><span class="s1">&#39;MR&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">resultLoL</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">round</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ageBinsAA</span><span class="p">)])</span>
+    <span class="n">resultLoL</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">round</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lol</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ageBinsNHPI</span><span class="p">)])</span>
+    <span class="n">resultLoL</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">round</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lol</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ageBinsMR</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">resultLoL</span></div>
+
+
+<div class="viewcode-block" id="ageBinnedGeneralSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.ageBinnedGeneralSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.ageBinnedGeneralSUD&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ageBinnedGeneralSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;any_sud&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;morethan2_sud&quot;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Find number of users in each race who have any SUD, separated into age bins</span>
+        <span class="n">any_sud</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span> <span class="s1">&#39;49&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">]):</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT </span>
+<span class="s1">                    count(*)</span>
+<span class="s1">                FROM </span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                ON </span>
+<span class="s1">                    t1.siteid = t2.siteid </span>
+<span class="s1">                AND </span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.race = </span><span class="si">{}</span><span class="s1"> </span>
+<span class="s1">                AND </span>
+<span class="s1">                    t1.age BETWEEN </span><span class="si">{}</span><span class="s1"> AND </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                AND</span>
+<span class="s1">                    t2.sud = true</span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">upper</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;any_sud&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+        <span class="c1"># Find number of users in each race who have &gt;2 SUD, separated into age bins</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;AA&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;35&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;50&quot;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;NHPI&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;35&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;50&quot;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;MR&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;35&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;50&quot;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span> <span class="s1">&#39;49&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">]):</span>
+
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT </span>
+<span class="s1">                    t2.alc,</span>
+<span class="s1">                    t2.cannabis,</span>
+<span class="s1">                    t2.amphe,</span>
+<span class="s1">                    t2.halluc,</span>
+<span class="s1">                    t2.nicotin,</span>
+<span class="s1">                    t2.cocaine,</span>
+<span class="s1">                    t2.opioids,</span>
+<span class="s1">                    t2.sedate,</span>
+<span class="s1">                    t2.others,</span>
+<span class="s1">                    t2.polysub,</span>
+<span class="s1">                    t2.inhalant</span>
+<span class="s1">                FROM</span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.sudcats t2</span>
+<span class="s1">                ON</span>
+<span class="s1">                    t1.siteid = t2.siteid </span>
+<span class="s1">                AND</span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                AND</span>
+<span class="s1">                    t1.age BETWEEN </span><span class="si">{}</span><span class="s1"> AND </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">upper</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                <span class="k">for</span> <span class="nb">tuple</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">tuple</span><span class="p">))</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+                        <span class="n">count</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">lower</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
+            <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;morethan2_sud&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">count</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="c1"># Change counts to percentage of the race sample</span>
+        <span class="n">resultsDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">countDict</span><span class="p">:</span>
+            <span class="n">resultsDict</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">divByAgeBins</span><span class="p">(</span><span class="n">countDict</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to find general SUD counts because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">resultsDict</span></div>
+
+<div class="viewcode-block" id="ageBinnedCategorisedSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.ageBinnedCategorisedSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.ageBinnedCategorisedSUD&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ageBinnedCategorisedSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">countDict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">sudcat</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sudcats&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">list1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table2_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+                <span class="n">list2</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span> <span class="s1">&#39;49&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">]):</span>
+                    <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                    SELECT </span>
+<span class="s1">                        count(*) </span>
+<span class="s1">                    FROM </span>
+<span class="s1">                        sarah.newtable1data t1</span>
+<span class="s1">                    INNER JOIN </span>
+<span class="s1">                        sarah.sudcats t2</span>
+<span class="s1">                    ON </span>
+<span class="s1">                        t1.siteid = t2.siteid </span>
+<span class="s1">                    AND </span>
+<span class="s1">                        t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                    WHERE </span>
+<span class="s1">                        t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                    AND </span>
+<span class="s1">                        t1.age BETWEEN </span><span class="si">{}</span><span class="s1"> AND </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                    AND </span>
+<span class="s1">                        t2.</span><span class="si">{}</span><span class="s1"> = true</span>
+<span class="s1">                    &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                        <span class="n">Literal</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span>
+                        <span class="n">Literal</span><span class="p">(</span><span class="n">upper</span><span class="p">),</span>
+                        <span class="n">Identifier</span><span class="p">(</span><span class="n">sudcat</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                    <span class="n">list2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">list1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list2</span><span class="p">)</span>
+            <span class="n">countDict</span><span class="p">[</span><span class="n">sudcat</span><span class="p">]</span> <span class="o">=</span> <span class="n">list1</span>
+
+        <span class="c1"># Change counts to percentage of the race sample</span>
+        <span class="n">resultsDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">countDict</span><span class="p">:</span>
+            <span class="n">resultsDict</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">divByAgeBins</span><span class="p">(</span><span class="n">countDict</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to find categorised SUD counts because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">resultsDict</span> </div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Author
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

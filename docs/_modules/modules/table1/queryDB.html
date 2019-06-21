@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.table1.queryDB &mdash; src  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> src
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../lib.html">lib package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../logs.html">logs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">modules package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper1.html">paper1 module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">src</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>modules.table1.queryDB</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for modules.table1.queryDB</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">logs</span> <span class="k">import</span> <span class="n">logDecorator</span> <span class="k">as</span> <span class="n">lD</span> 
+<span class="kn">import</span> <span class="nn">jsonref</span><span class="o">,</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="kn">from</span> <span class="nn">psycopg2.sql</span> <span class="k">import</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">lib.databaseIO</span> <span class="k">import</span> <span class="n">pgIO</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="k">import</span> <span class="n">wrap</span>
+
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/config.json&#39;</span><span class="p">))</span>
+<span class="n">table1_config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/modules/table1.json&#39;</span><span class="p">))</span>
+<span class="n">logBase</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;logBase&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.modules.table1.table1&#39;</span>
+
+<div class="viewcode-block" id="getRace"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.getRace">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getRace&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">getRace</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;print a line</span>
+<span class="sd">    </span>
+<span class="sd">    This function was used to generate the data for the raceCount.csv file, which </span>
+<span class="sd">    gets the race and count(race) for ALL the races in raw_data.background.</span>
+<span class="sd">    After manual selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file</span>
+<span class="sd">    Function was deleted from the main after use</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT </span>
+<span class="s1">        race,</span>
+<span class="s1">        COUNT(race)</span>
+<span class="s1">        FROM raw_data.background</span>
+<span class="s1">        GROUP BY race</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="c1"># data = [d[0] for d in data]</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;getRace failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="createTable1"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTable1">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getTable1data&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createTable1</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;print a line</span>
+<span class="sd">    </span>
+<span class="sd">    This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper</span>
+<span class="sd">    Variables that are used to filter at this stage are age, visit_type, sex and race. </span>
+<span class="sd">    Variable values that are to be included are found in the config file</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT </span>
+<span class="s1">            t1.age,</span>
+<span class="s1">            t1.visit_type, </span>
+<span class="s1">            t2.sex,</span>
+<span class="s1">            t2.race,</span>
+<span class="s1">            t1.siteid,</span>
+<span class="s1">            t1.backgroundid</span>
+<span class="s1">        FROM </span>
+<span class="s1">            raw_data.typepatient t1</span>
+<span class="s1">        INNER JOIN </span>
+<span class="s1">            raw_data.background t2</span>
+<span class="s1">        ON</span>
+<span class="s1">            t1.backgroundid = t2.id</span>
+<span class="s1">        AND</span>
+<span class="s1">            t1.siteid = t2.siteid</span>
+<span class="s1">        WHERE </span>
+<span class="s1">            CAST (t1.age AS INTEGER) &lt; 100</span>
+<span class="s1">        AND</span>
+<span class="s1">            t1.visit_type in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">        AND</span>
+<span class="s1">            t2.sex in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">        AND</span>
+<span class="s1">            t2.race in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;setting&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">])),</span>
+            <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">])),</span>
+            <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]))</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to generate table </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="countMainRace"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countMainRace">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countMainRace&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">countMainRace</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function queries the database and returns the counts of each main race as specified in the paper    </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            SELECT</span>
+<span class="s1">                COUNT(*)</span>
+<span class="s1">            FROM </span>
+<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">            INNER JOIN </span>
+<span class="s1">                sarah.diagnoses t2</span>
+<span class="s1">            ON</span>
+<span class="s1">                t1.backgroundid = t2.backgroundid</span>
+<span class="s1">            AND</span>
+<span class="s1">                t1.siteid = t2.siteid</span>
+<span class="s1">            WHERE</span>
+<span class="s1">                race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+            <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;countMainRace failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+<div class="viewcode-block" id="countRaceAge"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countRaceAge">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countRaceAge&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">countRaceAge</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span> <span class="s1">&#39;49&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">]):</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT</span>
+<span class="s1">                    count(*)</span>
+<span class="s1">                FROM </span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                ON</span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                AND</span>
+<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.age &gt;= </span><span class="si">{}</span><span class="s1"> AND t1.age &lt;= </span><span class="si">{}</span><span class="s1"> and t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">upper</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                <span class="c1">#print(&quot;age range: &quot;+str(lower)+&quot;-&quot;+ str(upper)+&quot; count: &quot;+str(data))</span>
+                <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;countRaceAge failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+<div class="viewcode-block" id="countRaceSex"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countRaceSex">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countRaceSex&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">countRaceSex</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sex</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">]:</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT</span>
+<span class="s1">                    count(*)</span>
+<span class="s1">                FROM </span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                ON</span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                AND</span>
+<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.sex = </span><span class="si">{}</span><span class="s1"> AND t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">sex</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;countRaceSex failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+<div class="viewcode-block" id="countRaceSetting"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countRaceSetting">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countRaceSetting&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">countRaceSetting</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">]:</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT</span>
+<span class="s1">                    count(*)</span>
+<span class="s1">                FROM </span>
+<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                INNER JOIN </span>
+<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                ON</span>
+<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
+<span class="s1">                AND</span>
+<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                WHERE </span>
+<span class="s1">                    t1.visit_type = </span><span class="si">{}</span><span class="s1"> AND t1.race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+                <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;countRaceSetting failed because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+<div class="viewcode-block" id="genAllKeys"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.genAllKeys">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genAllKeys&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">genAllKeys</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function generates a .csv file for each race&#39;s patients&#39; (siteid, backgroundid)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span> 
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT </span>
+<span class="s1">            siteid, </span>
+<span class="s1">            backgroundid</span>
+<span class="s1">        FROM</span>
+<span class="s1">            sarah.test2</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+        <span class="n">csvfile</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/firstfilter_allkeys.csv&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span><span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">csv_output</span><span class="o">=</span><span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">csv_output</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to generate list of patients because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> </div>
+
+<div class="viewcode-block" id="addDiagCols"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.addDiagCols">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.addDiagCols&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">addDiagCols</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;[summary]</span>
+<span class="sd">    </span>
+<span class="sd">    [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">all_userkeys</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/firstfilter_allkeys.csv&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">all_userkeys</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">readCSV</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">readCSV</span><span class="p">):</span>
+
+                <span class="n">getQuery</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                SELECT</span>
+<span class="s1">                    siteid,</span>
+<span class="s1">                    backgroundid,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as mood,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as anxiety,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adjustment,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adhd,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sud,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as psyc,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as pers,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as childhood,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as impulse,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as cognitive,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as eating,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as smtf,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as disso,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sleep,</span>
+<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as fd</span>
+<span class="s1">                FROM</span>
+<span class="s1">                    raw_data.pdiagnose</span>
+<span class="s1">                WHERE</span>
+<span class="s1">                    siteid = </span><span class="si">{}</span><span class="s1"> and backgroundid = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                GROUP BY</span>
+<span class="s1">                    siteid, backgroundid</span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;mood&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;anxiety&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;adjustment&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;adhd&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;sud&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;psyc&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;pers&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;childhood&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;impulse&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;cognitive&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;eating&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;smtf&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;disso&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;sleep&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;fd&quot;</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="p">)</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">getQuery</span><span class="p">)</span>
+
+                <span class="n">pushQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                INSERT INTO </span>
+<span class="s1">                    sarah.test3(siteid, backgroundid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)</span>
+<span class="s1">                VALUES</span>
+<span class="s1">                    </span><span class="si">%s</span><span class="s1"></span>
+<span class="s1">                &#39;&#39;&#39;</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitDataList</span><span class="p">(</span><span class="n">pushQuery</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to add columns because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Author
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
