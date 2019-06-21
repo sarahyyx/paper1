@@ -11,6 +11,8 @@ Subpackages
     modules.reportWriter
     modules.table1
     modules.table2
+    modules.table3
+    modules.table4
 
 Module contents
 ---------------

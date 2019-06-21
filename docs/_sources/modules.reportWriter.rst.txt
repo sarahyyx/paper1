@@ -36,6 +36,22 @@ modules.reportWriter.writeTable2 module
     :undoc-members:
     :show-inheritance:
 
+modules.reportWriter.writeTable3 module
+---------------------------------------
+
+.. automodule:: modules.reportWriter.writeTable3
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+modules.reportWriter.writeTable4 module
+---------------------------------------
+
+.. automodule:: modules.reportWriter.writeTable4
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

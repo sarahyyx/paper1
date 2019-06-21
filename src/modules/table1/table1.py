@@ -82,38 +82,38 @@ def main(logger, resultsDict):
         "MR":[]
     }
 
-    ## Run these two lines to create sarah.diagnoses table
+    # Run these two lines to create sarah.diagnoses table
+    queryDB.genAllKeys()
+    queryDB.addDiagCols()
     ## TO DO AFTER CREATING:
     ## In Postgresql, delete rows with all columns = false 
-    # queryDB.genAllKeys()
-    # queryDB.addDiagCols()
 
-    raceCounts = queryDB.countMainRace()
-    countDict["AA"].append(raceCounts[0])
-    countDict["NHPI"].append(raceCounts[1])
-    countDict["MR"].append(raceCounts[2])
+    # raceCounts = queryDB.countMainRace()
+    # countDict["AA"].append(raceCounts[0])
+    # countDict["NHPI"].append(raceCounts[1])
+    # countDict["MR"].append(raceCounts[2])
 
-    raceAgeCounts = queryDB.countRaceAge()
-    countDict["AA"].append(raceAgeCounts[0])
-    countDict["NHPI"].append(raceAgeCounts[1])
-    countDict["MR"].append(raceAgeCounts[2])
+    # raceAgeCounts = queryDB.countRaceAge()
+    # countDict["AA"].append(raceAgeCounts[0])
+    # countDict["NHPI"].append(raceAgeCounts[1])
+    # countDict["MR"].append(raceAgeCounts[2])
 
-    raceSexCounts = queryDB.countRaceSex()
-    countDict["AA"].append(raceSexCounts[0])
-    countDict["NHPI"].append(raceSexCounts[1])
-    countDict["MR"].append(raceSexCounts[2])
+    # raceSexCounts = queryDB.countRaceSex()
+    # countDict["AA"].append(raceSexCounts[0])
+    # countDict["NHPI"].append(raceSexCounts[1])
+    # countDict["MR"].append(raceSexCounts[2])
 
-    raceSettingCounts = queryDB.countRaceSetting()
-    countDict["AA"].append(raceSettingCounts[0])
-    countDict["NHPI"].append(raceSettingCounts[1])
-    countDict["MR"].append(raceSettingCounts[2])
+    # raceSettingCounts = queryDB.countRaceSetting()
+    # countDict["AA"].append(raceSettingCounts[0])
+    # countDict["NHPI"].append(raceSettingCounts[1])
+    # countDict["MR"].append(raceSettingCounts[2])
 
-    print(countDict)
+    # print(countDict)
 
-    obj = json.dumps(countDict)
-    f = open("../data/final/sampleCount.json","w+")
-    f.write(obj)
-    f.close()
+    # obj = json.dumps(countDict)
+    # f = open("../data/final/sampleCount.json","w+")
+    # f.write(obj)
+    # f.close()
 
     print('Getting out of module table1')
     print('-'*30)
