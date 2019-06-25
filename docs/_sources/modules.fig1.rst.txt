@@ -18,13 +18,6 @@ modules.fig1.queryDB module
    :members:
    :undoc-members:
    :show-inheritance:
-modules.fig1.utils module
--------------------------
-
-.. automodule:: modules.fig1.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 
 Module contents

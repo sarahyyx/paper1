@@ -182,7 +182,20 @@
 <dl class="function">
 <dt id="modules.table3.queryDB.addmorethan2sudcolumn">
 <code class="sig-prename descclassname">modules.table3.queryDB.</code><code class="sig-name descname">addmorethan2sudcolumn</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/queryDB.html#addmorethan2sudcolumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.queryDB.addmorethan2sudcolumn" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Populates the ‘morethan2sud’ column in sarah.test4</p>
+<p>This function counts the number of ‘True’ for each mental disorder
+for each user in sarah.test4. If they have more than 1 ‘True’ value,
+their ‘morethan2sud’ column will be set to ‘True’.</p>
+<dl class="simple">
+<dt>Decorators:</dt><dd><p>lD.log</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="data">
 <dt id="modules.table3.queryDB.config">
@@ -192,8 +205,10 @@
 <dl class="function">
 <dt id="modules.table3.queryDB.createDF_allRaces_anySUD">
 <code class="sig-prename descclassname">modules.table3.queryDB.</code><code class="sig-name descname">createDF_allRaces_anySUD</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/queryDB.html#createDF_allRaces_anySUD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.queryDB.createDF_allRaces_anySUD" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>[description]</p>
+<dd><p>Creates dataframe for total sample, dependent variable = any sud</p>
+<p>This function creates a dataframe for the total sample, where the
+dependent variable is any sud and the independent variables are:
+race, age, sex and setting.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -211,8 +226,10 @@
 <dl class="function">
 <dt id="modules.table3.queryDB.createDF_allRaces_morethan2SUD">
 <code class="sig-prename descclassname">modules.table3.queryDB.</code><code class="sig-name descname">createDF_allRaces_morethan2SUD</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/queryDB.html#createDF_allRaces_morethan2SUD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.queryDB.createDF_allRaces_morethan2SUD" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>[description]</p>
+<dd><p>Creates dataframe for total sample, dependent variable = more than 2 sud</p>
+<p>This function creates a dataframe for the total sample, where the
+dependent variable is &gt;=2 sud and the independent variables are:
+race, age, sex and setting.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -230,8 +247,11 @@
 <dl class="function">
 <dt id="modules.table3.queryDB.createDF_byRace_anySUD">
 <code class="sig-prename descclassname">modules.table3.queryDB.</code><code class="sig-name descname">createDF_byRace_anySUD</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">race</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/queryDB.html#createDF_byRace_anySUD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.queryDB.createDF_byRace_anySUD" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>[description]</p>
+<dd><p>Creates dataframe for a sample from a specified race,
+dependent variable = any sud</p>
+<p>This function creates a dataframe for a sample from a specified race,
+where the  dependent variable is any sud and the independent variables
+are: age, sex and setting.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -239,8 +259,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -252,8 +272,11 @@
 <dl class="function">
 <dt id="modules.table3.queryDB.createDF_byRace_morethan2SUD">
 <code class="sig-prename descclassname">modules.table3.queryDB.</code><code class="sig-name descname">createDF_byRace_morethan2SUD</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">race</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/queryDB.html#createDF_byRace_morethan2SUD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.queryDB.createDF_byRace_morethan2SUD" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>[description]</p>
+<dd><p>Creates dataframe for a sample from a specified race,
+dependent variable = more than 2 sud</p>
+<p>This function creates a dataframe for a sample from a specified race,
+where the  dependent variable is &gt;=2 sud and the independent variables
+are: age, sex and setting.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -261,8 +284,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -334,8 +357,8 @@ overwriting command line arguments as needed.</p></li>
 <dl class="function">
 <dt id="modules.table3.utils.logRegress">
 <code class="sig-prename descclassname">modules.table3.utils.</code><code class="sig-name descname">logRegress</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table3/utils.html#logRegress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table3.utils.logRegress" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>This function gets the logistic regression coefficients for a dataframe that is passed in</p>
+<dd><p>Performs logistic regression</p>
+<p>This function gets the logistic regression coefficients for a dataframe that is passed in.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -343,8 +366,8 @@ overwriting command line arguments as needed.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>df</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{dataframe} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>df</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -358,28 +381,38 @@ overwriting command line arguments as needed.</p></li>
 </div>
 <div class="section" id="module-modules.table3">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modules.table3" title="Permalink to this headline">¶</a></h2>
-<p>[one line description of the module]</p>
-<p>[this is a
-multiline description of what the module does.]</p>
+<p>Performs logistic regression for any sud and more than 2 sud</p>
+<p>This module performs logistic regression for any sud and more than 2 sud for the
+total sample of users as well as for users from each race, then returns the odds
+ratios and the confidence intervals for each subgroup.</p>
 <div class="section" id="before-you-begin">
 <h3>Before you Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h3>
 <p>Make sure that the configuration files are properly set, as mentioned in the Specifcations
-section. Also, [add any other housekeeping that needs to be done before starting the module].</p>
+section.</p>
+<p>Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format
+by using an online csv -&gt; json converter, then copying the json file into the table1.json config
+file under [“params”][“categories”] and [“params”][“sudcats”].</p>
 </div>
 <div class="section" id="details-of-operation">
 <h3>Details of Operation<a class="headerlink" href="#details-of-operation" title="Permalink to this headline">¶</a></h3>
-<p>[
-Over here, you should provide as much information as possible for what the modules does.
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]</p>
+<p>Firstly, the function addmorethan2sudcolumn() in queryDB is run to populate the
+column ‘morethan2sud’ in sarah.test4. If the user has more than 2 SUD diagnoses,
+their ‘morethan2sud’ column will be set to ‘True’. This function is only run on
+the first time to populate the ‘morethan2sud’ column.</p>
+<p>The rest of the functions in queryDB creates separate dataframes for each subgroup,
+which will be passed into the utils.logRegress() function for fitting into the
+logistic regression model.</p>
+<p>After passing into the logRegress() function, the odds ratios and confidence intervals
+for each subgroup is returned.</p>
 </div>
 <div class="section" id="results">
 <h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
-<p>[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates.
-]</p>
+<p>Tables updated:
+sarah.test4</p>
+<p>Files created:
+../data/final/oddsratios_allRaces.json
+../data/final/oddsratios_anysud_byRace.json
+../data/final/oddsratios_morethan2sud_byRace.json</p>
 </div>
 <div class="section" id="specifications">
 <h3>Specifications:<a class="headerlink" href="#specifications" title="Permalink to this headline">¶</a></h3>
@@ -388,27 +421,23 @@ unless otherwise specified will be placed in the folder <code class="docutils li
 folder.</p>
 <div class="section" id="specifications-for-the-database">
 <h4>Specifications for the database:<a class="headerlink" href="#specifications-for-the-database" title="Permalink to this headline">¶</a></h4>
-<p>[
-Note the tables within the various databases that will be affected by this module.
-]</p>
+<p>sarah.test4</p>
 </div>
 <div class="section" id="specifications-for-modules-json">
 <h4>Specifications for <code class="docutils literal notranslate"><span class="pre">modules.json</span></code><a class="headerlink" href="#specifications-for-modules-json" title="Permalink to this headline">¶</a></h4>
 <p>Make sure that the <code class="docutils literal notranslate"><span class="pre">execute</span></code> statement within the modules file is set to True.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;module1&quot;</span><span class="p">,</span>
-<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/module1/module1.py&quot;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;table3&quot;</span><span class="p">,</span>
+<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/table3/table3.py&quot;</span><span class="p">,</span>
 <span class="hll"><span class="s2">&quot;execute&quot;</span>    <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
 </span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="s2">&quot;owner&quot;</span>      <span class="p">:</span> <span class="s2">&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="specification-for-any-other-files">
-<h4>Specification for [any other files]<a class="headerlink" href="#specification-for-any-other-files" title="Permalink to this headline">¶</a></h4>
-<p>[
-Make sure that you specify all the other files whose parameters will need to be
-changed.
-]</p>
+<div class="section" id="specification-for-table3-json">
+<h4>Specification for table3.json<a class="headerlink" href="#specification-for-table3-json" title="Permalink to this headline">¶</a></h4>
+<p>Ensure that the DSM numbers for each mental disorder and for each SUD substance
+are specified under [“params”][“categories”] and [“params”][“sudcats”].</p>
 </div>
 </div>
 </div>

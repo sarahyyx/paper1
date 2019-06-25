@@ -167,12 +167,12 @@
 
 <div class="viewcode-block" id="getRace"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.getRace">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getRace&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">getRace</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;print a line</span>
+    <span class="sd">&#39;&#39;&#39;Generates raceCount.csv</span>
 <span class="sd">    </span>
 <span class="sd">    This function was used to generate the data for the raceCount.csv file, which </span>
 <span class="sd">    gets the race and count(race) for ALL the races in raw_data.background.</span>
 <span class="sd">    After manual selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file</span>
-<span class="sd">    Function was deleted from the main after use</span>
+<span class="sd">    Function was deleted from the main after use.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -198,9 +198,9 @@
 
     <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="createTable1"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTable1">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getTable1data&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">createTable1</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;print a line</span>
+<div class="viewcode-block" id="createTest1"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTest1">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getTable1data&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createTest1</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Creates the table sarah.test1</span>
 <span class="sd">    </span>
 <span class="sd">    This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper</span>
 <span class="sd">    Variables that are used to filter at this stage are age, visit_type, sex and race. </span>
@@ -214,6 +214,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO sarah.test1 (age, visit_type, sex, race, siteid, backgroundid)</span>
 <span class="s1">        SELECT </span>
 <span class="s1">            t1.age,</span>
 <span class="s1">            t1.visit_type, </span>
@@ -246,10 +247,69 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to generate table </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">return</span></div>
 
+<div class="viewcode-block" id="relabelVar"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.relabelVar">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.relabelVar&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">relabelVar</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Relabels column values</span>
+<span class="sd">    </span>
+<span class="sd">    This function relabels Sex, Race, Settings values to standardised values.</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">relabel_sex_success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sex</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">]:</span>
+            <span class="n">sex_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            UPDATE sarah.test2</span>
+<span class="s1">            SET sex = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            WHERE sex in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">sex</span><span class="p">),</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">][</span><span class="n">sex</span><span class="p">]))</span> 
+                <span class="p">)</span>
+            <span class="n">relabel_sex_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">sex_query</span><span class="p">))</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_sex_success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling sex not successful!&quot;</span><span class="p">)</span>
+
+        <span class="n">relabel_race_success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">race_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            UPDATE sarah.test2</span>
+<span class="s1">            SET race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            WHERE race in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">][</span><span class="n">race</span><span class="p">]))</span> 
+                <span class="p">)</span>
+            <span class="n">relabel_race_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">race_query</span><span class="p">))</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_race_success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling race not successful!&quot;</span><span class="p">)</span>
+
+        <span class="n">relabel_setting_success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">]:</span>
+            <span class="n">setting_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            UPDATE sarah.test2</span>
+<span class="s1">            SET visit_type = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            WHERE visit_type in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">][</span><span class="n">setting</span><span class="p">]))</span> 
+                <span class="p">)</span>
+            <span class="n">relabel_setting_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">setting_query</span><span class="p">))</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_setting_success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling setting not successful!&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to update table test2 because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="countMainRace"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countMainRace">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countMainRace&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">countMainRace</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    This function queries the database and returns the counts of each main race as specified in the paper    </span>
+<span class="sd">    </span>
+<span class="sd">    This function queries the database and returns the counts of each main race: AA, NHPI, MR   </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -264,9 +324,9 @@
 <span class="s1">            SELECT</span>
 <span class="s1">                COUNT(*)</span>
 <span class="s1">            FROM </span>
-<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">                sarah.test2 t1</span>
 <span class="s1">            INNER JOIN </span>
-<span class="s1">                sarah.diagnoses t2</span>
+<span class="s1">                sarah.test3 t2</span>
 <span class="s1">            ON</span>
 <span class="s1">                t1.backgroundid = t2.backgroundid</span>
 <span class="s1">            AND</span>
@@ -288,6 +348,8 @@
 <span class="k">def</span> <span class="nf">countRaceAge</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
+<span class="sd">    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted into age bins.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    logger : {logging.Logger}</span>
@@ -303,9 +365,9 @@
 <span class="s1">                SELECT</span>
 <span class="s1">                    count(*)</span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
 <span class="s1">                    t1.backgroundid = t2.backgroundid</span>
 <span class="s1">                AND</span>
@@ -331,6 +393,8 @@
 <span class="k">def</span> <span class="nf">countRaceSex</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
+<span class="sd">    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted by sex.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    logger : {logging.Logger}</span>
@@ -346,9 +410,9 @@
 <span class="s1">                SELECT</span>
 <span class="s1">                    count(*)</span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
 <span class="s1">                    t1.backgroundid = t2.backgroundid</span>
 <span class="s1">                AND</span>
@@ -372,6 +436,8 @@
 <span class="k">def</span> <span class="nf">countRaceSetting</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
+<span class="sd">    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted by treatment setting.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    logger : {logging.Logger}</span>
@@ -387,9 +453,9 @@
 <span class="s1">                SELECT</span>
 <span class="s1">                    count(*)</span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
 <span class="s1">                    t1.backgroundid = t2.backgroundid</span>
 <span class="s1">                AND</span>
@@ -412,7 +478,9 @@
 <div class="viewcode-block" id="genAllKeys"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.genAllKeys">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genAllKeys&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">genAllKeys</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    This function generates a .csv file for each race&#39;s patients&#39; (siteid, backgroundid)</span>
+<span class="sd">    </span>
+<span class="sd">    This function generates a .csv file of (siteid, backgroundid) of users after the first filter of age, race, sex and setting are done.</span>
+<span class="sd">    The .csv file will then be used for the second filter by dsmno.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -447,9 +515,11 @@
 
 <div class="viewcode-block" id="addDiagCols"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.addDiagCols">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.addDiagCols&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">addDiagCols</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creating sarah.test3 table</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    Using the .csv file of the first filtered users&#39; [siteid, backgroundid], these users&#39; DSM numbers are aggregated into an array and compared against the array of DSM numbers of a specific diagnosis.</span>
+<span class="sd">    If the user&#39;s DSM numbers are found in the diagnosis array, the column representing the diagnosis is filled in with a &quot;True&quot; value for the user, and vice versa.</span>
+<span class="sd">    The columns created are stored in a new table sarah.test3, then the second filter is completed by removing users that have all their diagnosis columns set to &quot;False&quot; (i.e. they have no mental disorder test3 that we have specified) </span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>

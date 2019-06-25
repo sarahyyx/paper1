@@ -157,12 +157,32 @@
 <span class="kn">from</span> <span class="nn">psycopg2.sql</span> <span class="k">import</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Literal</span>
 
 <span class="kn">from</span> <span class="nn">lib.databaseIO</span> <span class="k">import</span> <span class="n">pgIO</span>
-<span class="kn">from</span> <span class="nn">modules.fig1</span> <span class="k">import</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">modules.fig1</span> <span class="k">import</span> <span class="n">queryDB</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/config.json&#39;</span><span class="p">))</span>
+<span class="n">fig1_config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/modules/fig1.json&#39;</span><span class="p">))</span>
 <span class="n">logBase</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;logBase&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.modules.fig1.fig1&#39;</span>
 
+<div class="viewcode-block" id="removeLowPrev"><a class="viewcode-back" href="../../../modules.fig1.html#modules.fig1.fig1.removeLowPrev">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.removeLowPrev&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">removeLowPrev</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    This function removes those diagnoses that have a low prevalence.   </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logger : {logging.Logger}</span>
+<span class="sd">        The logger used for logging error information</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span> 
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">fig1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;min_prevalence&quot;</span><span class="p">]}</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to remove low prevalence because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../modules.fig1.html#modules.fig1.fig1.main">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.main&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">resultsDict</span><span class="p">):</span>
@@ -192,7 +212,7 @@
 
     <span class="nb">print</span><span class="p">(</span><span class="n">countDict</span><span class="p">)</span>
 
-    <span class="n">final_countDict</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">removeLowPrev</span><span class="p">(</span><span class="n">countDict</span><span class="p">)</span>
+    <span class="n">final_countDict</span> <span class="o">=</span> <span class="n">removeLowPrev</span><span class="p">(</span><span class="n">countDict</span><span class="p">)</span>
 
     <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">final_countDict</span><span class="p">)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../data/final/diagnosesCount.json&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">)</span>

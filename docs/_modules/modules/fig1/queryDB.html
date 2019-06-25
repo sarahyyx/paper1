@@ -166,7 +166,7 @@
 
 <div class="viewcode-block" id="genDiagCount"><a class="viewcode-back" href="../../../modules.fig1.html#modules.fig1.queryDB.genDiagCount">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genDiagCount&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">genDiagCount</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
 <span class="sd">    This function generates the percentage of users per race that has a certain diagnosis</span>
 <span class="sd">    </span>
@@ -208,9 +208,9 @@
 <span class="s1">                SELECT </span>
 <span class="s1">                    count(*)</span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.diagnoses t1</span>
+<span class="s1">                    sarah.test3 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.newtable1data t2</span>
+<span class="s1">                    sarah.test2 t2</span>
 <span class="s1">                ON </span>
 <span class="s1">                    t1.siteid = t2.siteid</span>
 <span class="s1">                AND </span>

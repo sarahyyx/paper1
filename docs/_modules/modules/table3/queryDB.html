@@ -168,6 +168,18 @@
 
 <div class="viewcode-block" id="addmorethan2sudcolumn"><a class="viewcode-back" href="../../../modules.table3.html#modules.table3.queryDB.addmorethan2sudcolumn">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.addmorethan2sudcolumn&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">addmorethan2sudcolumn</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Populates the &#39;morethan2sud&#39; column in sarah.test4</span>
+<span class="sd">    </span>
+<span class="sd">    This function counts the number of &#39;True&#39; for each mental disorder </span>
+<span class="sd">    for each user in sarah.test4. If they have more than 1 &#39;True&#39; value,</span>
+<span class="sd">    their &#39;morethan2sud&#39; column will be set to &#39;True&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        SELECT </span>
@@ -185,9 +197,9 @@
 <span class="s1">            t2.polysub,</span>
 <span class="s1">            t2.inhalant</span>
 <span class="s1">        FROM</span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.sudcats t2</span>
+<span class="s1">            sarah.test4 t2</span>
 <span class="s1">        ON</span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND</span>
@@ -212,7 +224,7 @@
             <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">readCSV</span><span class="p">):</span>
                 <span class="n">updateQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                UPDATE </span>
-<span class="s1">                    sarah.sudcats</span>
+<span class="s1">                    sarah.test4</span>
 <span class="s1">                SET </span>
 <span class="s1">                    morethan2sud = True</span>
 <span class="s1">                WHERE</span>
@@ -220,15 +232,16 @@
 <span class="s1">                &#39;&#39;&#39;</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">updateQuery</span><span class="p">,</span> <span class="n">user</span><span class="p">))</span>
 
-        <span class="c1">#Run this query in Postgres to update column&#39;s null values to false</span>
-        <span class="c1"># updateQuery = &#39;&#39;&#39;</span>
-        <span class="c1"># UPDATE </span>
-        <span class="c1">#     sarah.sudcats</span>
-        <span class="c1"># SET </span>
-        <span class="c1">#     morethan2sud = False</span>
-        <span class="c1"># WHERE</span>
-        <span class="c1">#    morethan2sud is null</span>
-        <span class="c1"># &#39;&#39;&#39;</span>
+        <span class="c1">#Update column&#39;s null values to false</span>
+        <span class="n">updateQuery2</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        UPDATE </span>
+<span class="s1">            sarah.test4</span>
+<span class="s1">        SET </span>
+<span class="s1">            morethan2sud = False</span>
+<span class="s1">        WHERE</span>
+<span class="s1">           morethan2sud is null</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">updateQuery2</span><span class="p">))</span>
 
         
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -238,9 +251,11 @@
 
 <div class="viewcode-block" id="createDF_allRaces_anySUD"><a class="viewcode-back" href="../../../modules.table3.html#modules.table3.queryDB.createDF_allRaces_anySUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createDF_allRaces_anySUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createDF_allRaces_anySUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creates dataframe for total sample, dependent variable = any sud</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates a dataframe for the total sample, where the </span>
+<span class="sd">    dependent variable is any sud and the independent variables are: </span>
+<span class="sd">    race, age, sex and setting.</span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
@@ -263,9 +278,9 @@
 <span class="s1">            t1.visit_type</span>
 <span class="s1">            </span>
 <span class="s1">        FROM </span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.diagnoses t2</span>
+<span class="s1">            sarah.test3 t2</span>
 <span class="s1">        ON </span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND </span>
@@ -313,9 +328,11 @@
 
 <div class="viewcode-block" id="createDF_allRaces_morethan2SUD"><a class="viewcode-back" href="../../../modules.table3.html#modules.table3.queryDB.createDF_allRaces_morethan2SUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createDF_allRaces_morethan2SUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createDF_allRaces_morethan2SUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creates dataframe for total sample, dependent variable = more than 2 sud</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates a dataframe for the total sample, where the </span>
+<span class="sd">    dependent variable is &gt;=2 sud and the independent variables are: </span>
+<span class="sd">    race, age, sex and setting.</span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
@@ -338,9 +355,9 @@
 <span class="s1">            t1.visit_type</span>
 <span class="s1">            </span>
 <span class="s1">        FROM </span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.sudcats t2</span>
+<span class="s1">            sarah.test4 t2</span>
 <span class="s1">        ON </span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND </span>
@@ -388,16 +405,19 @@
 
 <div class="viewcode-block" id="createDF_byRace_anySUD"><a class="viewcode-back" href="../../../modules.table3.html#modules.table3.queryDB.createDF_byRace_anySUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createDF_byRace_anySUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createDF_byRace_anySUD</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">race</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creates dataframe for a sample from a specified race, </span>
+<span class="sd">    dependent variable = any sud</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates a dataframe for a sample from a specified race, </span>
+<span class="sd">    where the  dependent variable is any sud and the independent variables </span>
+<span class="sd">    are: age, sex and setting.</span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
 <span class="sd">    </span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        logger {[type]} -- [description]</span>
-<span class="sd">        race {[type]} -- [description]</span>
+<span class="sd">        race {str} -- [description]</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        [type] -- [description]</span>
@@ -413,9 +433,9 @@
 <span class="s1">            t1.visit_type</span>
 <span class="s1">            </span>
 <span class="s1">        FROM </span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.diagnoses t2</span>
+<span class="s1">            sarah.test3 t2</span>
 <span class="s1">        ON </span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND </span>
@@ -463,16 +483,19 @@
 
 <div class="viewcode-block" id="createDF_byRace_morethan2SUD"><a class="viewcode-back" href="../../../modules.table3.html#modules.table3.queryDB.createDF_byRace_morethan2SUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createDF_byRace_morethan2SUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createDF_byRace_morethan2SUD</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">race</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creates dataframe for a sample from a specified race, </span>
+<span class="sd">    dependent variable = more than 2 sud</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates a dataframe for a sample from a specified race, </span>
+<span class="sd">    where the  dependent variable is &gt;=2 sud and the independent variables </span>
+<span class="sd">    are: age, sex and setting.</span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
 <span class="sd">    </span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        logger {[type]} -- [description]</span>
-<span class="sd">        race {[type]} -- [description]</span>
+<span class="sd">        race {str} -- [description]</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        [type] -- [description]</span>
@@ -488,9 +511,9 @@
 <span class="s1">            t1.visit_type</span>
 <span class="s1">            </span>
 <span class="s1">        FROM </span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.sudcats t2</span>
+<span class="s1">            sarah.test4 t2</span>
 <span class="s1">        ON </span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND </span>
