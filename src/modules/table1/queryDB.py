@@ -18,12 +18,12 @@ logBase = config['logging']['logBase'] + '.modules.table1.table1'
 
 @lD.log(logBase + '.getRace')
 def getRace(logger):
-    '''print a line
+    '''Generates raceCount.csv
     
     This function was used to generate the data for the raceCount.csv file, which 
     gets the race and count(race) for ALL the races in raw_data.background.
     After manual selection and grouping, the races under each race in the paper (AA, NHPI, MR) were manually entered into the json config file
-    Function was deleted from the main after use
+    Function was deleted from the main after use.
     
     Parameters
     ----------
@@ -50,8 +50,8 @@ def getRace(logger):
     return data
 
 @lD.log(logBase + '.getTable1data')
-def createTable1(logger):
-    '''print a line
+def createTest1(logger):
+    '''Creates the table sarah.test1
     
     This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper
     Variables that are used to filter at this stage are age, visit_type, sex and race. 
@@ -65,6 +65,7 @@ def createTable1(logger):
 
     try:
         query = SQL('''
+        INSERT INTO sarah.test1 (age, visit_type, sex, race, siteid, backgroundid)
         SELECT 
             t1.age,
             t1.visit_type, 
@@ -100,7 +101,8 @@ def createTable1(logger):
 @lD.log(logBase + '.countMainRace')
 def countMainRace(logger):
     '''
-    This function queries the database and returns the counts of each main race as specified in the paper    
+    
+    This function queries the database and returns the counts of each main race: AA, NHPI, MR   
     
     Parameters
     ----------
@@ -115,9 +117,9 @@ def countMainRace(logger):
             SELECT
                 COUNT(*)
             FROM 
-                sarah.newtable1data t1
+                sarah.test2 t1
             INNER JOIN 
-                sarah.diagnoses t2
+                sarah.test3 t2
             ON
                 t1.backgroundid = t2.backgroundid
             AND
@@ -139,6 +141,8 @@ def countMainRace(logger):
 def countRaceAge(logger):
     '''
     
+    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted into age bins.
+
     Parameters
     ----------
     logger : {logging.Logger}
@@ -154,9 +158,9 @@ def countRaceAge(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.diagnoses t2
+                    sarah.test3 t2
                 ON
                     t1.backgroundid = t2.backgroundid
                 AND
@@ -182,6 +186,8 @@ def countRaceAge(logger):
 def countRaceSex(logger):
     '''
     
+    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted by sex.
+
     Parameters
     ----------
     logger : {logging.Logger}
@@ -197,9 +203,9 @@ def countRaceSex(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.diagnoses t2
+                    sarah.test3 t2
                 ON
                     t1.backgroundid = t2.backgroundid
                 AND
@@ -223,6 +229,8 @@ def countRaceSex(logger):
 def countRaceSetting(logger):
     '''
     
+    This function queries the database and returns the counts of each main race: AA, NHPI, MR sorted by treatment setting.
+
     Parameters
     ----------
     logger : {logging.Logger}
@@ -238,9 +246,9 @@ def countRaceSetting(logger):
                 SELECT
                     count(*)
                 FROM 
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.diagnoses t2
+                    sarah.test3 t2
                 ON
                     t1.backgroundid = t2.backgroundid
                 AND
@@ -263,7 +271,9 @@ def countRaceSetting(logger):
 @lD.log(logBase + '.genAllKeys')
 def genAllKeys(logger):
     '''
-    This function generates a .csv file for each race's patients' (siteid, backgroundid)
+    
+    This function generates a .csv file of (siteid, backgroundid) of users after the first filter of age, race, sex and setting are done.
+    The .csv file will then be used for the second filter by dsmno.
     
     Parameters
     ----------
@@ -298,9 +308,11 @@ def genAllKeys(logger):
 
 @lD.log(logBase + '.addDiagCols')
 def addDiagCols(logger):
-    '''[summary]
+    '''Creating sarah.test3 table
     
-    [description]
+    Using the .csv file of the first filtered users' [siteid, backgroundid], these users' DSM numbers are aggregated into an array and compared against the array of DSM numbers of a specific diagnosis.
+    If the user's DSM numbers are found in the diagnosis array, the column representing the diagnosis is filled in with a "True" value for the user, and vice versa.
+    The columns created are stored in a new table sarah.test3, then the second filter is completed by removing users that have all their diagnosis columns set to "False" (i.e. they have no mental disorder test3 that we have specified) 
     
     Decorators:
         lD.log

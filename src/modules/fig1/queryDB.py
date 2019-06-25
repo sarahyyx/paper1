@@ -59,9 +59,9 @@ def genDiagCount(logger, filePath):
                 SELECT 
                     count(*)
                 FROM 
-                    sarah.diagnoses t1
+                    sarah.test3 t1
                 INNER JOIN 
-                    sarah.newtable1data t2
+                    sarah.test2 t2
                 ON 
                     t1.siteid = t2.siteid
                 AND 

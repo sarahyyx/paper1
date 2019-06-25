@@ -54,9 +54,9 @@ def createDF_byRace_anySUD(logger, race):
             t2.sleep,
             t2.fd
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.diagnoses t2
+            sarah.test3 t2
         ON 
             t1.siteid = t2.siteid 
         AND 

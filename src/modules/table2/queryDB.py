@@ -32,7 +32,7 @@ def genSUDUserKeys(logger):
             siteid, 
             backgroundid
         FROM
-            sarah.diagnoses
+            sarah.test3
         WHERE
             sud = true
         '''
@@ -54,8 +54,8 @@ def genSUDUserKeys(logger):
 
     return 
 
-@lD.log(logBase + '.createSUDcatsTable')
-def createSUDcatsTable(logger):
+@lD.log(logBase + '.createtest4Table')
+def createtest4Table(logger):
     '''[summary]
     
     [description]
@@ -96,17 +96,17 @@ def createSUDcatsTable(logger):
                 GROUP BY
                     siteid, backgroundid
                 ''').format(
-                    Literal(table2_config["params"]["sudcats"]["alc"]),
-                    Literal(table2_config["params"]["sudcats"]["cannabis"]),
-                    Literal(table2_config["params"]["sudcats"]["amphe"]),
-                    Literal(table2_config["params"]["sudcats"]["halluc"]),
-                    Literal(table2_config["params"]["sudcats"]["nicotin"]),
-                    Literal(table2_config["params"]["sudcats"]["cocaine"]),
-                    Literal(table2_config["params"]["sudcats"]["opioids"]),
-                    Literal(table2_config["params"]["sudcats"]["sedate"]),
-                    Literal(table2_config["params"]["sudcats"]["others"]),
-                    Literal(table2_config["params"]["sudcats"]["polysub"]),
-                    Literal(table2_config["params"]["sudcats"]["inhalant"]),
+                    Literal(table2_config["params"]["test4"]["alc"]),
+                    Literal(table2_config["params"]["test4"]["cannabis"]),
+                    Literal(table2_config["params"]["test4"]["amphe"]),
+                    Literal(table2_config["params"]["test4"]["halluc"]),
+                    Literal(table2_config["params"]["test4"]["nicotin"]),
+                    Literal(table2_config["params"]["test4"]["cocaine"]),
+                    Literal(table2_config["params"]["test4"]["opioids"]),
+                    Literal(table2_config["params"]["test4"]["sedate"]),
+                    Literal(table2_config["params"]["test4"]["others"]),
+                    Literal(table2_config["params"]["test4"]["polysub"]),
+                    Literal(table2_config["params"]["test4"]["inhalant"]),
                     Literal(user[0]),
                     Literal(user[1])
                 )
@@ -115,7 +115,7 @@ def createSUDcatsTable(logger):
 
                 pushQuery = '''
                 INSERT INTO 
-                    sarah.sudcats(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)
+                    sarah.test4(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)
                 VALUES
                     %s
                 '''
@@ -124,7 +124,7 @@ def createSUDcatsTable(logger):
 
 
     except Exception as e:
-        logger. error('Failed to create sudcats table because of {}'.format(e))
+        logger. error('Failed to create test4 table because of {}'.format(e))
     return
 
 @lD.log(logBase + '.divByAllAges')
@@ -168,9 +168,9 @@ def allAgesGeneralSUD(logger):
             SELECT 
                 count(*)
             FROM 
-                sarah.newtable1data t1
+                sarah.test2 t1
             INNER JOIN
-                sarah.sudcats t2
+                sarah.test4 t2
             ON
                 t1.siteid = t2.siteid 
             AND
@@ -205,9 +205,9 @@ def allAgesGeneralSUD(logger):
                 t2.polysub,
                 t2.inhalant
             FROM
-                sarah.newtable1data t1
+                sarah.test2 t1
             INNER JOIN 
-                sarah.sudcats t2
+                sarah.test4 t2
             ON
                 t1.siteid = t2.siteid 
             AND
@@ -252,14 +252,14 @@ def allAgesCategorisedSUD(logger):
         }
 
         for race in table2_config["inputs"]["races"]:
-            for sudcat in table2_config["params"]["sudcats"]:
+            for sudcat in table2_config["params"]["test4"]:
                 query = SQL('''
                 SELECT 
                     count(*) 
                 FROM 
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.sudcats t2
+                    sarah.test4 t2
                 ON 
                     t1.siteid = t2.siteid 
                 AND 
@@ -329,9 +329,9 @@ def ageBinnedGeneralSUD(logger):
                 SELECT 
                     count(*)
                 FROM 
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.diagnoses t2
+                    sarah.test3 t2
                 ON 
                     t1.siteid = t2.siteid 
                 AND 
@@ -393,9 +393,9 @@ def ageBinnedGeneralSUD(logger):
                     t2.polysub,
                     t2.inhalant
                 FROM
-                    sarah.newtable1data t1
+                    sarah.test2 t1
                 INNER JOIN 
-                    sarah.sudcats t2
+                    sarah.test4 t2
                 ON
                     t1.siteid = t2.siteid 
                 AND
@@ -432,7 +432,7 @@ def ageBinnedCategorisedSUD(logger):
     try:
         countDict = {}
 
-        for sudcat in table2_config["params"]["sudcats"].keys():
+        for sudcat in table2_config["params"]["test4"].keys():
             list1 = []
             for race in table2_config["inputs"]["races"]:
                 list2 = []
@@ -441,9 +441,9 @@ def ageBinnedCategorisedSUD(logger):
                     SELECT 
                         count(*) 
                     FROM 
-                        sarah.newtable1data t1
+                        sarah.test2 t1
                     INNER JOIN 
-                        sarah.sudcats t2
+                        sarah.test4 t2
                     ON 
                         t1.siteid = t2.siteid 
                     AND 

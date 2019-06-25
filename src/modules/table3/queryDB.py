@@ -36,9 +36,9 @@ def addmorethan2sudcolumn(logger):
             t2.polysub,
             t2.inhalant
         FROM
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.sudcats t2
+            sarah.test4 t2
         ON
             t1.siteid = t2.siteid 
         AND
@@ -63,7 +63,7 @@ def addmorethan2sudcolumn(logger):
             for user in tqdm(readCSV):
                 updateQuery = '''
                 UPDATE 
-                    sarah.sudcats
+                    sarah.test4
                 SET 
                     morethan2sud = True
                 WHERE
@@ -74,7 +74,7 @@ def addmorethan2sudcolumn(logger):
         #Run this query in Postgres to update column's null values to false
         # updateQuery = '''
         # UPDATE 
-        #     sarah.sudcats
+        #     sarah.test4
         # SET 
         #     morethan2sud = False
         # WHERE
@@ -114,9 +114,9 @@ def createDF_allRaces_anySUD(logger):
             t1.visit_type
             
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.diagnoses t2
+            sarah.test3 t2
         ON 
             t1.siteid = t2.siteid 
         AND 
@@ -189,9 +189,9 @@ def createDF_allRaces_morethan2SUD(logger):
             t1.visit_type
             
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.sudcats t2
+            sarah.test4 t2
         ON 
             t1.siteid = t2.siteid 
         AND 
@@ -264,9 +264,9 @@ def createDF_byRace_anySUD(logger, race):
             t1.visit_type
             
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.diagnoses t2
+            sarah.test3 t2
         ON 
             t1.siteid = t2.siteid 
         AND 
@@ -339,9 +339,9 @@ def createDF_byRace_morethan2SUD(logger, race):
             t1.visit_type
             
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.sudcats t2
+            sarah.test4 t2
         ON 
             t1.siteid = t2.siteid 
         AND 
