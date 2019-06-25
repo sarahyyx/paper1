@@ -179,7 +179,6 @@
 <span class="sd">        logger {[type]} -- [description]</span>
 <span class="sd">        inputCSV {filepath that contains the csv} -- first column &quot;race&quot; contains the race strings, second column &quot;count&quot; contains their counts, and the third column &quot;paper_race&quot; contains the overarching race specified in the paper</span>
 
-<span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        raceDict -- dictionary that contains all the race strings under each specified race in the paper</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -231,38 +230,40 @@
         <span class="s2">&quot;MR&quot;</span><span class="p">:[]</span>
     <span class="p">}</span>
 
-    <span class="c1"># Run these two lines to create sarah.diagnoses table</span>
-    <span class="n">queryDB</span><span class="o">.</span><span class="n">genAllKeys</span><span class="p">()</span>
-    <span class="n">queryDB</span><span class="o">.</span><span class="n">addDiagCols</span><span class="p">()</span>
+    <span class="c1"># Run these two lines to create sarah.test3 table</span>
+    <span class="c1"># queryDB.genAllKeys()</span>
+    <span class="c1"># queryDB.addDiagCols()</span>
     <span class="c1">## TO DO AFTER CREATING:</span>
     <span class="c1">## In Postgresql, delete rows with all columns = false </span>
 
-    <span class="c1"># raceCounts = queryDB.countMainRace()</span>
-    <span class="c1"># countDict[&quot;AA&quot;].append(raceCounts[0])</span>
-    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceCounts[1])</span>
-    <span class="c1"># countDict[&quot;MR&quot;].append(raceCounts[2])</span>
+    <span class="c1"># queryDB.relabelVar()</span>
 
-    <span class="c1"># raceAgeCounts = queryDB.countRaceAge()</span>
-    <span class="c1"># countDict[&quot;AA&quot;].append(raceAgeCounts[0])</span>
-    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceAgeCounts[1])</span>
-    <span class="c1"># countDict[&quot;MR&quot;].append(raceAgeCounts[2])</span>
+    <span class="n">raceCounts</span> <span class="o">=</span> <span class="n">queryDB</span><span class="o">.</span><span class="n">countMainRace</span><span class="p">()</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;AA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceCounts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;NHPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceCounts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;MR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceCounts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="c1"># raceSexCounts = queryDB.countRaceSex()</span>
-    <span class="c1"># countDict[&quot;AA&quot;].append(raceSexCounts[0])</span>
-    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceSexCounts[1])</span>
-    <span class="c1"># countDict[&quot;MR&quot;].append(raceSexCounts[2])</span>
+    <span class="n">raceAgeCounts</span> <span class="o">=</span> <span class="n">queryDB</span><span class="o">.</span><span class="n">countRaceAge</span><span class="p">()</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;AA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceAgeCounts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;NHPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceAgeCounts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;MR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceAgeCounts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="c1"># raceSettingCounts = queryDB.countRaceSetting()</span>
-    <span class="c1"># countDict[&quot;AA&quot;].append(raceSettingCounts[0])</span>
-    <span class="c1"># countDict[&quot;NHPI&quot;].append(raceSettingCounts[1])</span>
-    <span class="c1"># countDict[&quot;MR&quot;].append(raceSettingCounts[2])</span>
+    <span class="n">raceSexCounts</span> <span class="o">=</span> <span class="n">queryDB</span><span class="o">.</span><span class="n">countRaceSex</span><span class="p">()</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;AA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSexCounts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;NHPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSexCounts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;MR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSexCounts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="c1"># print(countDict)</span>
+    <span class="n">raceSettingCounts</span> <span class="o">=</span> <span class="n">queryDB</span><span class="o">.</span><span class="n">countRaceSetting</span><span class="p">()</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;AA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSettingCounts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;NHPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSettingCounts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;MR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceSettingCounts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="c1"># obj = json.dumps(countDict)</span>
-    <span class="c1"># f = open(&quot;../data/final/sampleCount.json&quot;,&quot;w+&quot;)</span>
-    <span class="c1"># f.write(obj)</span>
-    <span class="c1"># f.close()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">countDict</span><span class="p">)</span>
+
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">countDict</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../data/final/sampleCount.json&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Getting out of module table1&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>

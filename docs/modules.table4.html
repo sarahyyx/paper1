@@ -187,8 +187,10 @@
 <dl class="function">
 <dt id="modules.table4.queryDB.createDF_byRace_anySUD">
 <code class="sig-prename descclassname">modules.table4.queryDB.</code><code class="sig-name descname">createDF_byRace_anySUD</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">race</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table4/queryDB.html#createDF_byRace_anySUD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table4.queryDB.createDF_byRace_anySUD" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>[description]</p>
+<dd><p>Creates a dataframe with comorbid mental disorder diagnoses with SUD</p>
+<p>This function creates a dataframe of users from each race, with the first
+column being having any sud, the dependent variable, and the rest of the
+columns being the independent variables of the other mental disorder diagnoses.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -196,8 +198,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -269,8 +271,10 @@ overwriting command line arguments as needed.</p></li>
 <dl class="function">
 <dt id="modules.table4.utils.logRegress">
 <code class="sig-prename descclassname">modules.table4.utils.</code><code class="sig-name descname">logRegress</code><span class="sig-paren">(</span><em class="sig-param">logger</em>, <em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/table4/utils.html#logRegress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.table4.utils.logRegress" title="Permalink to this definition">¶</a></dt>
-<dd><p>[summary]</p>
-<p>This function gets the logistic regression coefficients for a dataframe that is passed in</p>
+<dd><p>Performs logistic regression for any sud</p>
+<p>This function returns the logistic regression coefficients for a dataframe that is
+passed in, and also returns the mental disorders that are dropped due to a small
+sample.</p>
 <dl class="simple">
 <dt>Decorators:</dt><dd><p>lD.log</p>
 </dd>
@@ -278,8 +282,8 @@ overwriting command line arguments as needed.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>df</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{dataframe} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>df</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -293,57 +297,55 @@ overwriting command line arguments as needed.</p></li>
 </div>
 <div class="section" id="module-modules.table4">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modules.table4" title="Permalink to this headline">¶</a></h2>
-<p>[one line description of the module]</p>
-<p>[this is a
-multiline description of what the module does.]</p>
+<p>Performs logistic regression for any sud against comorbid mental disorders.</p>
+<p>This module performs logistic regression for any sud and other comorbid mental disorder
+diagnoses, for users from each race, then returns the odds ratios and confidence
+intervals for each subgroup.</p>
 <div class="section" id="before-you-begin">
 <h3>Before you Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h3>
 <p>Make sure that the configuration files are properly set, as mentioned in the Specifcations
-section. Also, [add any other housekeeping that needs to be done before starting the module].</p>
+section.</p>
+<p>Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format
+by using an online csv -&gt; json converter, then copying the json file into the table1.json config
+file under [“params”][“categories”].</p>
+<p>Also, set the minimum percentage of the sample that has to have the mental disorder
+for logistic regression to be performed, under [“params”][“min_percentage_of_diag”].</p>
 </div>
 <div class="section" id="details-of-operation">
 <h3>Details of Operation<a class="headerlink" href="#details-of-operation" title="Permalink to this headline">¶</a></h3>
-<p>[
-Over here, you should provide as much information as possible for what the modules does.
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]</p>
+<p>Firstly, the function createDF_byRace_anySUD() from queryDB creates a dataframe which
+will be passed into the utils.logRegress() function to be fitted into the logistic
+regression model. Mental disorders that do not have a sufficient number of users are
+dropped before passing into the logRegress() function.</p>
+<p>After passing into the logRegress() function, the odds ratios and confidence intervals
+for each subgroup is returned.</p>
 </div>
 <div class="section" id="results">
 <h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
-<p>[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates.
-]</p>
+<p>Files created:
+../data/final/table4data.json</p>
 </div>
 <div class="section" id="specifications">
 <h3>Specifications:<a class="headerlink" href="#specifications" title="Permalink to this headline">¶</a></h3>
 <p>Specifications for running the module is described below. Note that all the json files
 unless otherwise specified will be placed in the folder <code class="docutils literal notranslate"><span class="pre">config</span></code> in the main project
 folder.</p>
-<div class="section" id="specifications-for-the-database">
-<h4>Specifications for the database:<a class="headerlink" href="#specifications-for-the-database" title="Permalink to this headline">¶</a></h4>
-<p>[
-Note the tables within the various databases that will be affected by this module.
-]</p>
-</div>
 <div class="section" id="specifications-for-modules-json">
 <h4>Specifications for <code class="docutils literal notranslate"><span class="pre">modules.json</span></code><a class="headerlink" href="#specifications-for-modules-json" title="Permalink to this headline">¶</a></h4>
 <p>Make sure that the <code class="docutils literal notranslate"><span class="pre">execute</span></code> statement within the modules file is set to True.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;module1&quot;</span><span class="p">,</span>
-<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/module1/module1.py&quot;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;table4&quot;</span><span class="p">,</span>
+<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/table4/table4.py&quot;</span><span class="p">,</span>
 <span class="hll"><span class="s2">&quot;execute&quot;</span>    <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
 </span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="s2">&quot;owner&quot;</span>      <span class="p">:</span> <span class="s2">&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="specification-for-any-other-files">
-<h4>Specification for [any other files]<a class="headerlink" href="#specification-for-any-other-files" title="Permalink to this headline">¶</a></h4>
-<p>[
-Make sure that you specify all the other files whose parameters will need to be
-changed.
-]</p>
+<div class="section" id="specification-for-table4-json">
+<h4>Specification for table4.json<a class="headerlink" href="#specification-for-table4-json" title="Permalink to this headline">¶</a></h4>
+<p>Ensure that the DSM numbers for each mental disorder are specified under
+[“params”][“categories”], and the minimum sample percentage is set under
+[“params”][“min_percentage_of_diag”].</p>
 </div>
 </div>
 </div>

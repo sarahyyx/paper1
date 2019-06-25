@@ -38,9 +38,10 @@ def main(logger, resultsDict):
     print('Main function of module table2')
     print('='*30)
 
-    ##Run these two lines to create sarah.sudcats table (only on first run)
-    # genSUDUserKeys()
-    # createSUDcatsTable()
+    #Run these lines to create sarah.test4 table (only on first run)
+    # queryDB.genSUDUserKeys()
+    # queryDB.createTest4Table()
+    # queryDB.popTest4()
 
     # Run this to generate user counts with any sud and >=2 SUDs, separated by race
     allAgesGeneralSUDCountDict = queryDB.allAgesGeneralSUD()

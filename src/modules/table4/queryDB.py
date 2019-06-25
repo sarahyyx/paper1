@@ -19,16 +19,18 @@ logBase = config['logging']['logBase'] + '.modules.table4.table4'
 
 @lD.log(logBase + '.createDF_byRace_anySUD')
 def createDF_byRace_anySUD(logger, race):
-    '''[summary]
+    '''Creates a dataframe with comorbid mental disorder diagnoses with SUD
     
-    [description]
+    This function creates a dataframe of users from each race, with the first 
+    column being having any sud, the dependent variable, and the rest of the 
+    columns being the independent variables of the other mental disorder diagnoses. 
     
     Decorators:
         lD.log
     
     Arguments:
         logger {[type]} -- [description]
-        race {[type]} -- [description]
+        race {str} -- [description]
     
     Returns:
         [type] -- [description]
@@ -54,9 +56,9 @@ def createDF_byRace_anySUD(logger, race):
             t2.sleep,
             t2.fd
         FROM 
-            sarah.newtable1data t1
+            sarah.test2 t1
         INNER JOIN 
-            sarah.diagnoses t2
+            sarah.test3 t2
         ON 
             t1.siteid = t2.siteid 
         AND 

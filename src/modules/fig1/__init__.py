@@ -7,24 +7,29 @@ Before you Begin
 ================
 
 Make sure that the configuration files are properly set, as mentioned in the Specifcations 
-section. Also, [add any other housekeeping that needs to be done before starting the module]. 
+section. 
+
+Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format 
+by using an online csv -> json converter, then copying the json file into the table1.json config
+file under ["params"]["categories"].
 
 Details of Operation
 ====================
 
-[
-Over here, you should provide as much information as possible for what the modules does. 
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]
+Firstly, the function genDiagCount() from fig1.queryDB is run to generate the percentage of 
+each race that have a particular mental disorder diagnosis. The percentage counts for each 
+mental disorder is saved to a dictionary 'countDict'. 
+
+Next, the function removeLowPrev() will then remove those mental disorders that have a
+prevalence that is lower than a user-specified percentage, which is found in:
+fig1_config["params"]["min_prevalence"], returning a dict of the remaining disorders, 
+which is then saved to a json file.
 
 Results
 =======
 
-[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates. 
-]
+Files created:
+../data/final/diagnosesCount.json
 
 Specifications:
 ===============
@@ -33,12 +38,6 @@ Specifications for running the module is described below. Note that all the json
 unless otherwise specified will be placed in the folder ``config`` in the main project
 folder.
 
-Specifications for the database:
---------------------------------
-
-[
-Note the tables within the various databases that will be affected by this module.
-]
 
 Specifications for ``modules.json``
 -----------------------------------
@@ -48,8 +47,8 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 .. code-block:: python
     :emphasize-lines: 3
 
-    "moduleName" : "module1",
-    "path"       : "modules/module1/module1.py",
+    "moduleName" : "fig1",
+    "path"       : "modules/fig1/fig1.py",
     "execute"    : true,
     "description": "",
     "owner"      : ""
@@ -58,9 +57,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 Specification for [any other files]
 -----------------------------------
 
-[
-Make sure that you specify all the other files whose parameters will need to be
-changed. 
-]
+Ensure that the str values for each race are specified under ["params"]["races"][race]. 
+Do the same for sexes, settings and categories (DSM numbers).
 
 '''

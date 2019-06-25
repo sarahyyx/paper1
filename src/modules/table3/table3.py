@@ -39,7 +39,7 @@ def main(logger, resultsDict):
     print('Main function of module table3')
     print('='*30)
 
-    ## Run this line to create the column "morethan2sud"
+    ## Run this line to populate the column "morethan2sud"
     # queryDB.addmorethan2sudcolumn()
 
     # First value of each list is for anysud, second value is for morethan2sud

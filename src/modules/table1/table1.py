@@ -30,7 +30,6 @@ def genRaceDict(logger, inputCSV):
         logger {[type]} -- [description]
         inputCSV {filepath that contains the csv} -- first column "race" contains the race strings, second column "count" contains their counts, and the third column "paper_race" contains the overarching race specified in the paper
 
-    
     Returns:
         raceDict -- dictionary that contains all the race strings under each specified race in the paper
     '''
@@ -82,38 +81,40 @@ def main(logger, resultsDict):
         "MR":[]
     }
 
-    # Run these two lines to create sarah.diagnoses table
-    queryDB.genAllKeys()
-    queryDB.addDiagCols()
+    # Run these two lines to create sarah.test3 table
+    # queryDB.genAllKeys()
+    # queryDB.addDiagCols()
     ## TO DO AFTER CREATING:
     ## In Postgresql, delete rows with all columns = false 
 
-    # raceCounts = queryDB.countMainRace()
-    # countDict["AA"].append(raceCounts[0])
-    # countDict["NHPI"].append(raceCounts[1])
-    # countDict["MR"].append(raceCounts[2])
+    # queryDB.relabelVar()
 
-    # raceAgeCounts = queryDB.countRaceAge()
-    # countDict["AA"].append(raceAgeCounts[0])
-    # countDict["NHPI"].append(raceAgeCounts[1])
-    # countDict["MR"].append(raceAgeCounts[2])
+    raceCounts = queryDB.countMainRace()
+    countDict["AA"].append(raceCounts[0])
+    countDict["NHPI"].append(raceCounts[1])
+    countDict["MR"].append(raceCounts[2])
 
-    # raceSexCounts = queryDB.countRaceSex()
-    # countDict["AA"].append(raceSexCounts[0])
-    # countDict["NHPI"].append(raceSexCounts[1])
-    # countDict["MR"].append(raceSexCounts[2])
+    raceAgeCounts = queryDB.countRaceAge()
+    countDict["AA"].append(raceAgeCounts[0])
+    countDict["NHPI"].append(raceAgeCounts[1])
+    countDict["MR"].append(raceAgeCounts[2])
 
-    # raceSettingCounts = queryDB.countRaceSetting()
-    # countDict["AA"].append(raceSettingCounts[0])
-    # countDict["NHPI"].append(raceSettingCounts[1])
-    # countDict["MR"].append(raceSettingCounts[2])
+    raceSexCounts = queryDB.countRaceSex()
+    countDict["AA"].append(raceSexCounts[0])
+    countDict["NHPI"].append(raceSexCounts[1])
+    countDict["MR"].append(raceSexCounts[2])
 
-    # print(countDict)
+    raceSettingCounts = queryDB.countRaceSetting()
+    countDict["AA"].append(raceSettingCounts[0])
+    countDict["NHPI"].append(raceSettingCounts[1])
+    countDict["MR"].append(raceSettingCounts[2])
 
-    # obj = json.dumps(countDict)
-    # f = open("../data/final/sampleCount.json","w+")
-    # f.write(obj)
-    # f.close()
+    print(countDict)
+
+    obj = json.dumps(countDict)
+    f = open("../data/final/sampleCount.json","w+")
+    f.write(obj)
+    f.close()
 
     print('Getting out of module table1')
     print('-'*30)

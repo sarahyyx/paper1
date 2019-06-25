@@ -168,16 +168,18 @@
 
 <div class="viewcode-block" id="createDF_byRace_anySUD"><a class="viewcode-back" href="../../../modules.table4.html#modules.table4.queryDB.createDF_byRace_anySUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createDF_byRace_anySUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createDF_byRace_anySUD</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">race</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Creates a dataframe with comorbid mental disorder diagnoses with SUD</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates a dataframe of users from each race, with the first </span>
+<span class="sd">    column being having any sud, the dependent variable, and the rest of the </span>
+<span class="sd">    columns being the independent variables of the other mental disorder diagnoses. </span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
 <span class="sd">    </span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        logger {[type]} -- [description]</span>
-<span class="sd">        race {[type]} -- [description]</span>
+<span class="sd">        race {str} -- [description]</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        [type] -- [description]</span>
@@ -203,9 +205,9 @@
 <span class="s1">            t2.sleep,</span>
 <span class="s1">            t2.fd</span>
 <span class="s1">        FROM </span>
-<span class="s1">            sarah.newtable1data t1</span>
+<span class="s1">            sarah.test2 t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            sarah.diagnoses t2</span>
+<span class="s1">            sarah.test3 t2</span>
 <span class="s1">        ON </span>
 <span class="s1">            t1.siteid = t2.siteid </span>
 <span class="s1">        AND </span>

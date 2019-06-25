@@ -168,7 +168,7 @@
 <div class="viewcode-block" id="genSUDUserKeys"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.genSUDUserKeys">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.genSUDUserKeys&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">genSUDUserKeys</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    This function generates a .csv file for each SUD patients&#39; (siteid, backgroundid)</span>
+<span class="sd">    This function generates a .csv file for each SUD user&#39;s (siteid, backgroundid)</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -181,7 +181,7 @@
 <span class="s1">            siteid, </span>
 <span class="s1">            backgroundid</span>
 <span class="s1">        FROM</span>
-<span class="s1">            sarah.diagnoses</span>
+<span class="s1">            sarah.test3</span>
 <span class="s1">        WHERE</span>
 <span class="s1">            sud = true</span>
 <span class="s1">        &#39;&#39;&#39;</span>
@@ -203,11 +203,12 @@
 
     <span class="k">return</span> </div>
 
-<div class="viewcode-block" id="createSUDcatsTable"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.createSUDcatsTable">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createSUDcatsTable&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">createSUDcatsTable</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+<div class="viewcode-block" id="createTest4Table"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.createTest4Table">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createtest4Table&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createTest4Table</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Creates test4</span>
 <span class="sd">    </span>
-<span class="sd">    [description]</span>
+<span class="sd">    This function creates the table sarah.test4, which contains boolean columns </span>
+<span class="sd">    for each mental disorder.</span>
 <span class="sd">    </span>
 <span class="sd">    Decorators:</span>
 <span class="sd">        lD.log</span>
@@ -216,6 +217,46 @@
 <span class="sd">        logger {[type]} -- [description]</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="n">create_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        CREATE TABLE sarah.test4(</span>
+<span class="s1">        siteid text,</span>
+<span class="s1">        backgroundid text,</span>
+<span class="s1">        alc bool,</span>
+<span class="s1">        cannabis bool,</span>
+<span class="s1">        amphe bool,</span>
+<span class="s1">        halluc bool,</span>
+<span class="s1">        nicotin bool,</span>
+<span class="s1">        cocaine bool,</span>
+<span class="s1">        opioids bool,</span>
+<span class="s1">        sedate bool,</span>
+<span class="s1">        others bool,</span>
+<span class="s1">        polysub bool,</span>
+<span class="s1">        inhalant bool,</span>
+<span class="s1">        morethan2sud bool</span>
+<span class="s1">        )</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">create_query</span><span class="p">))</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to create test4 table because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="popTest4"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.popTest4">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.popTest4&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">popTest4</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Populates test4</span>
+<span class="sd">    </span>
+<span class="sd">    This function populates the table sarah.test4, which contains boolean columns </span>
+<span class="sd">    for each mental disorder. If a user&#39;s row has True for that column, it means</span>
+<span class="sd">    that he/she has that disorder, and vice versa. </span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+
         <span class="n">all_userkeys</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/SUDUser_keys.csv&quot;</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">all_userkeys</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -264,7 +305,7 @@
 
                 <span class="n">pushQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                INSERT INTO </span>
-<span class="s1">                    sarah.sudcats(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)</span>
+<span class="s1">                    sarah.test4(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)</span>
 <span class="s1">                VALUES</span>
 <span class="s1">                    </span><span class="si">%s</span><span class="s1"></span>
 <span class="s1">                &#39;&#39;&#39;</span>
@@ -273,14 +314,19 @@
 
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to create sudcats table because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to populate test4 table because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">return</span></div>
 
 <div class="viewcode-block" id="divByAllAges"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.divByAllAges">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.divByAllAges&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">divByAllAges</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Divides by total sample of each race</span>
 <span class="sd">    </span>
-<span class="sd">    This function takes in a list of counts and returns a list (of similar structure) with the percentage of the counts over the total</span>
+<span class="sd">    This function takes in a list of counts and returns a list (of similar structure) </span>
+<span class="sd">    with the percentage of the counts over the total</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+
 <span class="sd">    Arguments:</span>
 <span class="sd">        logger {[type]} -- [description]</span>
 <span class="sd">        l {list} -- l[0] is the no. of AA , l[1] is the no. of NHPI, l[2] is the no. of MR</span>
@@ -303,6 +349,19 @@
 
 <div class="viewcode-block" id="allAgesGeneralSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.allAgesGeneralSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.allAgesGeneralSUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">allAgesGeneralSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Finds percentage of the total sample that has any SUD and more than 2 SUD</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [type] -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
 
         <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
@@ -317,9 +376,9 @@
 <span class="s1">            SELECT </span>
 <span class="s1">                count(*)</span>
 <span class="s1">            FROM </span>
-<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">                sarah.test2 t1</span>
 <span class="s1">            INNER JOIN</span>
-<span class="s1">                sarah.sudcats t2</span>
+<span class="s1">                sarah.test4 t2</span>
 <span class="s1">            ON</span>
 <span class="s1">                t1.siteid = t2.siteid </span>
 <span class="s1">            AND</span>
@@ -354,9 +413,9 @@
 <span class="s1">                t2.polysub,</span>
 <span class="s1">                t2.inhalant</span>
 <span class="s1">            FROM</span>
-<span class="s1">                sarah.newtable1data t1</span>
+<span class="s1">                sarah.test2 t1</span>
 <span class="s1">            INNER JOIN </span>
-<span class="s1">                sarah.sudcats t2</span>
+<span class="s1">                sarah.test4 t2</span>
 <span class="s1">            ON</span>
 <span class="s1">                t1.siteid = t2.siteid </span>
 <span class="s1">            AND</span>
@@ -385,6 +444,20 @@
 
 <div class="viewcode-block" id="allAgesCategorisedSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.allAgesCategorisedSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.allAgesCategorisedSUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">allAgesCategorisedSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Finds percentage of the age-binned sample that have </span>
+<span class="sd">    SUD of a particular substance </span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [type] -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;alc&quot;</span><span class="p">:[],</span>
@@ -406,9 +479,9 @@
 <span class="s1">                SELECT </span>
 <span class="s1">                    count(*) </span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.sudcats t2</span>
+<span class="s1">                    sarah.test4 t2</span>
 <span class="s1">                ON </span>
 <span class="s1">                    t1.siteid = t2.siteid </span>
 <span class="s1">                AND </span>
@@ -436,7 +509,7 @@
 
 <div class="viewcode-block" id="divByAgeBins"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.divByAgeBins">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.divByAgeBins&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">divByAgeBins</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">lol</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;[summary]</span>
+    <span class="sd">&#39;&#39;&#39;Divide by no. of people of each race in a certain age bin</span>
 <span class="sd">    </span>
 <span class="sd">    This function takes in a list of lists called lol, where lol[0] is the list of AAs, lol[0][0] is for ages 1-11 and lol[0][1] is for ages 12-17 and so forth</span>
 <span class="sd">    </span>
@@ -459,9 +532,21 @@
 
     <span class="k">return</span> <span class="n">resultLoL</span></div>
 
-
 <div class="viewcode-block" id="ageBinnedGeneralSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.ageBinnedGeneralSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.ageBinnedGeneralSUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">ageBinnedGeneralSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Finds percentage of the age-binned sample that has any SUD and more than 2 SUD</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [type] -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
 
         <span class="n">countDict</span> <span class="o">=</span> <span class="p">{</span>
@@ -478,9 +563,9 @@
 <span class="s1">                SELECT </span>
 <span class="s1">                    count(*)</span>
 <span class="s1">                FROM </span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.diagnoses t2</span>
+<span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON </span>
 <span class="s1">                    t1.siteid = t2.siteid </span>
 <span class="s1">                AND </span>
@@ -542,9 +627,9 @@
 <span class="s1">                    t2.polysub,</span>
 <span class="s1">                    t2.inhalant</span>
 <span class="s1">                FROM</span>
-<span class="s1">                    sarah.newtable1data t1</span>
+<span class="s1">                    sarah.test2 t1</span>
 <span class="s1">                INNER JOIN </span>
-<span class="s1">                    sarah.sudcats t2</span>
+<span class="s1">                    sarah.test4 t2</span>
 <span class="s1">                ON</span>
 <span class="s1">                    t1.siteid = t2.siteid </span>
 <span class="s1">                AND</span>
@@ -578,6 +663,20 @@
 
 <div class="viewcode-block" id="ageBinnedCategorisedSUD"><a class="viewcode-back" href="../../../modules.table2.html#modules.table2.queryDB.ageBinnedCategorisedSUD">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.ageBinnedCategorisedSUD&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">ageBinnedCategorisedSUD</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Finds percentage of the age-binned sample that has </span>
+<span class="sd">    SUD of a particular substance </span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [type] -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">countDict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -590,9 +689,9 @@
 <span class="s1">                    SELECT </span>
 <span class="s1">                        count(*) </span>
 <span class="s1">                    FROM </span>
-<span class="s1">                        sarah.newtable1data t1</span>
+<span class="s1">                        sarah.test2 t1</span>
 <span class="s1">                    INNER JOIN </span>
-<span class="s1">                        sarah.sudcats t2</span>
+<span class="s1">                        sarah.test4 t2</span>
 <span class="s1">                    ON </span>
 <span class="s1">                        t1.siteid = t2.siteid </span>
 <span class="s1">                    AND </span>

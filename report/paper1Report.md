@@ -19,31 +19,31 @@ Setting
         
 |Race     |Count          |
 |---------|---------------| 
-|AA       |1510   |
-|NHPI     |2707 |
-|MR       |7135   |
-|**Total**|11352|
+|AA       |1512   |
+|NHPI     |2708 |
+|MR       |7138   |
+|**Total**|11358|
 
 ### Number of patients grouped by race and age
 |Age  |AA|%|NHPI|%|MR|%|
 |-----|--|-|-----|-|--|-|
-|1-11 |124|8.2|324|12.0|1313|18.4|
-|12-17|226|15.0|823|30.4|1274|17.9|
-|18-34|540|35.8|726|26.8|1796|25.2|
-|35-49|357|23.6|503|18.6|1424|20.0|
-|50+  |263|17.4|331|12.2|1328|18.6|
+|1-11 |128|8.5|341|12.6|1508|21.1|
+|12-17|228|15.1|839|31.0|1182|16.6|
+|18-34|543|35.9|710|26.2|1778|24.9|
+|35-49|358|23.7|507|18.7|1455|20.4|
+|50+  |252|16.7|310|11.4|1210|17.0|
 
 ### Number of patients grouped by race and sex
 |Sex|AA|%|NHPI|%|MR|%|
 |---|--|-|-----|-|--|-|
-|Male  |650|43.0|1249|46.1|3191|44.7|
-|Female|860|57.0|1458|53.9|3944|55.3|
+|Male  |651|43.1|1249|46.1|3192|44.7|
+|Female|861|56.9|1459|53.9|3946|55.3|
 
 ### Number of patients grouped by race and setting
 |Setting|AA|%|NHPI|%|MR|%|
 |-------|--|-|-----|-|--|-|
-|Hospital            |312|20.7|1745|64.5|594|8.3|
-|Mental Health Center|1198|79.3|962|35.5|6541|91.7|
+|Hospital            |219|14.5|1418|52.4|475|6.7|
+|Mental Health Center|1293|85.5|1290|47.6|6663|93.3|
 ***
 
     
@@ -99,11 +99,11 @@ Inhalants - inhalant
 ### Total Sample
 |Prevalence, %       |AA          |NHPI        |MR          |
 |--------------------|------------|------------|------------|
-|**DSM-IV diagnosis**|**Total = 1510**|**Total = 2707**|**Total = 7135**|
+|**DSM-IV diagnosis**|**Total = 1512**|**Total = 2708**|**Total = 7138**|
 |any_sud               |20.0|21.8|23.9|
 |morethan2_sud               |5.5|4.5|7.2|
 |alc               |11.2|8.7|8.4|
-|cannabis               |6.7|8.2|8.1|
+|cannabis               |6.7|8.3|8.1|
 |amphe               |0.9|0.3|0.7|
 |halluc               |0.3|0.1|0.1|
 |nicotin               |1.6|0.4|2.6|
@@ -119,15 +119,15 @@ Inhalants - inhalant
 ### Asian Americans, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 124**|**Total: 226**|**Total: 540**|**Total: 357**|**Total: 263**|
-|any_sud               |-|18.1|30.0|19.9|10.6|
-|morethan2_sud               |-|6.6|8.3|4.8|2.3|
-|alc               |-|8.4|16.9|10.4|8.4|
-|cannabis               |-|12.8|9.8|4.5|1.1|
-|amphe               |-|0.4|1.9|0.8|-|
-|halluc               |-|0.4|0.4|0.3|-|
-|nicotin               |-|0.9|2.4|1.4|1.5|
-|cocaine               |-|-|2.8|3.4|1.9|
+|**DSM-IV diagnosis**|**Total: 128**|**Total: 228**|**Total: 543**|**Total: 358**|**Total: 252**|
+|any_sud               |-|18.4|30.2|19.6|10.3|
+|morethan2_sud               |-|6.6|8.5|4.5|2.4|
+|alc               |-|8.8|17.1|9.5|8.7|
+|cannabis               |-|12.7|9.9|4.5|0.8|
+|amphe               |-|0.4|1.8|0.8|-|
+|halluc               |-|0.4|0.6|-|-|
+|nicotin               |-|0.9|2.4|1.7|1.2|
+|cocaine               |-|-|2.8|3.4|2.0|
 |opioids               |-|0.4|5.2|2.5|0.4|
 |sedate               |-|0.4|0.9|0.3|-|
 |others               |-|0.4|0.7|-|-|
@@ -139,40 +139,40 @@ Inhalants - inhalant
 ### Native Hawaiians/Pacific Islanders, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 324**|**Total: 823**|**Total: 726**|**Total: 503**|**Total: 331**|
-|any_sud               |0.6|17.0|31.7|27.2|24.5|
-|morethan2_sud               |0.3|3.2|7.7|5.2|3.6|
-|alc               |0.3|3.8|12.8|12.5|14.5|
-|cannabis               |0.3|12.2|12.5|5.2|1.5|
+|**DSM-IV diagnosis**|**Total: 341**|**Total: 839**|**Total: 710**|**Total: 507**|**Total: 310**|
+|any_sud               |0.6|18.0|30.8|28.4|23.9|
+|morethan2_sud               |0.3|3.7|7.2|5.3|3.5|
+|alc               |0.3|3.9|12.7|13.4|14.2|
+|cannabis               |0.3|13.0|11.5|5.1|1.6|
 |amphe               |-|0.1|0.4|0.4|0.6|
-|halluc               |-|0.1|0.1|0.2|0.3|
-|nicotin               |-|0.2|0.3|0.6|1.5|
-|cocaine               |-|0.4|3.2|4.6|1.8|
-|opioids               |0.3|0.2|2.2|3.2|5.7|
-|sedate               |-|-|0.4|0.4|1.2|
-|others               |-|-|0.3|-|0.3|
+|halluc               |-|0.2|-|0.2|0.3|
+|nicotin               |-|0.2|0.3|0.6|1.6|
+|cocaine               |-|0.4|3.2|4.5|1.9|
+|opioids               |0.3|0.5|2.0|3.7|5.2|
+|sedate               |-|-|0.4|0.4|1.3|
+|others               |-|-|0.3|0.2|-|
 |polysub               |-|-|-|-|-|
-|inhalant               |-|0.2|2.1|0.6|-|
+|inhalant               |-|0.4|2.0|0.6|-|
 ***
 
 
 ### Mixed-Race, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 1313**|**Total: 1274**|**Total: 1796**|**Total: 1424**|**Total: 1328**|
-|any_sud               |0.3|7.8|35.2|38.6|31.5|
-|morethan2_sud               |-|1.8|10.3|13.4|8.9|
-|alc               |-|2.0|13.1|13.1|11.3|
-|cannabis               |0.1|6.5|18.3|8.4|3.2|
-|amphe               |-|0.2|2.1|0.5|0.4|
+|**DSM-IV diagnosis**|**Total: 1508**|**Total: 1182**|**Total: 1778**|**Total: 1455**|**Total: 1210**|
+|any_sud               |0.6|9.4|36.1|39.0|30.9|
+|morethan2_sud               |-|2.1|10.9|13.5|8.3|
+|alc               |-|2.4|13.8|13.1|11.1|
+|cannabis               |0.4|7.6|18.2|8.4|2.8|
+|amphe               |-|0.2|2.2|0.3|0.4|
 |halluc               |-|-|0.4|-|0.2|
-|nicotin               |-|0.3|3.5|4.7|4.1|
-|cocaine               |-|-|4.0|8.5|5.8|
-|opioids               |-|0.1|3.0|12.9|13.9|
-|sedate               |-|0.2|0.7|1.8|1.5|
-|others               |-|0.1|0.4|0.7|0.4|
+|nicotin               |-|0.4|3.7|4.9|3.9|
+|cocaine               |-|0.1|4.2|8.6|5.6|
+|opioids               |-|0.1|3.4|13.5|13.6|
+|sedate               |-|0.2|0.8|1.9|1.3|
+|others               |-|0.2|0.3|0.8|0.3|
 |polysub               |-|-|-|-|-|
-|inhalant               |-|0.4|0.9|0.9|0.2|
+|inhalant               |-|0.4|1.0|0.8|0.2|
 ***
 ***
 ## Description of Table 3:
@@ -189,102 +189,102 @@ Logistic regression is performed for:
         
 
 ### All races, aged 12 or older 
-|Logistic Regression, Any SUD|N = 9591    |          |
+|Logistic Regression, Any SUD|N = 9372    |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Race*                      |                            |          |
-|NHPI vs AA                  |1.05          |0.88 - 1.26|
-|MR vs AA                    |1.86            |1.6 - 2.16|
+|NHPI vs AA                  |1.12          |0.94 - 1.33|
+|MR vs AA                    |1.84            |1.59 - 2.13|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.3         |0.25 - 0.36|
-|18 - 34 vs 50+              |1.25         |1.1 - 1.43|
-|35 - 49 vs 50+              |1.29         |1.13 - 1.49|
+|12 - 17 vs 50+              |0.36         |0.31 - 0.43|
+|18 - 34 vs 50+              |1.36         |1.18 - 1.55|
+|35 - 49 vs 50+              |1.38         |1.2 - 1.59|
 |*Sex*                       |                            |          |
-|Male vs Female              |2.91             |2.64 - 3.2|
+|Male vs Female              |2.96             |2.68 - 3.26|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|2.15      |1.9 - 2.44|
+|Hospital vs Mental Health Center|1.99      |1.74 - 2.26|
 |**2 or more SUDs**                |**Odds Ratio**              |**95% CI**|
 |*Race*                            |                            |          |
-|NHPI vs AA                        |0.79          |0.56 - 1.12|
-|MR vs AA                          |1.12            |0.85 - 1.49|
+|NHPI vs AA                        |0.86          |0.61 - 1.2|
+|MR vs AA                          |1.13            |0.86 - 1.5|
 |*Age in years*                    |                            |          |
-|12 - 17 vs 50+                    |1.05         |0.74 - 1.5|
-|18 - 34 vs 50+                    |1.22         |0.96 - 1.55|
-|35 - 49 vs 50+                    |1.33         |1.04 - 1.71|
+|12 - 17 vs 50+                    |1.15         |0.81 - 1.63|
+|18 - 34 vs 50+                    |1.31         |1.02 - 1.69|
+|35 - 49 vs 50+                    |1.4         |1.08 - 1.81|
 |*Sex*                             |                            |          |
-|Male vs Female                    |1.18             |0.99 - 1.41|
+|Male vs Female                    |1.19             |1.0 - 1.42|
 |*Treatment Setting*               |                            |          |
-|Hospital vs Mental Health Center  |0.74      |0.59 - 0.93|
+|Hospital vs Mental Health Center  |0.6      |0.47 - 0.76|
 ***
 
 
 ### Asian Americans, aged 12 or older
-|Logistic Regression, Any SUD|N = 1386   |          |
+|Logistic Regression, Any SUD|N = 1381   |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |1.49         |0.87 - 2.54|
-|18 - 34 vs 50+              |3.29         |2.11 - 5.14|
-|35 - 49 vs 50+              |1.85         |1.14 - 3.01|
+|12 - 17 vs 50+              |1.64         |0.95 - 2.81|
+|18 - 34 vs 50+              |3.57         |2.26 - 5.64|
+|35 - 49 vs 50+              |2.01         |1.22 - 3.29|
 |*Sex*                       |                            |          |
-|Male vs Female              |3.26             |2.48 - 4.29|
+|Male vs Female              |3.22             |2.45 - 4.23|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|2.05  |1.52 - 2.76|
+|Hospital vs Mental Health Center|1.93  |1.38 - 2.69|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |2.16   |0.71 - 6.59|
-|18 - 34 vs 50+                    |1.49   |0.56 - 3.95|
-|35 - 49 vs 50+                    |1.17   |0.4 - 3.37|
+|12 - 17 vs 50+                    |1.89   |0.61 - 5.82|
+|18 - 34 vs 50+                    |1.36   |0.51 - 3.66|
+|35 - 49 vs 50+                    |1.0   |0.34 - 2.96|
 |*Sex*                             |                      |          |
-|Male vs Female                    |1.48       |0.85 - 2.57|
+|Male vs Female                    |1.48       |0.85 - 2.56|
 |*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |0.71|0.4 - 1.24|
+|Hospital vs Mental Health Center  |0.61|0.32 - 1.16|
 ***
 
 ### Native Hawaiians/Pacific Islanders, aged 12 or older
-|Logistic Regression, Any SUD|N = 2383 |          |
+|Logistic Regression, Any SUD|N = 2366 |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.43         |0.31 - 0.6|
-|18 - 34 vs 50+              |1.16         |0.85 - 1.59|
-|35 - 49 vs 50+              |1.11         |0.79 - 1.55|
+|12 - 17 vs 50+              |0.5         |0.36 - 0.7|
+|18 - 34 vs 50+              |1.22         |0.89 - 1.68|
+|35 - 49 vs 50+              |1.23         |0.87 - 1.73|
 |*Sex*                       |                            |          |
-|Male vs Female              |2.87             |2.36 - 3.51|
+|Male vs Female              |2.97             |2.43 - 3.62|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|2.57  |2.04 - 3.24|
+|Hospital vs Mental Health Center|2.18  |1.77 - 2.68|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |1.69   |0.78 - 3.68|
-|18 - 34 vs 50+                    |2.11   |1.05 - 4.24|
-|35 - 49 vs 50+                    |1.5   |0.7 - 3.21|
+|12 - 17 vs 50+                    |1.9   |0.87 - 4.12|
+|18 - 34 vs 50+                    |2.0   |0.97 - 4.14|
+|35 - 49 vs 50+                    |1.46   |0.67 - 3.16|
 |*Sex*                             |                      |          |
-|Male vs Female                    |0.94       |0.62 - 1.43|
+|Male vs Female                    |0.96       |0.63 - 1.46|
 |*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |0.49|0.31 - 0.79|
+|Hospital vs Mental Health Center  |0.43|0.28 - 0.66|
 ***
 
 ### Mixed Race, aged 12 or older
-|Logistic Regression, Any SUD|N = 5822   |          |
+|Logistic Regression, Any SUD|N = 5625   |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.16         |0.13 - 0.2|
-|18 - 34 vs 50+              |1.12         |0.95 - 1.31|
-|35 - 49 vs 50+              |1.34         |1.14 - 1.58|
+|12 - 17 vs 50+              |0.2         |0.16 - 0.26|
+|18 - 34 vs 50+              |1.22         |1.04 - 1.43|
+|35 - 49 vs 50+              |1.4         |1.19 - 1.66|
 |*Sex*                       |                            |          |
-|Male vs Female              |2.92             |2.58 - 3.3|
+|Male vs Female              |2.95             |2.61 - 3.34|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|1.72  |1.43 - 2.06|
+|Hospital vs Mental Health Center|1.59  |1.3 - 1.95|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
-|12 - 17 vs 50+                    |0.76   |0.45 - 1.27|
-|18 - 34 vs 50+                    |1.08   |0.82 - 1.42|
-|35 - 49 vs 50+                    |1.37   |1.04 - 1.8|
+|12 - 17 vs 50+                    |0.77   |0.47 - 1.27|
+|18 - 34 vs 50+                    |1.22   |0.92 - 1.62|
+|35 - 49 vs 50+                    |1.46   |1.1 - 1.95|
 |*Sex*                             |                      |          |
-|Male vs Female                    |1.21       |0.98 - 1.49|
+|Male vs Female                    |1.22       |0.99 - 1.51|
 |*Treatment Setting*               |                      |          |
-|Hospital vs Mental Health Center  |0.87|0.65 - 1.16|
+|Hospital vs Mental Health Center  |0.7|0.5 - 0.97|
 
 ***
 ## Description of Table 4:
@@ -312,7 +312,7 @@ Factitious Disorders - fd
         
 
 ### Asian Americans, aged 12 or older
-|Logistic Regression, Any SUD|N = 1386   |          |
+|Logistic Regression, Any SUD|N = 1381   |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
 |mood                  |0.18        |0.13 - 0.25|
@@ -331,7 +331,7 @@ Factitious Disorders - fd
 |fd                  |-        |- - -|
 ***
 ### Native Hawaiians/Pacific Islanders, aged 12 or older
-|Logistic Regression, Any SUD|N = 2383 |          |
+|Logistic Regression, Any SUD|N = 2366 |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
 |mood                  |0.86        |0.69 - 1.08|
@@ -350,7 +350,7 @@ Factitious Disorders - fd
 |fd                  |-        |- - -|
 ***
 ### Mixed Race, aged 12 or older
-|Logistic Regression, Any SUD|N = 5822   |          |
+|Logistic Regression, Any SUD|N = 5625   |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
 |mood                  |0.49        |0.43 - 0.56|
