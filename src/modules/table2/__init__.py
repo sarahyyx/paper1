@@ -1,30 +1,43 @@
-'''[one line description of the module]
+'''This module obtains the data needed to generate Table 2 of the report
 
-[this is a 
-multiline description of what the module does.] 
+This module creates a new table in the database which contains all the SUD users and the specific 
+substance which they have a disorder for.
 
 Before you Begin
 ================
 
 Make sure that the configuration files are properly set, as mentioned in the Specifcations 
-section. Also, [add any other housekeeping that needs to be done before starting the module]. 
+section. 
+
+Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format 
+by using an online csv -> json converter, then copying the json file into the table1.json config
+file under ["params"]["sudcats"].
 
 Details of Operation
 ====================
 
-[
-Over here, you should provide as much information as possible for what the modules does. 
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]
+Firstly, the function genSUDUserKeys() from table2.queryDB generates a csv file of of 
+all the users who have a SUD from sarah.test3. Then, createTest4Table() creates the 
+table sarah.test4 in the database, and is populated by popTest4().
+
+The count functions:
+allAgesGeneralSUD()
+allAgesCategorisedSUD()
+ageBinnedGeneralSUD()
+ageBinnedCategorisedSUD()
+then use the data from sarah.test3 and sarah.test4 to generate the required prevalences.
 
 Results
 =======
 
-[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates. 
-]
+Tables created:
+sarah.test4
+
+Files created:
+../data/final/allAgesGeneralSUD.json
+../data/final/allAgesCategorisedSUD.json
+../data/final/ageBinnedGeneralSUD.json
+../data/final/ageBinnedCategorisedSUD.json
 
 Specifications:
 ===============
@@ -36,9 +49,7 @@ folder.
 Specifications for the database:
 --------------------------------
 
-[
-Note the tables within the various databases that will be affected by this module.
-]
+sarah.test4
 
 Specifications for ``modules.json``
 -----------------------------------
@@ -48,8 +59,8 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 .. code-block:: python
     :emphasize-lines: 3
 
-    "moduleName" : "module1",
-    "path"       : "modules/module1/module1.py",
+    "moduleName" : "table2",
+    "path"       : "modules/table2/table2.py",
     "execute"    : true,
     "description": "",
     "owner"      : ""
@@ -58,9 +69,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 Specification for [any other files]
 -----------------------------------
 
-[
-Make sure that you specify all the other files whose parameters will need to be
-changed. 
-]
+Ensure that the DSM number str values for each mental disorder are specified under 
+["params"]["sudcats"]. 
 
 '''

@@ -8,12 +8,32 @@ import csv, json
 from psycopg2.sql import SQL, Identifier, Literal
 
 from lib.databaseIO import pgIO
-from modules.fig1 import utils
 from modules.fig1 import queryDB
 
 config = jsonref.load(open('../config/config.json'))
+fig1_config = jsonref.load(open('../config/modules/fig1.json'))
 logBase = config['logging']['logBase'] + '.modules.fig1.fig1'
 
+@lD.log(logBase + '.removeLowPrev')
+def removeLowPrev(logger, d):
+    '''
+    
+    This function removes those diagnoses that have a low prevalence.   
+
+    Parameters
+    ----------
+    logger : {logging.Logger}
+        The logger used for logging error information
+    '''
+    try: 
+
+        result = {k: v for k, v in d.items() if max(v) >= fig1_config["params"]["min_prevalence"]}
+        print(result)
+
+    except Exception as e:
+        logger.error('Failed to remove low prevalence because {}'.format(e))
+
+    return result
 
 @lD.log(logBase + '.main')
 def main(logger, resultsDict):
@@ -43,7 +63,7 @@ def main(logger, resultsDict):
 
     print(countDict)
 
-    final_countDict = utils.removeLowPrev(countDict)
+    final_countDict = removeLowPrev(countDict)
 
     obj = json.dumps(final_countDict)
     f = open("../data/final/diagnosesCount.json","w+")

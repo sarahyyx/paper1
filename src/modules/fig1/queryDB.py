@@ -17,7 +17,7 @@ logBase = config['logging']['logBase'] + '.modules.fig1.queryDB'
 
 @lD.log(logBase + '.genDiagCount')
 def genDiagCount(logger, filePath):
-    '''[summary]
+    '''
     
     This function generates the percentage of users per race that has a certain diagnosis
     

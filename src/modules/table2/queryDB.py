@@ -19,7 +19,7 @@ logBase = config['logging']['logBase'] + '.modules.table2.table2'
 @lD.log(logBase + '.genSUDUserKeys')
 def genSUDUserKeys(logger):
     '''
-    This function generates a .csv file for each SUD patients' (siteid, backgroundid)
+    This function generates a .csv file for each SUD user's (siteid, backgroundid)
     
     Parameters
     ----------
@@ -55,10 +55,11 @@ def genSUDUserKeys(logger):
     return 
 
 @lD.log(logBase + '.createtest4Table')
-def createtest4Table(logger):
-    '''[summary]
+def createTest4Table(logger):
+    '''Creates test4
     
-    [description]
+    This function creates the table sarah.test4, which contains boolean columns 
+    for each mental disorder.
     
     Decorators:
         lD.log
@@ -67,6 +68,45 @@ def createtest4Table(logger):
         logger {[type]} -- [description]
     '''
     try:
+        create_query = '''
+        CREATE TABLE sarah.test4(
+        siteid text,
+        backgroundid text,
+        alc bool,
+        cannabis bool,
+        amphe bool,
+        halluc bool,
+        nicotin bool,
+        cocaine bool,
+        opioids bool,
+        sedate bool,
+        others bool,
+        polysub bool,
+        inhalant bool
+        )
+        '''
+        print(pgIO.commitData(create_query))
+
+    except Exception as e:
+        logger. error('Failed to create test4 table because of {}'.format(e))
+    return
+
+@lD.log(logBase + '.popTest4')
+def popTest4(logger):
+    '''Populates test4
+    
+    This function populates the table sarah.test4, which contains boolean columns 
+    for each mental disorder. If a user's row has True for that column, it means
+    that he/she has that disorder, and vice versa. 
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+
         all_userkeys = "../data/raw_data/SUDUser_keys.csv"
 
         with open(all_userkeys) as f:
@@ -96,17 +136,17 @@ def createtest4Table(logger):
                 GROUP BY
                     siteid, backgroundid
                 ''').format(
-                    Literal(table2_config["params"]["test4"]["alc"]),
-                    Literal(table2_config["params"]["test4"]["cannabis"]),
-                    Literal(table2_config["params"]["test4"]["amphe"]),
-                    Literal(table2_config["params"]["test4"]["halluc"]),
-                    Literal(table2_config["params"]["test4"]["nicotin"]),
-                    Literal(table2_config["params"]["test4"]["cocaine"]),
-                    Literal(table2_config["params"]["test4"]["opioids"]),
-                    Literal(table2_config["params"]["test4"]["sedate"]),
-                    Literal(table2_config["params"]["test4"]["others"]),
-                    Literal(table2_config["params"]["test4"]["polysub"]),
-                    Literal(table2_config["params"]["test4"]["inhalant"]),
+                    Literal(table2_config["params"]["sudcats"]["alc"]),
+                    Literal(table2_config["params"]["sudcats"]["cannabis"]),
+                    Literal(table2_config["params"]["sudcats"]["amphe"]),
+                    Literal(table2_config["params"]["sudcats"]["halluc"]),
+                    Literal(table2_config["params"]["sudcats"]["nicotin"]),
+                    Literal(table2_config["params"]["sudcats"]["cocaine"]),
+                    Literal(table2_config["params"]["sudcats"]["opioids"]),
+                    Literal(table2_config["params"]["sudcats"]["sedate"]),
+                    Literal(table2_config["params"]["sudcats"]["others"]),
+                    Literal(table2_config["params"]["sudcats"]["polysub"]),
+                    Literal(table2_config["params"]["sudcats"]["inhalant"]),
                     Literal(user[0]),
                     Literal(user[1])
                 )
@@ -124,14 +164,19 @@ def createtest4Table(logger):
 
 
     except Exception as e:
-        logger. error('Failed to create test4 table because of {}'.format(e))
+        logger. error('Failed to populate test4 table because of {}'.format(e))
     return
 
 @lD.log(logBase + '.divByAllAges')
 def divByAllAges(logger, l):
-    '''[summary]
+    '''Divides by total sample of each race
     
-    This function takes in a list of counts and returns a list (of similar structure) with the percentage of the counts over the total
+    This function takes in a list of counts and returns a list (of similar structure) 
+    with the percentage of the counts over the total
+    
+    Decorators:
+        lD.log
+
     Arguments:
         logger {[type]} -- [description]
         l {list} -- l[0] is the no. of AA , l[1] is the no. of NHPI, l[2] is the no. of MR
@@ -154,6 +199,19 @@ def divByAllAges(logger, l):
 
 @lD.log(logBase + '.allAgesGeneralSUD')
 def allAgesGeneralSUD(logger):
+    '''
+    
+    Finds percentage of the total sample that has any SUD and more than 2 SUD
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    '''
     try:
 
         countDict = {
@@ -236,6 +294,20 @@ def allAgesGeneralSUD(logger):
 
 @lD.log(logBase + '.allAgesCategorisedSUD')
 def allAgesCategorisedSUD(logger):
+    '''
+    
+    Finds percentage of the age-binned sample that have 
+    SUD of a particular substance 
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    '''
     try:
         countDict = {
             "alc":[],
@@ -252,7 +324,7 @@ def allAgesCategorisedSUD(logger):
         }
 
         for race in table2_config["inputs"]["races"]:
-            for sudcat in table2_config["params"]["test4"]:
+            for sudcat in table2_config["params"]["sudcats"]:
                 query = SQL('''
                 SELECT 
                     count(*) 
@@ -287,7 +359,7 @@ def allAgesCategorisedSUD(logger):
 
 @lD.log(logBase + '.divByAgeBins')
 def divByAgeBins(logger, lol):
-    '''[summary]
+    '''Divide by no. of people of each race in a certain age bin
     
     This function takes in a list of lists called lol, where lol[0] is the list of AAs, lol[0][0] is for ages 1-11 and lol[0][1] is for ages 12-17 and so forth
     
@@ -310,9 +382,21 @@ def divByAgeBins(logger, lol):
 
     return resultLoL
 
-
 @lD.log(logBase + '.ageBinnedGeneralSUD')
 def ageBinnedGeneralSUD(logger):
+    '''
+    
+    Finds percentage of the age-binned sample that has any SUD and more than 2 SUD
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    '''
     try:
 
         countDict = {
@@ -429,10 +513,24 @@ def ageBinnedGeneralSUD(logger):
 
 @lD.log(logBase + '.ageBinnedCategorisedSUD')
 def ageBinnedCategorisedSUD(logger):
+    '''
+    
+    Finds percentage of the age-binned sample that has 
+    SUD of a particular substance 
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    '''
     try:
         countDict = {}
 
-        for sudcat in table2_config["params"]["test4"].keys():
+        for sudcat in table2_config["params"]["sudcats"].keys():
             list1 = []
             for race in table2_config["inputs"]["races"]:
                 list2 = []

@@ -98,6 +98,64 @@ def createTest1(logger):
         logger.error('Failed to generate table {}'.format(e))
     return
 
+@lD.log(logBase + '.relabelVar')
+def relabelVar(logger):
+    '''Relabels column values
+    
+    This function relabels Sex, Race, Settings values to standardised values.
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+        relabel_sex_success = []
+        for sex in table1_config["inputs"]["sexes"]:
+            sex_query = SQL('''
+            UPDATE sarah.test2
+            SET sex = {}
+            WHERE sex in {}
+            ''').format(
+                Literal(sex),
+                Literal(tuple(table1_config["params"]["sexes"][sex])) 
+                )
+            relabel_sex_success.append(pgIO.commitData(sex_query))
+        if False in relabel_sex_success:
+            print("Relabelling sex not successful!")
+
+        relabel_race_success = []
+        for race in table1_config["inputs"]["races"]:
+            race_query = SQL('''
+            UPDATE sarah.test2
+            SET race = {}
+            WHERE race in {}
+            ''').format(
+                Literal(race),
+                Literal(tuple(table1_config["params"]["races"][race])) 
+                )
+            relabel_race_success.append(pgIO.commitData(race_query))
+        if False in relabel_race_success:
+            print("Relabelling race not successful!")
+
+        relabel_setting_success = []
+        for setting in table1_config["inputs"]["settings"]:
+            setting_query = SQL('''
+            UPDATE sarah.test2
+            SET visit_type = {}
+            WHERE visit_type in {}
+            ''').format(
+                Literal(setting),
+                Literal(tuple(table1_config["params"]["settings"][setting])) 
+                )
+            relabel_setting_success.append(pgIO.commitData(setting_query))
+        if False in relabel_setting_success:
+            print("Relabelling setting not successful!")
+
+    except Exception as e:
+        logger.error('Failed to update table test2 because {}'.format(e))
+
 @lD.log(logBase + '.countMainRace')
 def countMainRace(logger):
     '''
