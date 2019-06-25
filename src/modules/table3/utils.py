@@ -20,17 +20,16 @@ logBase = config['logging']['logBase'] + '.modules.table3.table3'
 
 @lD.log(logBase + '.logRegress')
 def logRegress(logger, df):
-    '''[summary]
+    '''Performs logistic regression
     
-    This function gets the logistic regression coefficients for a dataframe that is passed in
-
+    This function gets the logistic regression coefficients for a dataframe that is passed in.
     
     Decorators:
         lD.log
     
     Arguments:
         logger {[type]} -- [description]
-        df {[type]} -- [description]
+        df {dataframe} -- [description]
     '''
 
     try:

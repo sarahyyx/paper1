@@ -19,6 +19,18 @@ logBase = config['logging']['logBase'] + '.modules.table3.table3'
 
 @lD.log(logBase + '.addmorethan2sudcolumn')
 def addmorethan2sudcolumn(logger):
+    '''Populates the 'morethan2sud' column in sarah.test4
+    
+    This function counts the number of 'True' for each mental disorder 
+    for each user in sarah.test4. If they have more than 1 'True' value,
+    their 'morethan2sud' column will be set to 'True'.
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
     try:
         query = '''
         SELECT 
@@ -71,15 +83,16 @@ def addmorethan2sudcolumn(logger):
                 '''
                 print(pgIO.commitData(updateQuery, user))
 
-        #Run this query in Postgres to update column's null values to false
-        # updateQuery = '''
-        # UPDATE 
-        #     sarah.test4
-        # SET 
-        #     morethan2sud = False
-        # WHERE
-        #    morethan2sud is null
-        # '''
+        #Update column's null values to false
+        updateQuery2 = '''
+        UPDATE 
+            sarah.test4
+        SET 
+            morethan2sud = False
+        WHERE
+           morethan2sud is null
+        '''
+        print(pgIO.commitData(updateQuery2))
 
         
     except Exception as e:
@@ -89,9 +102,11 @@ def addmorethan2sudcolumn(logger):
 
 @lD.log(logBase + '.createDF_allRaces_anySUD')
 def createDF_allRaces_anySUD(logger):
-    '''[summary]
+    '''Creates dataframe for total sample, dependent variable = any sud
     
-    [description]
+    This function creates a dataframe for the total sample, where the 
+    dependent variable is any sud and the independent variables are: 
+    race, age, sex and setting.
     
     Decorators:
         lD.log
@@ -164,9 +179,11 @@ def createDF_allRaces_anySUD(logger):
 
 @lD.log(logBase + '.createDF_allRaces_morethan2SUD')
 def createDF_allRaces_morethan2SUD(logger):
-    '''[summary]
+    '''Creates dataframe for total sample, dependent variable = more than 2 sud
     
-    [description]
+    This function creates a dataframe for the total sample, where the 
+    dependent variable is >=2 sud and the independent variables are: 
+    race, age, sex and setting.
     
     Decorators:
         lD.log
@@ -239,16 +256,19 @@ def createDF_allRaces_morethan2SUD(logger):
 
 @lD.log(logBase + '.createDF_byRace_anySUD')
 def createDF_byRace_anySUD(logger, race):
-    '''[summary]
+    '''Creates dataframe for a sample from a specified race, 
+    dependent variable = any sud
     
-    [description]
+    This function creates a dataframe for a sample from a specified race, 
+    where the  dependent variable is any sud and the independent variables 
+    are: age, sex and setting.
     
     Decorators:
         lD.log
     
     Arguments:
         logger {[type]} -- [description]
-        race {[type]} -- [description]
+        race {str} -- [description]
     
     Returns:
         [type] -- [description]
@@ -314,16 +334,19 @@ def createDF_byRace_anySUD(logger, race):
 
 @lD.log(logBase + '.createDF_byRace_morethan2SUD')
 def createDF_byRace_morethan2SUD(logger, race):
-    '''[summary]
+    '''Creates dataframe for a sample from a specified race, 
+    dependent variable = more than 2 sud
     
-    [description]
+    This function creates a dataframe for a sample from a specified race, 
+    where the  dependent variable is >=2 sud and the independent variables 
+    are: age, sex and setting.
     
     Decorators:
         lD.log
     
     Arguments:
         logger {[type]} -- [description]
-        race {[type]} -- [description]
+        race {str} -- [description]
     
     Returns:
         [type] -- [description]

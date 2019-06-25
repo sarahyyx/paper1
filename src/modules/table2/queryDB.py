@@ -82,7 +82,8 @@ def createTest4Table(logger):
         sedate bool,
         others bool,
         polysub bool,
-        inhalant bool
+        inhalant bool,
+        morethan2sud bool
         )
         '''
         print(pgIO.commitData(create_query))

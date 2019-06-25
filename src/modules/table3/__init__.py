@@ -1,30 +1,44 @@
-'''[one line description of the module]
+'''Performs logistic regression for any sud and more than 2 sud
 
-[this is a 
-multiline description of what the module does.] 
+This module performs logistic regression for any sud and more than 2 sud for the 
+total sample of users as well as for users from each race, then returns the odds 
+ratios and the confidence intervals for each subgroup.
 
 Before you Begin
 ================
 
 Make sure that the configuration files are properly set, as mentioned in the Specifcations 
-section. Also, [add any other housekeeping that needs to be done before starting the module]. 
+section. 
+
+Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format 
+by using an online csv -> json converter, then copying the json file into the table1.json config
+file under ["params"]["categories"] and ["params"]["sudcats"].
 
 Details of Operation
 ====================
 
-[
-Over here, you should provide as much information as possible for what the modules does. 
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]
+Firstly, the function addmorethan2sudcolumn() in queryDB is run to populate the 
+column 'morethan2sud' in sarah.test4. If the user has more than 2 SUD diagnoses, 
+their 'morethan2sud' column will be set to 'True'. This function is only run on 
+the first time to populate the 'morethan2sud' column.
+
+The rest of the functions in queryDB creates separate dataframes for each subgroup,
+which will be passed into the utils.logRegress() function for fitting into the 
+logistic regression model.
+
+After passing into the logRegress() function, the odds ratios and confidence intervals 
+for each subgroup is returned.
 
 Results
 =======
 
-[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates. 
-]
+Tables updated:
+sarah.test4
+
+Files created:
+../data/final/oddsratios_allRaces.json
+../data/final/oddsratios_anysud_byRace.json
+../data/final/oddsratios_morethan2sud_byRace.json
 
 Specifications:
 ===============
@@ -36,9 +50,7 @@ folder.
 Specifications for the database:
 --------------------------------
 
-[
-Note the tables within the various databases that will be affected by this module.
-]
+sarah.test4
 
 Specifications for ``modules.json``
 -----------------------------------
@@ -48,19 +60,17 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 .. code-block:: python
     :emphasize-lines: 3
 
-    "moduleName" : "module1",
-    "path"       : "modules/module1/module1.py",
+    "moduleName" : "table3",
+    "path"       : "modules/table3/table3.py",
     "execute"    : true,
     "description": "",
     "owner"      : ""
 
 
-Specification for [any other files]
+Specification for table3.json
 -----------------------------------
 
-[
-Make sure that you specify all the other files whose parameters will need to be
-changed. 
-]
+Ensure that the DSM numbers for each mental disorder and for each SUD substance 
+are specified under ["params"]["categories"] and ["params"]["sudcats"].
 
 '''

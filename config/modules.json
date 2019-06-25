@@ -37,7 +37,7 @@
     {
         "moduleName" : "table4",
         "path"       : "modules/table4/table4.py",
-        "execute"    : false,
+        "execute"    : true,
         "description": "",
         "owner"      : ""
     },
