@@ -63,9 +63,7 @@ def genDiagCount(logger, filePath):
                 INNER JOIN 
                     sarah.test2 t2
                 ON 
-                    t1.siteid = t2.siteid
-                AND 
-                    t1.backgroundid = t2.backgroundid
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.{} is true
                 AND 

@@ -1,3 +1,4 @@
+
 {
     "inputs"  : {
         "races": ["AA", "NHPI", "MR"],
@@ -13,9 +14,9 @@
             "all":["Chinese", "Asian american", "Korean", "Asian", "Vietnamese", "Indian", "asian","Native Hawaiian or Other Pacific Islander", "Hawaiian/Pacific Islander", "Native Hawaiian/Pacific Is", "Pacific Islander", "Hawaiian or other Pacific Islander", "hawaiian / Pacific Islander", "PACIFIC ISLANDER", "Native Hawaiian/Other Pacific Islander", "NativeHawaiianPacificIslander", "Hawaiian / Pacific Islander", "Native Hawaiian or Other Pacific Is", "Hawaiian/P","biracial", "Biracial-White/Native American", "MultiRacia", "Multiracial:Asian/Black-African American", "Multiracial:Asian/White", "Other Multi-Race", "White/Black", "Biracial", "More Than One Race", "Mixed", "multiracial:Other Combination", "Multi Raci", "multiracial", "Multi-Race", "MultiRacial", "Multiracial:Black-African American White", "Multiracial", "Multiracial:Other Combination", "Asian and White"]
         },
         "sexes":{
-            "M":["Male", "M"],
-            "F":["Female", "F"],
-            "all":["Male", "M", "Female", "F"]
+            "M":["M"],
+            "F":["F"],
+            "all":["M","F"]
         },
         "settings":{
             "Hospital":["Inpatient"],

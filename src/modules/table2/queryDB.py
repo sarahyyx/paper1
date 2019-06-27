@@ -29,8 +29,7 @@ def genSUDUserKeys(logger):
     try: 
         query = '''
         SELECT 
-            siteid, 
-            backgroundid
+            patientid
         FROM
             sarah.test3
         WHERE
@@ -38,7 +37,6 @@ def genSUDUserKeys(logger):
         '''
 
         data = pgIO.getAllData(query)
-        data = [(d[0], d[1]) for d in data]
 
         csvfile = "../data/raw_data/SUDUser_keys.csv"
 
@@ -70,8 +68,7 @@ def createTest4Table(logger):
     try:
         create_query = '''
         CREATE TABLE sarah.test4(
-        siteid text,
-        backgroundid text,
+        patientid integer,
         alc bool,
         cannabis bool,
         amphe bool,
@@ -117,25 +114,24 @@ def popTest4(logger):
 
                 getQuery = SQL('''
                 SELECT
-                    siteid,
-                    backgroundid,
-                    array_agg(distinct dsmno) && array[{}] as alc,
-                    array_agg(distinct dsmno) && array[{}] as cannabis,
-                    array_agg(distinct dsmno) && array[{}] as amphe,
-                    array_agg(distinct dsmno) && array[{}] as halluc,
-                    array_agg(distinct dsmno) && array[{}] as nicotin,
-                    array_agg(distinct dsmno) && array[{}] as cocaine,
-                    array_agg(distinct dsmno) && array[{}] as opioids,
-                    array_agg(distinct dsmno) && array[{}] as sedate,
-                    array_agg(distinct dsmno) && array[{}] as others,
-                    array_agg(distinct dsmno) && array[{}] as polysub,
-                    array_agg(distinct dsmno) && array[{}] as inhalant
+                    patientid,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as alc,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as cannabis,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as amphe,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as halluc,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as nicotin,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as cocaine,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as opioids,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as sedate,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as others,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as polysub,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as inhalant
                 FROM
-                    raw_data.pdiagnose
+                    rwe_version1_1.pdiagnose
                 WHERE
-                    siteid = {} and backgroundid = {}
+                    patientid = {}
                 GROUP BY
-                    siteid, backgroundid
+                    patientid
                 ''').format(
                     Literal(table2_config["params"]["sudcats"]["alc"]),
                     Literal(table2_config["params"]["sudcats"]["cannabis"]),
@@ -148,15 +144,14 @@ def popTest4(logger):
                     Literal(table2_config["params"]["sudcats"]["others"]),
                     Literal(table2_config["params"]["sudcats"]["polysub"]),
                     Literal(table2_config["params"]["sudcats"]["inhalant"]),
-                    Literal(user[0]),
-                    Literal(user[1])
+                    Literal(int(user[0]))
                 )
 
                 data = pgIO.getAllData(getQuery)
 
                 pushQuery = '''
                 INSERT INTO 
-                    sarah.test4(siteid, backgroundid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)
+                    sarah.test4(patientid, alc, cannabis, amphe, halluc, nicotin, cocaine, opioids, sedate, others, polysub, inhalant)
                 VALUES
                     %s
                 '''
@@ -231,9 +226,7 @@ def allAgesGeneralSUD(logger):
             INNER JOIN
                 sarah.test4 t2
             ON
-                t1.siteid = t2.siteid 
-            AND
-                t1.backgroundid = t2.backgroundid
+                t1.patientid = t2.patientid 
             WHERE 
                 t1.race = {}
             ''').format(
@@ -268,9 +261,7 @@ def allAgesGeneralSUD(logger):
             INNER JOIN 
                 sarah.test4 t2
             ON
-                t1.siteid = t2.siteid 
-            AND
-                t1.backgroundid = t2.backgroundid
+                t1.patientid = t2.patientid 
             WHERE 
                 t1.race = {}
             ''').format(
@@ -333,10 +324,8 @@ def allAgesCategorisedSUD(logger):
                     sarah.test2 t1
                 INNER JOIN 
                     sarah.test4 t2
-                ON 
-                    t1.siteid = t2.siteid 
-                AND 
-                    t1.backgroundid = t2.backgroundid
+                ON
+                    t1.patientid = t2.patientid 
                 WHERE 
                     t1.race = {}
                 AND 
@@ -417,10 +406,8 @@ def ageBinnedGeneralSUD(logger):
                     sarah.test2 t1
                 INNER JOIN 
                     sarah.test3 t2
-                ON 
-                    t1.siteid = t2.siteid 
-                AND 
-                    t1.backgroundid = t2.backgroundid
+                ON
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.race = {} 
                 AND 
@@ -482,9 +469,7 @@ def ageBinnedGeneralSUD(logger):
                 INNER JOIN 
                     sarah.test4 t2
                 ON
-                    t1.siteid = t2.siteid 
-                AND
-                    t1.backgroundid = t2.backgroundid
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.race = {}
                 AND
@@ -543,10 +528,8 @@ def ageBinnedCategorisedSUD(logger):
                         sarah.test2 t1
                     INNER JOIN 
                         sarah.test4 t2
-                    ON 
-                        t1.siteid = t2.siteid 
-                    AND 
-                        t1.backgroundid = t2.backgroundid
+                    ON
+                        t1.patientid = t2.patientid
                     WHERE 
                         t1.race = {}
                     AND 

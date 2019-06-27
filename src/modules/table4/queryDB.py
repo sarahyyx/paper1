@@ -59,10 +59,8 @@ def createDF_byRace_anySUD(logger, race):
             sarah.test2 t1
         INNER JOIN 
             sarah.test3 t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
+        ON
+            t1.patientid = t2.patientid
         WHERE
             t1.age BETWEEN 12 AND 100
         AND 

@@ -34,8 +34,7 @@ def addmorethan2sudcolumn(logger):
     try:
         query = '''
         SELECT 
-            t1.siteid,
-            t1.backgroundid,
+            t1.patientid,
             t2.alc,
             t2.cannabis,
             t2.amphe,
@@ -52,9 +51,7 @@ def addmorethan2sudcolumn(logger):
         INNER JOIN 
             sarah.test4 t2
         ON
-            t1.siteid = t2.siteid 
-        AND
-            t1.backgroundid = t2.backgroundid
+            t1.patientid = t2.patientid
         '''
 
         data = pgIO.getAllData(query)
@@ -64,9 +61,9 @@ def addmorethan2sudcolumn(logger):
         with open(csvfile, 'w+') as output:
             csv_output = csv.writer(output)
 
-            for tuple in data:
-                if sum(list(tuple[2:13])) >=2:
-                    csv_output.writerow(tuple[0:2])
+            for row in data:
+                if sum(list(row[1:12])) >=2:
+                    csv_output.writerow(row)
         output.close()
 
         with open(csvfile) as f:
@@ -79,9 +76,11 @@ def addmorethan2sudcolumn(logger):
                 SET 
                     morethan2sud = True
                 WHERE
-                   siteid = %s AND backgroundid = %s
-                '''
-                print(pgIO.commitData(updateQuery, user))
+                   patientid = {}
+                '''.format(user[0])
+                print(pgIO.commitData(updateQuery))
+
+                # print(type(user[0]))
 
         #Update column's null values to false
         updateQuery2 = '''
@@ -92,7 +91,7 @@ def addmorethan2sudcolumn(logger):
         WHERE
            morethan2sud is null
         '''
-        print(pgIO.commitData(updateQuery2))
+        # print(pgIO.commitData(updateQuery2))
 
         
     except Exception as e:
@@ -132,10 +131,8 @@ def createDF_allRaces_anySUD(logger):
             sarah.test2 t1
         INNER JOIN 
             sarah.test3 t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
+        ON
+            t1.patientid = t2.patientid
         WHERE
             t1.age BETWEEN 12 AND 100
         '''
@@ -209,10 +206,8 @@ def createDF_allRaces_morethan2SUD(logger):
             sarah.test2 t1
         INNER JOIN 
             sarah.test4 t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
+        ON
+            t1.patientid = t2.patientid
         WHERE
             t1.age BETWEEN 12 AND 100
         '''
@@ -287,10 +282,8 @@ def createDF_byRace_anySUD(logger, race):
             sarah.test2 t1
         INNER JOIN 
             sarah.test3 t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
+        ON
+            t1.patientid = t2.patientid
         WHERE
             t1.age BETWEEN 12 AND 100
         AND 
@@ -365,10 +358,8 @@ def createDF_byRace_morethan2SUD(logger, race):
             sarah.test2 t1
         INNER JOIN 
             sarah.test4 t2
-        ON 
-            t1.siteid = t2.siteid 
-        AND 
-            t1.backgroundid = t2.backgroundid
+        ON
+            t1.patientid = t2.patientid
         WHERE
             t1.age BETWEEN 12 AND 100
         AND 

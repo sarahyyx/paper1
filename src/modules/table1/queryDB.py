@@ -65,7 +65,7 @@ def createTest1(logger):
 
     try:
         query = SQL('''
-        INSERT INTO sarah.test1 (age, visit_type, sex, race, siteid, backgroundid)
+        INSERT INTO sarah.test1(age, visit_type, sex, race, siteid, backgroundid)
         SELECT 
             t1.age,
             t1.visit_type, 
@@ -89,6 +89,8 @@ def createTest1(logger):
             t2.sex in {}
         AND
             t2.race in {}
+        AND 
+            t2.ethnicity not ilike 'Hisp%'
         ''').format(
             Literal(tuple(table1_config["params"]["setting"]["all"])),
             Literal(tuple(table1_config["params"]["sexes"]["all"])),
@@ -97,64 +99,6 @@ def createTest1(logger):
     except Exception as e:
         logger.error('Failed to generate table {}'.format(e))
     return
-
-@lD.log(logBase + '.relabelVar')
-def relabelVar(logger):
-    '''Relabels column values
-    
-    This function relabels Sex, Race, Settings values to standardised values.
-    
-    Decorators:
-        lD.log
-    
-    Arguments:
-        logger {[type]} -- [description]
-    '''
-    try:
-        relabel_sex_success = []
-        for sex in table1_config["inputs"]["sexes"]:
-            sex_query = SQL('''
-            UPDATE sarah.test2
-            SET sex = {}
-            WHERE sex in {}
-            ''').format(
-                Literal(sex),
-                Literal(tuple(table1_config["params"]["sexes"][sex])) 
-                )
-            relabel_sex_success.append(pgIO.commitData(sex_query))
-        if False in relabel_sex_success:
-            print("Relabelling sex not successful!")
-
-        relabel_race_success = []
-        for race in table1_config["inputs"]["races"]:
-            race_query = SQL('''
-            UPDATE sarah.test2
-            SET race = {}
-            WHERE race in {}
-            ''').format(
-                Literal(race),
-                Literal(tuple(table1_config["params"]["races"][race])) 
-                )
-            relabel_race_success.append(pgIO.commitData(race_query))
-        if False in relabel_race_success:
-            print("Relabelling race not successful!")
-
-        relabel_setting_success = []
-        for setting in table1_config["inputs"]["settings"]:
-            setting_query = SQL('''
-            UPDATE sarah.test2
-            SET visit_type = {}
-            WHERE visit_type in {}
-            ''').format(
-                Literal(setting),
-                Literal(tuple(table1_config["params"]["settings"][setting])) 
-                )
-            relabel_setting_success.append(pgIO.commitData(setting_query))
-        if False in relabel_setting_success:
-            print("Relabelling setting not successful!")
-
-    except Exception as e:
-        logger.error('Failed to update table test2 because {}'.format(e))
 
 @lD.log(logBase + '.countMainRace')
 def countMainRace(logger):
@@ -179,9 +123,7 @@ def countMainRace(logger):
             INNER JOIN 
                 sarah.test3 t2
             ON
-                t1.backgroundid = t2.backgroundid
-            AND
-                t1.siteid = t2.siteid
+                t1.patientid = t2.patientid
             WHERE
                 race = {}
             ''').format(
@@ -220,9 +162,7 @@ def countRaceAge(logger):
                 INNER JOIN 
                     sarah.test3 t2
                 ON
-                    t1.backgroundid = t2.backgroundid
-                AND
-                    t1.siteid = t2.siteid
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.age >= {} AND t1.age <= {} and t1.race = {}
                 ''').format(
@@ -265,9 +205,7 @@ def countRaceSex(logger):
                 INNER JOIN 
                     sarah.test3 t2
                 ON
-                    t1.backgroundid = t2.backgroundid
-                AND
-                    t1.siteid = t2.siteid
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.sex = {} AND t1.race = {}
                 ''').format(
@@ -308,9 +246,7 @@ def countRaceSetting(logger):
                 INNER JOIN 
                     sarah.test3 t2
                 ON
-                    t1.backgroundid = t2.backgroundid
-                AND
-                    t1.siteid = t2.siteid
+                    t1.patientid = t2.patientid
                 WHERE 
                     t1.visit_type = {} AND t1.race = {}
                 ''').format(
@@ -341,14 +277,12 @@ def genAllKeys(logger):
     try: 
         query = '''
         SELECT 
-            siteid, 
-            backgroundid
+            patientid
         FROM
             sarah.test2
         '''
 
         data = pgIO.getAllData(query)
-        data = [(d[0], d[1]) for d in data]
 
         csvfile = "../data/raw_data/firstfilter_allkeys.csv"
 
@@ -364,9 +298,46 @@ def genAllKeys(logger):
 
     return 
 
-@lD.log(logBase + '.addDiagCols')
-def addDiagCols(logger):
-    '''Creating sarah.test3 table
+@lD.log(logBase + '.createTest3')
+def createTest3(logger):
+    '''Creates sarah.test3 table
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+        query = '''
+        CREATE TABLE sarah.test3(
+            patientid text,
+            mood bool,
+            anxiety bool,
+            adjustment bool,
+            adhd bool,
+            sud bool,
+            psyc bool,
+            pers bool,
+            childhood bool,
+            impulse bool, 
+            cognitive bool,
+            eating bool,
+            smtf bool,
+            disso bool,
+            sleep bool,
+            fd bool
+            )'''
+        value = pgIO.commitData(query)
+        if value == True:
+            print("sarah.test3 table has been successfully created")
+    except Exception as e:
+        logger.error('Unable to create table test3 because {}'.format(e))
+    return
+
+@lD.log(logBase + '.popDiagCols')
+def popDiagCols(logger):
+    '''Populates sarah.test3 table
     
     Using the .csv file of the first filtered users' [siteid, backgroundid], these users' DSM numbers are aggregated into an array and compared against the array of DSM numbers of a specific diagnosis.
     If the user's DSM numbers are found in the diagnosis array, the column representing the diagnosis is filled in with a "True" value for the user, and vice versa.
@@ -388,29 +359,28 @@ def addDiagCols(logger):
 
                 getQuery = SQL('''
                 SELECT
-                    siteid,
-                    backgroundid,
-                    array_agg(distinct dsmno) && array[{}] as mood,
-                    array_agg(distinct dsmno) && array[{}] as anxiety,
-                    array_agg(distinct dsmno) && array[{}] as adjustment,
-                    array_agg(distinct dsmno) && array[{}] as adhd,
-                    array_agg(distinct dsmno) && array[{}] as sud,
-                    array_agg(distinct dsmno) && array[{}] as psyc,
-                    array_agg(distinct dsmno) && array[{}] as pers,
-                    array_agg(distinct dsmno) && array[{}] as childhood,
-                    array_agg(distinct dsmno) && array[{}] as impulse,
-                    array_agg(distinct dsmno) && array[{}] as cognitive,
-                    array_agg(distinct dsmno) && array[{}] as eating,
-                    array_agg(distinct dsmno) && array[{}] as smtf,
-                    array_agg(distinct dsmno) && array[{}] as disso,
-                    array_agg(distinct dsmno) && array[{}] as sleep,
-                    array_agg(distinct dsmno) && array[{}] as fd
+                    patientid,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as mood,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as anxiety,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as adjustment,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as adhd,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as sud,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as psyc,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as pers,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as childhood,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as impulse,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as cognitive,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as eating,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as smtf,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as disso,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as sleep,
+                    array_agg(distinct cast(dsmno as text)) && array[{}] as fd
                 FROM
-                    raw_data.pdiagnose
+                    rwe_version1_1.pdiagnose
                 WHERE
-                    siteid = {} and backgroundid = {}
+                    patientid = {}
                 GROUP BY
-                    siteid, backgroundid
+                    patientid
                 ''').format(
                     Literal(table1_config["params"]["categories"]["mood"]),
                     Literal(table1_config["params"]["categories"]["anxiety"]),
@@ -427,23 +397,79 @@ def addDiagCols(logger):
                     Literal(table1_config["params"]["categories"]["disso"]),
                     Literal(table1_config["params"]["categories"]["sleep"]),
                     Literal(table1_config["params"]["categories"]["fd"]),
-                    Literal(user[0]),
-                    Literal(user[1])
+                    Literal(int(user[0]))
                 )
 
                 data = pgIO.getAllData(getQuery)
 
                 pushQuery = '''
                 INSERT INTO 
-                    sarah.test3(siteid, backgroundid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)
+                    sarah.test3(patientid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)
                 VALUES
                     %s
                 '''
-
                 print(pgIO.commitDataList(pushQuery, data))
         f.close()
 
 
     except Exception as e:
-        logger. error('Failed to add columns because of {}'.format(e))
+        logger.error('Failed to add columns because of {}'.format(e))
     return
+
+@lD.log(logBase + '.relabelVar')
+def relabelVar(logger):
+    '''Relabels column values
+    
+    This function relabels Sex, Race, Settings values to standardised values.
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+        # relabel_sex_success = []
+        # for sex in table1_config["inputs"]["sexes"]:
+        #     sex_query = SQL('''
+        #     UPDATE sarah.test2
+        #     SET sex = {}
+        #     WHERE sex in {}
+        #     ''').format(
+        #         Literal(sex),
+        #         Literal(tuple(table1_config["params"]["sexes"][sex])) 
+        #         )
+        #     relabel_sex_success.append(pgIO.commitData(sex_query))
+        # if False in relabel_sex_success:
+        #     print("Relabelling sex not successful!")
+
+        relabel_race_success = []
+        for race in table1_config["inputs"]["races"]:
+            race_query = SQL('''
+            UPDATE sarah.test2
+            SET race = {}
+            WHERE race in {}
+            ''').format(
+                Literal(race),
+                Literal(tuple(table1_config["params"]["races"][race])) 
+                )
+            relabel_race_success.append(pgIO.commitData(race_query))
+        if False in relabel_race_success:
+            print("Relabelling race not successful!")
+
+        relabel_setting_success = []
+        for setting in table1_config["inputs"]["settings"]:
+            setting_query = SQL('''
+            UPDATE sarah.test2
+            SET visit_type = {}
+            WHERE visit_type in {}
+            ''').format(
+                Literal(setting),
+                Literal(tuple(table1_config["params"]["settings"][setting])) 
+                )
+            relabel_setting_success.append(pgIO.commitData(setting_query))
+        if False in relabel_setting_success:
+            print("Relabelling setting not successful!")
+
+    except Exception as e:
+        logger.error('Failed to update table test2 because {}'.format(e))
