@@ -198,13 +198,11 @@
 
     <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="createTest1"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTest1">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.getTable1data&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">createTest1</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Creates the table sarah.test1</span>
+<div class="viewcode-block" id="createTest2"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTest2">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createTest2&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createTest2</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Creates the table sarah.test2</span>
 <span class="sd">    </span>
-<span class="sd">    This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper</span>
-<span class="sd">    Variables that are used to filter at this stage are age, visit_type, sex and race. </span>
-<span class="sd">    Variable values that are to be included are found in the config file</span>
+<span class="sd">    This function creates the table sarah.test2</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -213,97 +211,81 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">        INSERT INTO sarah.test1 (age, visit_type, sex, race, siteid, backgroundid)</span>
+        <span class="n">createTableQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        CREATE TABLE sarah.test2(</span>
+<span class="s1">            age integer,</span>
+<span class="s1">            visit_type text,</span>
+<span class="s1">            sex text,</span>
+<span class="s1">            race text, </span>
+<span class="s1">            patientid integer</span>
+<span class="s1">        )&#39;&#39;&#39;</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">createTableQuery</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sarah.test2 table has been created&quot;</span><span class="p">)</span>
+
+        <span class="n">popTableQuery</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        WITH table_cte (age, setting, sex, race, patientid)</span>
+<span class="s1">        as</span>
+<span class="s1">        (</span>
 <span class="s1">        SELECT </span>
 <span class="s1">            t1.age,</span>
 <span class="s1">            t1.visit_type, </span>
 <span class="s1">            t2.sex,</span>
 <span class="s1">            t2.race,</span>
-<span class="s1">            t1.siteid,</span>
-<span class="s1">            t1.backgroundid</span>
+<span class="s1">            t1.patientid</span>
 <span class="s1">        FROM </span>
-<span class="s1">            raw_data.typepatient t1</span>
+<span class="s1">            rwe_version1_1.typepatient t1</span>
 <span class="s1">        INNER JOIN </span>
-<span class="s1">            raw_data.background t2</span>
+<span class="s1">            rwe_version1_1.background t2</span>
 <span class="s1">        ON</span>
-<span class="s1">            t1.backgroundid = t2.id</span>
-<span class="s1">        AND</span>
-<span class="s1">            t1.siteid = t2.siteid</span>
+<span class="s1">            t1.patientid = t2.patient</span>
 <span class="s1">        WHERE </span>
-<span class="s1">            CAST (t1.age AS INTEGER) &lt; 100</span>
+<span class="s1">            t1.age &lt; 100</span>
 <span class="s1">        AND</span>
 <span class="s1">            t1.visit_type in </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">        AND</span>
 <span class="s1">            t2.sex in </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">        AND</span>
 <span class="s1">            t2.race in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">        )</span>
+<span class="s1">        INSERT INTO sarah.test2(age, setting, sex, race, patientid)</span>
+<span class="s1">        SELECT </span>
+<span class="s1">            (array_agg(distinct age))[1] age,</span>
+<span class="s1">            setting, </span>
+<span class="s1">            sex, </span>
+<span class="s1">            race, </span>
+<span class="s1">            patientid</span>
+<span class="s1">        FROM </span>
+<span class="s1">            table_cte</span>
+<span class="s1">        GROUP BY</span>
+<span class="s1">            setting, sex, race, patientid</span>
 <span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;setting&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">])),</span>
             <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">])),</span>
             <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]))</span>
             <span class="p">)</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">popTableQuery</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sarah.test2 table has been populated&quot;</span><span class="p">)</span>
+
+        <span class="n">deleteDupliQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        DELETE FROM sarah.test2 a USING (</span>
+<span class="s1">        SELECT MAX(ctid) as ctid, patientid</span>
+<span class="s1">        FROM sarah.test2</span>
+<span class="s1">        GROUP BY patientid HAVING count(*) &gt; 1</span>
+<span class="s1">        ) b</span>
+<span class="s1">        WHERE a.patientid = b.patientid</span>
+<span class="s1">        AND a.ctid &lt;&gt; b.ctid</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pGIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">deleteDupliQuery</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duplicate values in sarah.test2 has been deleted and the earliest age is taken&quot;</span><span class="p">)</span>
+
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to generate table </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">return</span></div>
-
-<div class="viewcode-block" id="relabelVar"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.relabelVar">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.relabelVar&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">relabelVar</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Relabels column values</span>
-<span class="sd">    </span>
-<span class="sd">    This function relabels Sex, Race, Settings values to standardised values.</span>
-<span class="sd">    </span>
-<span class="sd">    Decorators:</span>
-<span class="sd">        lD.log</span>
-<span class="sd">    </span>
-<span class="sd">    Arguments:</span>
-<span class="sd">        logger {[type]} -- [description]</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">relabel_sex_success</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">sex</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">]:</span>
-            <span class="n">sex_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">            UPDATE sarah.test2</span>
-<span class="s1">            SET sex = </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            WHERE sex in </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="n">sex</span><span class="p">),</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;sexes&quot;</span><span class="p">][</span><span class="n">sex</span><span class="p">]))</span> 
-                <span class="p">)</span>
-            <span class="n">relabel_sex_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">sex_query</span><span class="p">))</span>
-        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_sex_success</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling sex not successful!&quot;</span><span class="p">)</span>
-
-        <span class="n">relabel_race_success</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
-            <span class="n">race_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">            UPDATE sarah.test2</span>
-<span class="s1">            SET race = </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            WHERE race in </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">][</span><span class="n">race</span><span class="p">]))</span> 
-                <span class="p">)</span>
-            <span class="n">relabel_race_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">race_query</span><span class="p">))</span>
-        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_race_success</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling race not successful!&quot;</span><span class="p">)</span>
-
-        <span class="n">relabel_setting_success</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">]:</span>
-            <span class="n">setting_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">            UPDATE sarah.test2</span>
-<span class="s1">            SET visit_type = </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            WHERE visit_type in </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span>
-                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">][</span><span class="n">setting</span><span class="p">]))</span> 
-                <span class="p">)</span>
-            <span class="n">relabel_setting_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">setting_query</span><span class="p">))</span>
-        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_setting_success</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling setting not successful!&quot;</span><span class="p">)</span>
-
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to update table test2 because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="countMainRace"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.countMainRace">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.countMainRace&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">countMainRace</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
@@ -328,9 +310,7 @@
 <span class="s1">            INNER JOIN </span>
 <span class="s1">                sarah.test3 t2</span>
 <span class="s1">            ON</span>
-<span class="s1">                t1.backgroundid = t2.backgroundid</span>
-<span class="s1">            AND</span>
-<span class="s1">                t1.siteid = t2.siteid</span>
+<span class="s1">                t1.patientid = t2.patientid</span>
 <span class="s1">            WHERE</span>
 <span class="s1">                race = </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -369,9 +349,7 @@
 <span class="s1">                INNER JOIN </span>
 <span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
-<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
-<span class="s1">                AND</span>
-<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                    t1.patientid = t2.patientid</span>
 <span class="s1">                WHERE </span>
 <span class="s1">                    t1.age &gt;= </span><span class="si">{}</span><span class="s1"> AND t1.age &lt;= </span><span class="si">{}</span><span class="s1"> and t1.race = </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -414,9 +392,7 @@
 <span class="s1">                INNER JOIN </span>
 <span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
-<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
-<span class="s1">                AND</span>
-<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                    t1.patientid = t2.patientid</span>
 <span class="s1">                WHERE </span>
 <span class="s1">                    t1.sex = </span><span class="si">{}</span><span class="s1"> AND t1.race = </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -457,9 +433,7 @@
 <span class="s1">                INNER JOIN </span>
 <span class="s1">                    sarah.test3 t2</span>
 <span class="s1">                ON</span>
-<span class="s1">                    t1.backgroundid = t2.backgroundid</span>
-<span class="s1">                AND</span>
-<span class="s1">                    t1.siteid = t2.siteid</span>
+<span class="s1">                    t1.patientid = t2.patientid</span>
 <span class="s1">                WHERE </span>
 <span class="s1">                    t1.visit_type = </span><span class="si">{}</span><span class="s1"> AND t1.race = </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -490,14 +464,12 @@
     <span class="k">try</span><span class="p">:</span> 
         <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        SELECT </span>
-<span class="s1">            siteid, </span>
-<span class="s1">            backgroundid</span>
+<span class="s1">            patientid</span>
 <span class="s1">        FROM</span>
 <span class="s1">            sarah.test2</span>
 <span class="s1">        &#39;&#39;&#39;</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
 
         <span class="n">csvfile</span> <span class="o">=</span> <span class="s2">&quot;../data/raw_data/firstfilter_allkeys.csv&quot;</span>
 
@@ -513,9 +485,46 @@
 
     <span class="k">return</span> </div>
 
-<div class="viewcode-block" id="addDiagCols"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.addDiagCols">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.addDiagCols&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">addDiagCols</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Creating sarah.test3 table</span>
+<div class="viewcode-block" id="createTest3"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.createTest3">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.createTest3&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">createTest3</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Creates sarah.test3 table</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        CREATE TABLE sarah.test3(</span>
+<span class="s1">            patientid text,</span>
+<span class="s1">            mood bool,</span>
+<span class="s1">            anxiety bool,</span>
+<span class="s1">            adjustment bool,</span>
+<span class="s1">            adhd bool,</span>
+<span class="s1">            sud bool,</span>
+<span class="s1">            psyc bool,</span>
+<span class="s1">            pers bool,</span>
+<span class="s1">            childhood bool,</span>
+<span class="s1">            impulse bool, </span>
+<span class="s1">            cognitive bool,</span>
+<span class="s1">            eating bool,</span>
+<span class="s1">            smtf bool,</span>
+<span class="s1">            disso bool,</span>
+<span class="s1">            sleep bool,</span>
+<span class="s1">            fd bool</span>
+<span class="s1">            )&#39;&#39;&#39;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sarah.test3 table has been successfully created&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Unable to create table test3 because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="popDiagCols"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.popDiagCols">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.popDiagCols&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">popDiagCols</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Populates sarah.test3 table</span>
 <span class="sd">    </span>
 <span class="sd">    Using the .csv file of the first filtered users&#39; [siteid, backgroundid], these users&#39; DSM numbers are aggregated into an array and compared against the array of DSM numbers of a specific diagnosis.</span>
 <span class="sd">    If the user&#39;s DSM numbers are found in the diagnosis array, the column representing the diagnosis is filled in with a &quot;True&quot; value for the user, and vice versa.</span>
@@ -537,29 +546,28 @@
 
                 <span class="n">getQuery</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                SELECT</span>
-<span class="s1">                    siteid,</span>
-<span class="s1">                    backgroundid,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as mood,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as anxiety,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adjustment,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adhd,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sud,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as psyc,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as pers,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as childhood,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as impulse,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as cognitive,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as eating,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as smtf,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as disso,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sleep,</span>
-<span class="s1">                    array_agg(distinct dsmno) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as fd</span>
+<span class="s1">                    patientid,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as mood,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as anxiety,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adjustment,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as adhd,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sud,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as psyc,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as pers,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as childhood,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as impulse,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as cognitive,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as eating,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as smtf,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as disso,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as sleep,</span>
+<span class="s1">                    array_agg(distinct cast(dsmno as text)) &amp;&amp; array[</span><span class="si">{}</span><span class="s1">] as fd</span>
 <span class="s1">                FROM</span>
-<span class="s1">                    raw_data.pdiagnose</span>
+<span class="s1">                    rwe_version1_1.pdiagnose</span>
 <span class="s1">                WHERE</span>
-<span class="s1">                    siteid = </span><span class="si">{}</span><span class="s1"> and backgroundid = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">                    patientid = </span><span class="si">{}</span><span class="s1"></span>
 <span class="s1">                GROUP BY</span>
-<span class="s1">                    siteid, backgroundid</span>
+<span class="s1">                    patientid</span>
 <span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;mood&quot;</span><span class="p">]),</span>
                     <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;anxiety&quot;</span><span class="p">]),</span>
@@ -576,26 +584,135 @@
                     <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;disso&quot;</span><span class="p">]),</span>
                     <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;sleep&quot;</span><span class="p">]),</span>
                     <span class="n">Literal</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="s2">&quot;fd&quot;</span><span class="p">]),</span>
-                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-                    <span class="n">Literal</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">Literal</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
                 <span class="p">)</span>
+                
 
                 <span class="n">data</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">getAllData</span><span class="p">(</span><span class="n">getQuery</span><span class="p">)</span>
 
                 <span class="n">pushQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                INSERT INTO </span>
-<span class="s1">                    sarah.test3(siteid, backgroundid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)</span>
+<span class="s1">                    sarah.test3(patientid, mood, anxiety, adjustment, adhd, sud, psyc, pers, childhood, impulse, cognitive, eating, smtf, disso, sleep, fd)</span>
 <span class="s1">                VALUES</span>
 <span class="s1">                    </span><span class="si">%s</span><span class="s1"></span>
 <span class="s1">                &#39;&#39;&#39;</span>
-
                 <span class="nb">print</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitDataList</span><span class="p">(</span><span class="n">pushQuery</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+                <span class="n">deleteDupliQuery</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                DELETE FROM sarah.test3 a USING (</span>
+<span class="s1">                    SELECT MAX(ctid) as ctid, patientid</span>
+<span class="s1">                    FROM sarah.test3</span>
+<span class="s1">                    GROUP BY patientid HAVING count(*) &gt; 1</span>
+<span class="s1">                    ) b</span>
+<span class="s1">                WHERE a.patientid = b.patientid</span>
+<span class="s1">                AND a.ctid &lt;&gt; b.ctid</span>
+<span class="s1">                &#39;&#39;&#39;</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">deleteDupliQuery</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duplicate values succesfully deleted&quot;</span><span class="p">)</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span> <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to add columns because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to add columns because of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">return</span></div>
+
+<div class="viewcode-block" id="delAllFalseTest3"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.delAllFalseTest3">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.delAllFalseTest3&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delAllFalseTest3</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Second filter of users from sarah.test3</span>
+<span class="sd">    </span>
+<span class="sd">    Deletes users who have no target mental disorder diagnoses.</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        DELETE FROM </span>
+<span class="s1">            sarah.test3</span>
+<span class="s1">        WHERE</span>
+<span class="s1">            mood = false and </span>
+<span class="s1">            anxiety = false and</span>
+<span class="s1">            adjustment = false and</span>
+<span class="s1">            adhd = false and</span>
+<span class="s1">            sud = false and</span>
+<span class="s1">            psyc = false and</span>
+<span class="s1">            pers = false and</span>
+<span class="s1">            childhood = false and</span>
+<span class="s1">            impulse = false and </span>
+<span class="s1">            cognitive = false and</span>
+<span class="s1">            eating = false and</span>
+<span class="s1">            smtf = false and</span>
+<span class="s1">            disso = false and</span>
+<span class="s1">            sleep = false and</span>
+<span class="s1">            fd = false&#39;&#39;&#39;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Users with no diagnosis in sarah.test3 table has been successfully deleted&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Unable to delete from table test3 because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="relabelVar"><a class="viewcode-back" href="../../../modules.table1.html#modules.table1.queryDB.relabelVar">[docs]</a><span class="nd">@lD</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logBase</span> <span class="o">+</span> <span class="s1">&#39;.relabelVar&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">relabelVar</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Relabels column values</span>
+<span class="sd">    </span>
+<span class="sd">    This function relabels Race and Settings values to standardised values.</span>
+<span class="sd">    </span>
+<span class="sd">    Decorators:</span>
+<span class="sd">        lD.log</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        logger {[type]} -- [description]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># relabel_sex_success = []</span>
+        <span class="c1"># for sex in table1_config[&quot;inputs&quot;][&quot;sexes&quot;]:</span>
+        <span class="c1">#     sex_query = SQL(&#39;&#39;&#39;</span>
+        <span class="c1">#     UPDATE sarah.test2</span>
+        <span class="c1">#     SET sex = {}</span>
+        <span class="c1">#     WHERE sex in {}</span>
+        <span class="c1">#     &#39;&#39;&#39;).format(</span>
+        <span class="c1">#         Literal(sex),</span>
+        <span class="c1">#         Literal(tuple(table1_config[&quot;params&quot;][&quot;sexes&quot;][sex])) </span>
+        <span class="c1">#         )</span>
+        <span class="c1">#     relabel_sex_success.append(pgIO.commitData(sex_query))</span>
+        <span class="c1"># if False in relabel_sex_success:</span>
+        <span class="c1">#     print(&quot;Relabelling sex not successful!&quot;)</span>
+
+        <span class="n">relabel_race_success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">]:</span>
+            <span class="n">race_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            UPDATE sarah.test2</span>
+<span class="s1">            SET race = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            WHERE race in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">race</span><span class="p">),</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;races&quot;</span><span class="p">][</span><span class="n">race</span><span class="p">]))</span> 
+                <span class="p">)</span>
+            <span class="n">relabel_race_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">race_query</span><span class="p">))</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_race_success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling race not successful!&quot;</span><span class="p">)</span>
+
+        <span class="n">relabel_setting_success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">]:</span>
+            <span class="n">setting_query</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            UPDATE sarah.test2</span>
+<span class="s1">            SET visit_type = </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            WHERE visit_type in </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span>
+                <span class="n">Literal</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">table1_config</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="s2">&quot;settings&quot;</span><span class="p">][</span><span class="n">setting</span><span class="p">]))</span> 
+                <span class="p">)</span>
+            <span class="n">relabel_setting_success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pgIO</span><span class="o">.</span><span class="n">commitData</span><span class="p">(</span><span class="n">setting_query</span><span class="p">))</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">relabel_setting_success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relabelling setting not successful!&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to update table test2 because </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
 </pre></div>
 
            </div>
