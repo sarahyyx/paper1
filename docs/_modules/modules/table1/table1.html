@@ -230,13 +230,16 @@
         <span class="s2">&quot;MR&quot;</span><span class="p">:[]</span>
     <span class="p">}</span>
 
-    <span class="c1"># Run these two lines to create sarah.test3 table</span>
-    <span class="c1"># queryDB.genAllKeys()</span>
-    <span class="c1"># queryDB.addDiagCols()</span>
-    <span class="c1">## TO DO AFTER CREATING:</span>
-    <span class="c1">## In Postgresql, delete rows with all columns = false </span>
+    <span class="c1"># Run these lines to create sarah.test2 table</span>
+    <span class="c1"># queryDB.createTest2()</span>
 
-    <span class="c1"># queryDB.relabelVar()</span>
+    <span class="c1"># Run these lines to create sarah.test3 table</span>
+    <span class="c1"># queryDB.genAllKeys()</span>
+    <span class="c1"># queryDB.createTest3()</span>
+    <span class="c1"># queryDB.popDiagCols()</span>
+    <span class="c1"># queryDB.delAllFalseTest3()</span>
+
+    <span class="n">queryDB</span><span class="o">.</span><span class="n">relabelVar</span><span class="p">()</span>
 
     <span class="n">raceCounts</span> <span class="o">=</span> <span class="n">queryDB</span><span class="o">.</span><span class="n">countMainRace</span><span class="p">()</span>
     <span class="n">countDict</span><span class="p">[</span><span class="s2">&quot;AA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raceCounts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>

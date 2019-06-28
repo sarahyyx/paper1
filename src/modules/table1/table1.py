@@ -81,7 +81,10 @@ def main(logger, resultsDict):
         "MR":[]
     }
 
-    # Run these two lines to create sarah.test3 table
+    # Run these lines to create sarah.test2 table
+    # queryDB.createTest2()
+
+    # Run these lines to create sarah.test3 table
     # queryDB.genAllKeys()
     # queryDB.createTest3()
     # queryDB.popDiagCols()
