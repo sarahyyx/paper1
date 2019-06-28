@@ -399,6 +399,7 @@ def popDiagCols(logger):
                     Literal(table1_config["params"]["categories"]["fd"]),
                     Literal(int(user[0]))
                 )
+                
 
                 data = pgIO.getAllData(getQuery)
 
@@ -409,11 +410,61 @@ def popDiagCols(logger):
                     %s
                 '''
                 print(pgIO.commitDataList(pushQuery, data))
+
+                deleteDupliQuery = '''
+                DELETE FROM sarah.test3 a USING (
+                    SELECT MAX(ctid) as ctid, patientid
+                    FROM sarah.test3
+                    GROUP BY patientid HAVING count(*) > 1
+                    ) b
+                WHERE a.patientid = b.patientid
+                AND a.ctid <> b.ctid
+                '''
+                value = pgIO.commitData(deleteDupliQuery)
+                if value == True:
+                    print("Duplicate values succesfully deleted")
         f.close()
 
 
     except Exception as e:
         logger.error('Failed to add columns because of {}'.format(e))
+    return
+
+@lD.log(logBase + '.delAllFalseTest3')
+def delAllFalseTest3(logger):
+    '''
+    
+    Decorators:
+        lD.log
+    
+    Arguments:
+        logger {[type]} -- [description]
+    '''
+    try:
+        query = '''
+        DELETE FROM 
+            sarah.test3
+        WHERE
+            mood = false and 
+            anxiety = false and
+            adjustment = false and
+            adhd = false and
+            sud = false and
+            psyc = false and
+            pers = false and
+            childhood = false and
+            impulse = false and 
+            cognitive = false and
+            eating = false and
+            smtf = false and
+            disso = false and
+            sleep = false and
+            fd = false'''
+        value = pgIO.commitData(query)
+        if value == True:
+            print("sarah.test3 table has been successfully deleted from")
+    except Exception as e:
+        logger.error('Unable to delete from table test3 because {}'.format(e))
     return
 
 @lD.log(logBase + '.relabelVar')
@@ -473,3 +524,22 @@ def relabelVar(logger):
 
     except Exception as e:
         logger.error('Failed to update table test2 because {}'.format(e))
+
+@lD.log(logBase + '.genSampleUserKeys')
+def genSampleUserKeys(logger):
+
+    try:
+        
+        query = '''
+        SELECT 
+            patientid
+        FROM 
+            sarah.test3
+        '''
+
+        data = pgIO.getAllData(query)
+
+    except Exception as e:
+        logger.error('getRace failed because of {}'.format(e))
+
+    return data

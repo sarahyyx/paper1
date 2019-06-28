@@ -85,8 +85,7 @@ def main(logger, resultsDict):
     # queryDB.genAllKeys()
     # queryDB.createTest3()
     # queryDB.popDiagCols()
-    ## TO DO AFTER CREATING:
-    ## In Postgresql, delete rows with all columns = false 
+    # queryDB.delAllFalseTest3()
 
     queryDB.relabelVar()
 

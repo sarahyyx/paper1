@@ -19,31 +19,31 @@ Setting
         
 |Race     |Count          |
 |---------|---------------| 
-|AA       |448   |
-|NHPI     |1245 |
-|MR       |1650   |
-|**Total**|3343|
+|AA       |521   |
+|NHPI     |1289 |
+|MR       |1745   |
+|**Total**|3555|
 
 ### Number of patients grouped by race and age
 |Age  |AA|%|NHPI|%|MR|%|
 |-----|--|-|-----|-|--|-|
-|1-11 |14|3.1|136|10.9|249|15.1|
-|12-17|56|12.5|396|31.8|252|15.3|
-|18-34|175|39.1|349|28.0|392|23.8|
-|35-49|123|27.5|213|17.1|392|23.8|
-|50+  |80|17.9|151|12.1|365|22.1|
+|1-11 |18|3.5|136|10.6|259|14.8|
+|12-17|58|11.1|404|31.3|267|15.3|
+|18-34|209|40.1|368|28.5|412|23.6|
+|35-49|138|26.5|225|17.5|416|23.8|
+|50+  |98|18.8|156|12.1|391|22.4|
 
 ### Number of patients grouped by race and sex
 |Sex|AA|%|NHPI|%|MR|%|
 |---|--|-|-----|-|--|-|
-|Male  |188|42.0|584|46.9|711|43.1|
-|Female|260|58.0|661|53.1|939|56.9|
+|Male  |226|43.4|612|47.5|751|43.0|
+|Female|295|56.6|677|52.5|994|57.0|
 
 ### Number of patients grouped by race and setting
 |Setting|AA|%|NHPI|%|MR|%|
 |-------|--|-|-----|-|--|-|
-|Hospital            |81|18.1|755|60.6|121|7.3|
-|Mental Health Center|367|81.9|490|39.4|1529|92.7|
+|Hospital            |96|18.4|784|60.8|128|7.3|
+|Mental Health Center|425|81.6|505|39.2|1617|92.7|
 ***
 
     
@@ -99,80 +99,80 @@ Inhalants - inhalant
 ### Total Sample
 |Prevalence, %       |AA          |NHPI        |MR          |
 |--------------------|------------|------------|------------|
-|**DSM-IV diagnosis**|**Total = 448**|**Total = 1245**|**Total = 1650**|
-|any_sud               |19.9|24.3|29.6|
-|morethan2_sud               |6.5|5.0|8.3|
-|alc               |11.6|9.5|10.1|
-|cannabis               |7.8|9.1|8.5|
-|amphe               |1.1|0.1|0.8|
+|**DSM-IV diagnosis**|**Total = 521**|**Total = 1289**|**Total = 1745**|
+|any_sud               |16.5|23.4|28.0|
+|morethan2_sud               |5.2|4.8|7.9|
+|alc               |9.6|9.2|9.6|
+|cannabis               |6.3|8.8|8.0|
+|amphe               |1.0|0.1|0.7|
 |halluc               |0.4|-|0.2|
-|nicotin               |1.1|0.1|2.6|
-|cocaine               |1.8|2.1|4.8|
-|opioids               |2.0|2.5|9.5|
-|sedate               |0.9|0.3|1.0|
+|nicotin               |1.0|0.1|2.5|
+|cocaine               |1.3|2.0|4.5|
+|opioids               |1.7|2.4|8.9|
+|sedate               |0.8|0.3|0.9|
 |others               |0.2|0.1|0.4|
 |polysub               |-|-|-|
-|inhalant               |0.9|0.7|0.7|
+|inhalant               |0.8|0.7|0.6|
 ***
 
 
 ### Asian Americans, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 14**|**Total: 56**|**Total: 175**|**Total: 123**|**Total: 80**|
-|any_sud               |-|19.6|26.9|17.9|7.5|
-|morethan2_sud               |-|14.3|9.1|2.4|2.5|
-|alc               |-|10.7|14.9|11.4|7.5|
-|cannabis               |-|21.4|10.9|3.3|-|
-|amphe               |-|1.8|1.7|0.8|-|
-|halluc               |-|-|1.1|-|-|
-|nicotin               |-|-|2.3|-|1.2|
-|cocaine               |-|-|3.4|0.8|1.2|
-|opioids               |-|1.8|3.4|1.6|-|
-|sedate               |-|1.8|1.1|0.8|-|
-|others               |-|1.8|-|-|-|
+|**DSM-IV diagnosis**|**Total: 18**|**Total: 58**|**Total: 209**|**Total: 138**|**Total: 98**|
+|any_sud               |-|19.0|22.5|15.9|6.1|
+|morethan2_sud               |-|12.1|7.2|2.2|2.0|
+|alc               |-|8.6|12.0|10.1|6.1|
+|cannabis               |-|17.2|9.1|2.9|-|
+|amphe               |-|1.7|1.4|0.7|-|
+|halluc               |-|-|1.0|-|-|
+|nicotin               |-|-|1.9|-|1.0|
+|cocaine               |-|-|2.4|0.7|1.0|
+|opioids               |-|1.7|2.9|1.4|-|
+|sedate               |-|1.7|1.0|0.7|-|
+|others               |-|1.7|-|-|-|
 |polysub               |-|-|-|-|-|
-|inhalant               |-|3.6|1.1|-|-|
+|inhalant               |-|3.4|1.0|-|-|
 ***
 
 
 ### Native Hawaiians/Pacific Islanders, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 136**|**Total: 396**|**Total: 349**|**Total: 213**|**Total: 151**|
-|any_sud               |1.5|18.7|35.5|31.0|23.8|
-|morethan2_sud               |0.7|4.5|7.2|7.0|2.0|
-|alc               |0.7|4.5|14.9|12.2|13.9|
-|cannabis               |0.7|13.9|11.2|7.5|1.3|
+|**DSM-IV diagnosis**|**Total: 136**|**Total: 404**|**Total: 368**|**Total: 225**|**Total: 156**|
+|any_sud               |1.5|18.3|33.7|29.3|23.1|
+|morethan2_sud               |0.7|4.5|6.8|6.7|1.9|
+|alc               |0.7|4.5|14.1|11.6|13.5|
+|cannabis               |0.7|13.6|10.6|7.1|1.3|
 |amphe               |-|-|0.3|-|-|
 |halluc               |-|-|-|-|-|
-|nicotin               |-|0.3|-|-|-|
-|cocaine               |-|0.8|2.6|6.1|0.7|
-|opioids               |0.7|0.5|2.3|6.1|4.6|
-|sedate               |-|-|0.6|0.5|0.7|
+|nicotin               |-|0.2|-|-|-|
+|cocaine               |-|0.7|2.4|5.8|0.6|
+|opioids               |0.7|0.5|2.2|5.8|4.5|
+|sedate               |-|-|0.5|0.4|0.6|
 |others               |-|-|0.3|-|-|
 |polysub               |-|-|-|-|-|
-|inhalant               |-|0.8|1.4|0.5|-|
+|inhalant               |-|0.7|1.4|0.4|-|
 ***
 
 
 ### Mixed-Race, separated into age bins
 |Prevalence, %       |1-11 y/o            |12-17 y/o           |18-34 y/o           |35-49 y/o           |50+ y/o             |
 |--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-|**DSM-IV diagnosis**|**Total: 249**|**Total: 252**|**Total: 392**|**Total: 392**|**Total: 365**|
-|any_sud               |1.2|13.9|39.0|42.3|35.9|
-|morethan2_sud               |-|4.0|12.0|12.5|8.5|
-|alc               |-|4.4|15.3|14.0|11.2|
-|cannabis               |0.4|9.5|18.9|7.7|3.0|
-|amphe               |-|-|3.1|0.3|-|
-|halluc               |-|-|0.8|-|-|
-|nicotin               |-|0.8|2.3|4.1|4.4|
-|cocaine               |-|0.4|5.4|8.7|6.3|
-|opioids               |-|-|4.8|17.9|18.4|
-|sedate               |-|-|1.0|1.8|1.4|
-|others               |-|0.8|0.3|1.0|-|
+|**DSM-IV diagnosis**|**Total: 259**|**Total: 267**|**Total: 412**|**Total: 416**|**Total: 391**|
+|any_sud               |1.2|13.1|37.1|39.9|33.5|
+|morethan2_sud               |-|3.7|11.4|11.8|7.9|
+|alc               |-|4.1|14.6|13.2|10.5|
+|cannabis               |0.4|9.0|18.0|7.2|2.8|
+|amphe               |-|-|2.9|0.2|-|
+|halluc               |-|-|0.7|-|-|
+|nicotin               |-|0.7|2.2|3.8|4.1|
+|cocaine               |-|0.4|5.1|8.2|5.9|
+|opioids               |-|-|4.6|16.8|17.1|
+|sedate               |-|-|1.0|1.7|1.3|
+|others               |-|0.7|0.2|1.0|-|
 |polysub               |-|-|-|-|-|
-|inhalant               |-|1.2|1.3|0.8|-|
+|inhalant               |-|1.1|1.2|0.7|-|
 ***
 ***
 ## Description of Table 3:
@@ -189,7 +189,7 @@ Logistic regression is performed for:
         
 
 ### All races, aged 12 or older 
-|Logistic Regression, Any SUD|N = 2944    |          |
+|Logistic Regression, Any SUD|N = 3142    |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Race*                      |                            |          |
@@ -219,7 +219,7 @@ Logistic regression is performed for:
 
 
 ### Asian Americans, aged 12 or older
-|Logistic Regression, Any SUD|N = 434   |          |
+|Logistic Regression, Any SUD|N = 503   |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
@@ -242,7 +242,7 @@ Logistic regression is performed for:
 ***
 
 ### Native Hawaiians/Pacific Islanders, aged 12 or older
-|Logistic Regression, Any SUD|N = 1109 |          |
+|Logistic Regression, Any SUD|N = 1153 |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
@@ -265,7 +265,7 @@ Logistic regression is performed for:
 ***
 
 ### Mixed Race, aged 12 or older
-|Logistic Regression, Any SUD|N = 1401   |          |
+|Logistic Regression, Any SUD|N = 1486   |          |
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
@@ -312,59 +312,59 @@ Factitious Disorders - fd
         
 
 ### Asian Americans, aged 12 or older
-|Logistic Regression, Any SUD|N = 434   |          |
+|Logistic Regression, Any SUD|N = 503   |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
-|mood                  |0.49        |0.28 - 0.84|
-|anxiety                  |0.67        |0.31 - 1.42|
-|adjustment                  |0.9        |0.5 - 1.61|
-|adhd                  |2.57        |0.88 - 7.49|
-|psyc                  |0.9        |0.43 - 1.89|
-|pers                  |1.9        |0.99 - 3.64|
-|childhood                  |0.65        |0.17 - 2.53|
-|impulse                  |0.95        |0.16 - 5.53|
+|mood                  |1.12        |0.64 - 1.95|
+|anxiety                  |1.26        |0.72 - 2.21|
+|adjustment                  |0.88        |0.5 - 1.56|
+|adhd                  |2.13        |0.84 - 5.42|
+|psyc                  |1.15        |0.64 - 2.08|
+|pers                  |2.28        |1.21 - 4.31|
+|childhood                  |0.87        |0.26 - 2.91|
+|impulse                  |1.06        |0.2 - 5.72|
 |cognitive                  |-        |- - -|
-|eating                  |1.34        |0.26 - 6.94|
+|eating                  |1.1        |0.22 - 5.49|
 |smtf                  |-        |- - -|
 |disso                  |-        |- - -|
-|sleep                  |0.41        |0.05 - 3.49|
+|sleep                  |0.7        |0.08 - 5.98|
 |fd                  |-        |- - -|
 ***
 ### Native Hawaiians/Pacific Islanders, aged 12 or older
-|Logistic Regression, Any SUD|N = 1109 |          |
+|Logistic Regression, Any SUD|N = 1153 |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
-|mood                  |0.67        |0.47 - 0.96|
-|anxiety                  |0.32        |0.19 - 0.55|
-|adjustment                  |0.6        |0.44 - 0.8|
-|adhd                  |1.09        |0.68 - 1.77|
-|psyc                  |0.98        |0.62 - 1.57|
-|pers                  |2.35        |1.64 - 3.37|
-|childhood                  |0.45        |0.21 - 0.96|
-|impulse                  |0.65        |0.4 - 1.07|
-|cognitive                  |0.47        |0.1 - 2.23|
-|eating                  |0.74        |0.2 - 2.75|
-|smtf                  |2.98        |0.61 - 14.62|
-|disso                  |2.63        |0.51 - 13.62|
+|mood                  |1.22        |0.82 - 1.81|
+|anxiety                  |0.42        |0.26 - 0.67|
+|adjustment                  |0.71        |0.53 - 0.95|
+|adhd                  |0.92        |0.58 - 1.48|
+|psyc                  |1.49        |1.07 - 2.06|
+|pers                  |2.26        |1.57 - 3.24|
+|childhood                  |0.4        |0.2 - 0.8|
+|impulse                  |1.16        |0.74 - 1.82|
+|cognitive                  |0.72        |0.19 - 2.77|
+|eating                  |1.01        |0.34 - 2.98|
+|smtf                  |3.18        |0.67 - 15.21|
+|disso                  |2.53        |0.51 - 12.47|
 |sleep                  |-        |- - -|
 |fd                  |-        |- - -|
 ***
 ### Mixed Race, aged 12 or older
-|Logistic Regression, Any SUD|N = 1401   |          |
+|Logistic Regression, Any SUD|N = 1486   |          |
 |----------------------------|----------------------------|----------|
 |**DSM-IV Diagnosis**        |**Odds Ratio**              |**95% CI**|
-|mood                  |0.46        |0.36 - 0.59|
-|anxiety                  |0.56        |0.41 - 0.77|
-|adjustment                  |0.59        |0.45 - 0.77|
-|adhd                  |0.29        |0.18 - 0.45|
-|psyc                  |1.07        |0.77 - 1.49|
-|pers                  |1.95        |1.47 - 2.59|
-|childhood                  |0.57        |0.33 - 1.0|
-|impulse                  |1.28        |0.62 - 2.65|
-|cognitive                  |0.51        |0.1 - 2.59|
-|eating                  |0.86        |0.25 - 2.99|
+|mood                  |0.67        |0.52 - 0.86|
+|anxiety                  |0.65        |0.5 - 0.85|
+|adjustment                  |0.64        |0.5 - 0.83|
+|adhd                  |0.43        |0.29 - 0.64|
+|psyc                  |1.33        |1.01 - 1.74|
+|pers                  |2.19        |1.65 - 2.9|
+|childhood                  |0.67        |0.39 - 1.12|
+|impulse                  |1.25        |0.68 - 2.28|
+|cognitive                  |0.51        |0.14 - 1.91|
+|eating                  |0.65        |0.26 - 1.67|
 |smtf                  |-        |- - -|
-|disso                  |0.76        |0.18 - 3.25|
-|sleep                  |0.37        |0.15 - 0.92|
+|disso                  |0.8        |0.2 - 3.31|
+|sleep                  |0.45        |0.18 - 1.11|
 |fd                  |-        |- - -|
 ***

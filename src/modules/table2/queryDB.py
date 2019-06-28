@@ -156,6 +156,19 @@ def popTest4(logger):
                     %s
                 '''
 
+                deleteDupliQuery = '''
+                DELETE FROM sarah.test4 a USING (
+                    SELECT MAX(ctid) as ctid, patientid
+                    FROM sarah.test4
+                    GROUP BY patientid HAVING count(*) > 1
+                    ) b
+                WHERE a.patientid = b.patientid
+                AND a.ctid <> b.ctid
+                '''
+                value = pgIO.commitData(deleteDupliQuery)
+                if value == True:
+                    print("Duplicate values succesfully deleted")
+
                 print(pgIO.commitDataList(pushQuery, data))
 
 
