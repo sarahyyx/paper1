@@ -83,11 +83,11 @@ def main(logger, resultsDict):
 
     # Run these two lines to create sarah.test3 table
     # queryDB.genAllKeys()
-    # queryDB.addDiagCols()
-    ## TO DO AFTER CREATING:
-    ## In Postgresql, delete rows with all columns = false 
+    # queryDB.createTest3()
+    # queryDB.popDiagCols()
+    # queryDB.delAllFalseTest3()
 
-    # queryDB.relabelVar()
+    queryDB.relabelVar()
 
     raceCounts = queryDB.countMainRace()
     countDict["AA"].append(raceCounts[0])
