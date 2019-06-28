@@ -49,13 +49,11 @@ def getRace(logger):
 
     return data
 
-@lD.log(logBase + '.getTable1data')
-def createTest1(logger):
-    '''Creates the table sarah.test1
+@lD.log(logBase + '.createTest2')
+def createTest2(logger):
+    '''Creates the table sarah.test2
     
-    This function gets the number of unique users using their (siteid,backgroundid) key that fit the sample requirements of the paper
-    Variables that are used to filter at this stage are age, visit_type, sex and race. 
-    Variable values that are to be included are found in the config file
+    This function creates the table sarah.test2
     
     Parameters
     ----------
@@ -64,38 +62,78 @@ def createTest1(logger):
     '''
 
     try:
-        query = SQL('''
-        INSERT INTO sarah.test1(age, visit_type, sex, race, siteid, backgroundid)
+        createTableQuery = '''
+        CREATE TABLE sarah.test2(
+            age integer,
+            visit_type text,
+            sex text,
+            race text, 
+            patientid integer
+        )'''
+
+        value = pgIO.commitData(createTableQuery)
+        if value == True:
+            print("sarah.test2 table has been created")
+
+        popTableQuery = SQL('''
+        WITH table_cte (age, setting, sex, race, patientid)
+        as
+        (
         SELECT 
             t1.age,
             t1.visit_type, 
             t2.sex,
             t2.race,
-            t1.siteid,
-            t1.backgroundid
+            t1.patientid
         FROM 
-            raw_data.typepatient t1
+            rwe_version1_1.typepatient t1
         INNER JOIN 
-            raw_data.background t2
+            rwe_version1_1.background t2
         ON
-            t1.backgroundid = t2.id
-        AND
-            t1.siteid = t2.siteid
+            t1.patientid = t2.patient
         WHERE 
-            CAST (t1.age AS INTEGER) < 100
+            t1.age < 100
         AND
             t1.visit_type in {}
         AND
             t2.sex in {}
         AND
             t2.race in {}
-        AND 
-            t2.ethnicity not ilike 'Hisp%'
+        )
+        INSERT INTO sarah.test2(age, setting, sex, race, patientid)
+        SELECT 
+            (array_agg(distinct age))[1] age,
+            setting, 
+            sex, 
+            race, 
+            patientid
+        FROM 
+            table_cte
+        GROUP BY
+            setting, sex, race, patientid
         ''').format(
             Literal(tuple(table1_config["params"]["setting"]["all"])),
             Literal(tuple(table1_config["params"]["sexes"]["all"])),
             Literal(tuple(table1_config["params"]["races"]["all"]))
             )
+
+        value = pgIO.commitData(popTableQuery)
+        if value == True:
+            print("sarah.test2 table has been populated")
+
+        deleteDupliQuery = '''
+        DELETE FROM sarah.test2 a USING (
+        SELECT MAX(ctid) as ctid, patientid
+        FROM sarah.test2
+        GROUP BY patientid HAVING count(*) > 1
+        ) b
+        WHERE a.patientid = b.patientid
+        AND a.ctid <> b.ctid
+        '''
+        value = pGIO.commitData(deleteDupliQuery)
+        if value == True:
+            print("Duplicate values in sarah.test2 has been deleted and the earliest age is taken")
+
     except Exception as e:
         logger.error('Failed to generate table {}'.format(e))
     return
@@ -432,7 +470,9 @@ def popDiagCols(logger):
 
 @lD.log(logBase + '.delAllFalseTest3')
 def delAllFalseTest3(logger):
-    '''
+    '''Second filter of users from sarah.test3
+    
+    Deletes users who have no target mental disorder diagnoses.
     
     Decorators:
         lD.log
@@ -462,7 +502,7 @@ def delAllFalseTest3(logger):
             fd = false'''
         value = pgIO.commitData(query)
         if value == True:
-            print("sarah.test3 table has been successfully deleted from")
+            print("Users with no diagnosis in sarah.test3 table has been successfully deleted")
     except Exception as e:
         logger.error('Unable to delete from table test3 because {}'.format(e))
     return
@@ -471,7 +511,7 @@ def delAllFalseTest3(logger):
 def relabelVar(logger):
     '''Relabels column values
     
-    This function relabels Sex, Race, Settings values to standardised values.
+    This function relabels Race and Settings values to standardised values.
     
     Decorators:
         lD.log
@@ -524,22 +564,3 @@ def relabelVar(logger):
 
     except Exception as e:
         logger.error('Failed to update table test2 because {}'.format(e))
-
-@lD.log(logBase + '.genSampleUserKeys')
-def genSampleUserKeys(logger):
-
-    try:
-        
-        query = '''
-        SELECT 
-            patientid
-        FROM 
-            sarah.test3
-        '''
-
-        data = pgIO.getAllData(query)
-
-    except Exception as e:
-        logger.error('getRace failed because of {}'.format(e))
-
-    return data
