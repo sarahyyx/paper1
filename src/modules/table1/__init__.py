@@ -19,6 +19,14 @@ Make sure you have the csv file: DSM Numbers. Convert each sheet in the file int
 by using an online csv -> json converter, then copying the json file into the table1.json config
 file under ["params"]["categories"].
 
+Make sure that the functions below are un-commented if it is your first time running the code.
+.. code-block:: python
+    queryDB.createTest2()
+    queryDB.genAllKeys()
+    queryDB.createTest3()
+    queryDB.popDiagCols()
+    queryDB.delAllFalseTest3()
+
 Details of Operation
 ====================
 
@@ -82,7 +90,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
     "owner"      : ""
 
 
-Specification for table1.json
+Specification for ``table1.json``
 -----------------------------------
 Ensure that the str values for each race are specified under ["params"]["races"][race]. 
 Do the same for sexes, settings and categories (DSM numbers).

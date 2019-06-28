@@ -35,11 +35,32 @@ The following modules are available. Please check the respective
 modules for detailed description of how to operate the modules.
 
 
-module1
+table1
 -------
 
-This is a test module that comes with the cookiecutter to be used as 
-a template for other modules.
+This module obtains the data needed to generate Table 1 of the report, by 
+specifying the sample characteristics of the sample to be taken from the database.
+It also creates the tables sarah.test2 and sarah.test3 in the database.
+
+fig1
+-------
+
+This module obtains the data needed to generate Figure 1 of the report.
+
+table2
+-------
+
+This module obtains the data needed to generate Table 2 of the report.
+
+table3
+-------
+
+This module obtains the data needed to generate Table 3 of the report.
+
+table4
+-------
+
+This module obtains the data needed to generate Table 4 of the report.
 
 ''' 
 

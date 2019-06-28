@@ -54,7 +54,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
     "owner"      : ""
 
 
-Specification for [any other files]
+Specification for ``fig1.json``
 -----------------------------------
 
 Ensure that the str values for each race are specified under ["params"]["races"][race]. 

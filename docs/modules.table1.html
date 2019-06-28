@@ -417,6 +417,15 @@ section.</p>
 <p>Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format
 by using an online csv -&gt; json converter, then copying the json file into the table1.json config
 file under [“params”][“categories”].</p>
+<p>Make sure that the functions below are un-commented if it is your first time running the code.
+.. code-block:: python</p>
+<blockquote>
+<div><p>queryDB.createTest2()
+queryDB.genAllKeys()
+queryDB.createTest3()
+queryDB.popDiagCols()
+queryDB.delAllFalseTest3()</p>
+</div></blockquote>
 </div>
 <div class="section" id="details-of-operation">
 <h3>Details of Operation<a class="headerlink" href="#details-of-operation" title="Permalink to this headline">¶</a></h3>
@@ -469,7 +478,7 @@ sarah.diagnoses</p>
 </div>
 </div>
 <div class="section" id="specification-for-table1-json">
-<h4>Specification for table1.json<a class="headerlink" href="#specification-for-table1-json" title="Permalink to this headline">¶</a></h4>
+<h4>Specification for <code class="docutils literal notranslate"><span class="pre">table1.json</span></code><a class="headerlink" href="#specification-for-table1-json" title="Permalink to this headline">¶</a></h4>
 <p>Ensure that the str values for each race are specified under [“params”][“races”][race].
 Do the same for sexes, settings and categories (DSM numbers).</p>
 </div>

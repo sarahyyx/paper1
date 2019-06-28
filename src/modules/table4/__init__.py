@@ -56,7 +56,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
     "owner"      : ""
 
 
-Specification for table4.json
+Specification for ``table4.json``
 -----------------------------------
 
 Ensure that the DSM numbers for each mental disorder are specified under 
