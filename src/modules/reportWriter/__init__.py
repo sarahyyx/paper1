@@ -1,30 +1,96 @@
-'''[one line description of the module]
+'''Writes the markdown report 
 
-[this is a 
-multiline description of what the module does.] 
+This module will write the different sections of the report according to the figures and 
+tables of the paper. 
 
 Before you Begin
 ================
 
-Make sure that the configuration files are properly set, as mentioned in the Specifcations 
-section. Also, [add any other housekeeping that needs to be done before starting the module]. 
+Make sure that you have run the modules:
+ - table1
+ - fig1
+ - table2
+ - table3
+ - table4
+
+ and have the final data stored in ../data/final. The specific data files are as below.
 
 Details of Operation
 ====================
 
-[
-Over here, you should provide as much information as possible for what the modules does. 
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]
+[writeTable1.py]
+Data sources that it uses 
+-------------------------
+ - ../data/final/sampleCount.json
+
+Important operations
+--------------------
+ - genIntro()
+ - genRace()
+ - genRaceAge()
+ - genRaceSex()
+ - genRaceSetting()
+
+
+[plotFig1.py]
+Data sources that it uses 
+-------------------------
+ - ../data/final/diagnosesCount.json
+
+Important operations
+--------------------
+ - genIntro()
+ - genFig()
+
+
+[writeTable2.py]
+Data sources that it uses 
+-------------------------
+ - ../data/final/sampleCount.json
+ - ../data/final/allAgesGeneralSUD.json
+ - ../data/final/allAgesCategorisedSUD.json
+ - ../data/final/ageBinnedGeneralSUD.json
+ - ../data/final/ageBinnedCategorisedSUD.json
+
+Important operations
+--------------------
+ - genIntro()
+ - genTotalPrev()
+ - genAAAgeBinnedPrev()
+ - genNHPIAgeBinnedPrev()
+ - genMRAgeBinnedPrev()
+
+
+ [writeTable3.py]
+Data sources that it uses 
+-------------------------
+ - ../data/final/sampleCount.json
+ - ../data/final/oddsratios_allRaces.json
+ - ../data/final/oddsratios_anysud_byRace.json
+ - ../data/final/oddsratios_morethan2sud_byRace.json
+
+Important operations
+--------------------
+ - genIntro()
+ - oddsRatiosAllRaces()
+ - oddsRatiosByRace()
+
+
+ [writeTable4.py]
+Data sources that it uses 
+-------------------------
+ - ../data/final/sampleCount.json
+ - ../data/final/table4data.json
+
+Important operations
+--------------------
+ - genIntro()
+ - oddsRatiosByRace()
 
 Results
 =======
 
-[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates. 
-]
+This module will create a Markdown report in the report folder, ../report/paper1Report.md
 
 Specifications:
 ===============
@@ -33,12 +99,6 @@ Specifications for running the module is described below. Note that all the json
 unless otherwise specified will be placed in the folder ``config`` in the main project
 folder.
 
-Specifications for the database:
---------------------------------
-
-[
-Note the tables within the various databases that will be affected by this module.
-]
 
 Specifications for ``modules.json``
 -----------------------------------
@@ -48,19 +108,10 @@ Make sure that the ``execute`` statement within the modules file is set to True.
 .. code-block:: python
     :emphasize-lines: 3
 
-    "moduleName" : "module1",
-    "path"       : "modules/module1/module1.py",
+    "moduleName" : "reportWriter",
+    "path"       : "modules/reportWriter/reportWriter.py",
     "execute"    : true,
     "description": "",
     "owner"      : ""
-
-
-Specification for [any other files]
------------------------------------
-
-[
-Make sure that you specify all the other files whose parameters will need to be
-changed. 
-]
 
 '''

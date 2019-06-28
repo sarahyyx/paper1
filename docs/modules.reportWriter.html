@@ -369,57 +369,147 @@ overwriting command line arguments as needed.</p></li>
 </div>
 <div class="section" id="module-modules.reportWriter">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modules.reportWriter" title="Permalink to this headline">¶</a></h2>
-<p>[one line description of the module]</p>
-<p>[this is a
-multiline description of what the module does.]</p>
+<p>Writes the markdown report</p>
+<p>This module will write the different sections of the report according to the figures and
+tables of the paper.</p>
 <div class="section" id="before-you-begin">
 <h3>Before you Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h3>
-<p>Make sure that the configuration files are properly set, as mentioned in the Specifcations
-section. Also, [add any other housekeeping that needs to be done before starting the module].</p>
+<dl>
+<dt>Make sure that you have run the modules:</dt><dd><ul class="simple">
+<li><p>table1</p></li>
+<li><p>fig1</p></li>
+<li><p>table2</p></li>
+<li><p>table3</p></li>
+<li><p>table4</p></li>
+</ul>
+<p>and have the final data stored in ../data/final. The specific data files are as below.</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="details-of-operation">
 <h3>Details of Operation<a class="headerlink" href="#details-of-operation" title="Permalink to this headline">¶</a></h3>
-<p>[
-Over here, you should provide as much information as possible for what the modules does.
-You should mention the data sources that the module uses, and important operations that
-the module performs.
-]</p>
+<p>[writeTable1.py]
+Data sources that it uses
+————————-</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>../data/final/sampleCount.json</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="important-operations">
+<h4>Important operations<a class="headerlink" href="#important-operations" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genIntro()</p></li>
+<li><p>genRace()</p></li>
+<li><p>genRaceAge()</p></li>
+<li><p>genRaceSex()</p></li>
+<li><p>genRaceSetting()</p></li>
+</ul>
+</div></blockquote>
+<p>[plotFig1.py]
+Data sources that it uses
+————————-</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>../data/final/diagnosesCount.json</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h4>Important operations<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genIntro()</p></li>
+<li><p>genFig()</p></li>
+</ul>
+</div></blockquote>
+<p>[writeTable2.py]
+Data sources that it uses
+————————-</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>../data/final/sampleCount.json</p></li>
+<li><p>../data/final/allAgesGeneralSUD.json</p></li>
+<li><p>../data/final/allAgesCategorisedSUD.json</p></li>
+<li><p>../data/final/ageBinnedGeneralSUD.json</p></li>
+<li><p>../data/final/ageBinnedCategorisedSUD.json</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h4>Important operations<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genIntro()</p></li>
+<li><p>genTotalPrev()</p></li>
+<li><p>genAAAgeBinnedPrev()</p></li>
+<li><p>genNHPIAgeBinnedPrev()</p></li>
+<li><p>genMRAgeBinnedPrev()</p></li>
+</ul>
+<p>[writeTable3.py]</p>
+</div></blockquote>
+</div>
+<div class="section" id="data-sources-that-it-uses">
+<h4>Data sources that it uses<a class="headerlink" href="#data-sources-that-it-uses" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>../data/final/sampleCount.json</p></li>
+<li><p>../data/final/oddsratios_allRaces.json</p></li>
+<li><p>../data/final/oddsratios_anysud_byRace.json</p></li>
+<li><p>../data/final/oddsratios_morethan2sud_byRace.json</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h4>Important operations<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genIntro()</p></li>
+<li><p>oddsRatiosAllRaces()</p></li>
+<li><p>oddsRatiosByRace()</p></li>
+</ul>
+<p>[writeTable4.py]</p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h4>Data sources that it uses<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>../data/final/sampleCount.json</p></li>
+<li><p>../data/final/table4data.json</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h4>Important operations<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genIntro()</p></li>
+<li><p>oddsRatiosByRace()</p></li>
+</ul>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="results">
 <h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
-<p>[
-You want to describe the results of running this module. This would include instances of
-the database that the module updates, as well as any other files that the module creates.
-]</p>
+<p>This module will create a Markdown report in the report folder, ../report/paper1Report.md</p>
 </div>
 <div class="section" id="specifications">
 <h3>Specifications:<a class="headerlink" href="#specifications" title="Permalink to this headline">¶</a></h3>
 <p>Specifications for running the module is described below. Note that all the json files
 unless otherwise specified will be placed in the folder <code class="docutils literal notranslate"><span class="pre">config</span></code> in the main project
 folder.</p>
-<div class="section" id="specifications-for-the-database">
-<h4>Specifications for the database:<a class="headerlink" href="#specifications-for-the-database" title="Permalink to this headline">¶</a></h4>
-<p>[
-Note the tables within the various databases that will be affected by this module.
-]</p>
-</div>
 <div class="section" id="specifications-for-modules-json">
 <h4>Specifications for <code class="docutils literal notranslate"><span class="pre">modules.json</span></code><a class="headerlink" href="#specifications-for-modules-json" title="Permalink to this headline">¶</a></h4>
 <p>Make sure that the <code class="docutils literal notranslate"><span class="pre">execute</span></code> statement within the modules file is set to True.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;module1&quot;</span><span class="p">,</span>
-<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/module1/module1.py&quot;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;moduleName&quot;</span> <span class="p">:</span> <span class="s2">&quot;reportWriter&quot;</span><span class="p">,</span>
+<span class="s2">&quot;path&quot;</span>       <span class="p">:</span> <span class="s2">&quot;modules/reportWriter/reportWriter.py&quot;</span><span class="p">,</span>
 <span class="hll"><span class="s2">&quot;execute&quot;</span>    <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
 </span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="s2">&quot;owner&quot;</span>      <span class="p">:</span> <span class="s2">&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="specification-for-any-other-files">
-<h4>Specification for [any other files]<a class="headerlink" href="#specification-for-any-other-files" title="Permalink to this headline">¶</a></h4>
-<p>[
-Make sure that you specify all the other files whose parameters will need to be
-changed.
-]</p>
 </div>
 </div>
 </div>

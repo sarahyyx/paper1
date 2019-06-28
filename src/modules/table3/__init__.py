@@ -67,7 +67,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
     "owner"      : ""
 
 
-Specification for table3.json
+Specification for ``table3.json``
 -----------------------------------
 
 Ensure that the DSM numbers for each mental disorder and for each SUD substance 

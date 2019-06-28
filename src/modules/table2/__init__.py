@@ -13,6 +13,12 @@ Make sure you have the csv file: DSM Numbers. Convert each sheet in the file int
 by using an online csv -> json converter, then copying the json file into the table1.json config
 file under ["params"]["sudcats"].
 
+Make sure that the functions below are un-commented if it is your first time running the code.
+.. code-block:: python
+    queryDB.genSUDUserKeys()
+    queryDB.createTest4Table()
+    queryDB.popTest4()
+
 Details of Operation
 ====================
 
@@ -66,7 +72,7 @@ Make sure that the ``execute`` statement within the modules file is set to True.
     "owner"      : ""
 
 
-Specification for [any other files]
+Specification for ``table2.json``
 -----------------------------------
 
 Ensure that the DSM number str values for each mental disorder are specified under 
