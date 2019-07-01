@@ -368,3 +368,19 @@ Factitious Disorders - fd
 |sleep                  |0.45        |0.18 - 1.11|
 |fd                  |-        |- - -|
 ***
+    
+## Appendix
+
+|Schema          |Tables Used      |
+|----------------|-----------------| 
+|rwe_version1_1  |background       |
+|                |typepatient      |
+|                |pdiagnose        |
+
+
+|Schema          |Tables Created   |
+|----------------|-----------------| 
+|sarah           |test2            |
+|                |test3            |
+|                |test4            |
+        

@@ -18,6 +18,13 @@ modules.reportWriter.reportWriter module
    :members:
    :undoc-members:
    :show-inheritance:
+modules.reportWriter.writeAppendix module
+-----------------------------------------
+
+.. automodule:: modules.reportWriter.writeAppendix
+   :members:
+   :undoc-members:
+   :show-inheritance:
 modules.reportWriter.writeTable1 module
 ---------------------------------------
 

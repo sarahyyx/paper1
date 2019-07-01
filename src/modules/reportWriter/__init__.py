@@ -93,6 +93,12 @@ Important operations
  - genIntro()
  - oddsRatiosByRace()
 
+ ``writeAppendix.py``
+
+Important operations
+--------------------
+ - genAppendix() -- Remember to edit the schema and/or table names accordingly
+
 Results
 =======
 

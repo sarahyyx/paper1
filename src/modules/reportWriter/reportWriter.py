@@ -8,6 +8,7 @@ from modules.reportWriter import plotFig1
 from modules.reportWriter import writeTable2
 from modules.reportWriter import writeTable3
 from modules.reportWriter import writeTable4
+from modules.reportWriter import writeAppendix
 
 config = jsonref.load(open('../config/config.json'))
 logBase = config['logging']['logBase'] + '.modules.reportWriter.reportWriter'
@@ -80,6 +81,9 @@ def main(logger, resultsDict):
         table4Dict = json.load(json_file)
     writeTable4.genIntro()
     writeTable4.oddsRatiosByRace(table4Dict, table1Dict)
+
+    # Appendix (What databases are used)
+    writeAppendix.genAppendix()
 
     print('Getting out of reportWriter module')
     print('-'*30)
