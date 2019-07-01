@@ -24,6 +24,10 @@ def removeLowPrev(logger, d):
     ----------
     logger : {logging.Logger}
         The logger used for logging error information
+    d : {dict}
+        The dictionary containing the diagnoses counts.
+    Returns:
+        dict -- dictionary containing the results
     '''
     try: 
 

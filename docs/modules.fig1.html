@@ -218,7 +218,11 @@ overwriting command line arguments as needed.</p></li>
 <dd><p>This function removes those diagnoses that have a low prevalence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>logger</strong> (<em>{logging.Logger}</em>) – The logger used for logging error information</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger</strong> (<em>{logging.Logger}</em>) – The logger used for logging error information</p></li>
+<li><p><strong>d</strong> (<em>{dict}</em>) – The dictionary containing the diagnoses counts.</p></li>
+<li><p><strong>Returns</strong> – dict – dictionary containing the results</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -247,12 +251,12 @@ overwriting command line arguments as needed.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>filePath</em>) – </p></li>
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> – </p></li>
+<li><p><strong>{logging.Logger}</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str}</strong> (<em>filePath</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[type] – [description]</p>
+<dd class="field-even"><p>dict – dictionary containing the results</p>
 </dd>
 </dl>
 </dd></dl>

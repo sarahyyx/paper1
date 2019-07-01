@@ -29,7 +29,7 @@ def addmorethan2sudcolumn(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         query = '''
@@ -111,10 +111,7 @@ def createDF_allRaces_anySUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
 
     try:
@@ -186,10 +183,7 @@ def createDF_allRaces_morethan2SUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
 
     try:
@@ -262,11 +256,8 @@ def createDF_byRace_anySUD(logger, race):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-        race {str} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
+        race {str} -- 'AA', 'NHPI', or 'MR'
     '''
 
     try:
@@ -338,11 +329,8 @@ def createDF_byRace_morethan2SUD(logger, race):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-        race {str} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
+        race {str} -- 'AA', 'NHPI', or 'MR'
     '''
 
     try:

@@ -25,11 +25,11 @@ def genDiagCount(logger, filePath):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-        filePath {[type]} -- [description]
+        logger {logging.Logger} 
+        filePath {str}
     
     Returns:
-        [type] -- [description]
+        dict -- dictionary containing the results
     '''
     try:
         resultsDict = {
