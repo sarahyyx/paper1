@@ -157,6 +157,7 @@
 <span class="kn">from</span> <span class="nn">modules.reportWriter</span> <span class="k">import</span> <span class="n">writeTable2</span>
 <span class="kn">from</span> <span class="nn">modules.reportWriter</span> <span class="k">import</span> <span class="n">writeTable3</span>
 <span class="kn">from</span> <span class="nn">modules.reportWriter</span> <span class="k">import</span> <span class="n">writeTable4</span>
+<span class="kn">from</span> <span class="nn">modules.reportWriter</span> <span class="k">import</span> <span class="n">writeAppendix</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">jsonref</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../config/config.json&#39;</span><span class="p">))</span>
 <span class="n">logBase</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;logBase&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.modules.reportWriter.reportWriter&#39;</span>
@@ -229,6 +230,9 @@
         <span class="n">table4Dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
     <span class="n">writeTable4</span><span class="o">.</span><span class="n">genIntro</span><span class="p">()</span>
     <span class="n">writeTable4</span><span class="o">.</span><span class="n">oddsRatiosByRace</span><span class="p">(</span><span class="n">table4Dict</span><span class="p">,</span> <span class="n">table1Dict</span><span class="p">)</span>
+
+    <span class="c1"># Appendix (What databases are used)</span>
+    <span class="n">writeAppendix</span><span class="o">.</span><span class="n">genAppendix</span><span class="p">()</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Getting out of reportWriter module&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>

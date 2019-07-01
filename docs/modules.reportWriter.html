@@ -92,6 +92,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.plotFig1">modules.reportWriter.plotFig1 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.reportWriter">modules.reportWriter.reportWriter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeAppendix">modules.reportWriter.writeAppendix module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable1">modules.reportWriter.writeTable1 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable2">modules.reportWriter.writeTable2 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-modules.reportWriter.writeTable3">modules.reportWriter.writeTable3 module</a></li>
@@ -233,6 +234,24 @@ overwriting command line arguments as needed.</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+</div>
+<div class="section" id="module-modules.reportWriter.writeAppendix">
+<span id="modules-reportwriter-writeappendix-module"></span><h2>modules.reportWriter.writeAppendix module<a class="headerlink" href="#module-modules.reportWriter.writeAppendix" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="modules.reportWriter.writeAppendix.config">
+<code class="sig-prename descclassname">modules.reportWriter.writeAppendix.</code><code class="sig-name descname">config</code><em class="property"> = {'logging': {'level': 'INFO', 'logBase': 'paper1', 'specs': {'file': {'logFolder': 'logs', 'todo': True}, 'logstash': {'host': 'localhost', 'port': 5959, 'tags': [], 'todo': False, 'version': 1}, 'stdout': {'todo': False}}}}</em><a class="headerlink" href="#modules.reportWriter.writeAppendix.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="modules.reportWriter.writeAppendix.genAppendix">
+<code class="sig-prename descclassname">modules.reportWriter.writeAppendix.</code><code class="sig-name descname">genAppendix</code><span class="sig-paren">(</span><em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/reportWriter/writeAppendix.html#genAppendix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.reportWriter.writeAppendix.genAppendix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="modules.reportWriter.writeAppendix.logBase">
+<code class="sig-prename descclassname">modules.reportWriter.writeAppendix.</code><code class="sig-name descname">logBase</code><em class="property"> = 'paper1.modules.reportWriter.reportWriter'</em><a class="headerlink" href="#modules.reportWriter.writeAppendix.logBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-modules.reportWriter.writeTable1">
@@ -490,6 +509,15 @@ tables of the paper.</p>
 <div><ul class="simple">
 <li><p>genIntro()</p></li>
 <li><p>oddsRatiosByRace()</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">writeAppendix.py</span></code></p>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h4>Important operations<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>genAppendix() – Remember to edit the schema and/or table names accordingly</p></li>
 </ul>
 </div></blockquote>
 </div>
