@@ -91,7 +91,7 @@ def addmorethan2sudcolumn(logger):
         WHERE
            morethan2sud is null
         '''
-        # print(pgIO.commitData(updateQuery2))
+        print(pgIO.commitData(updateQuery2))
 
         
     except Exception as e:

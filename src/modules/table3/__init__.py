@@ -33,12 +33,12 @@ Results
 =======
 
 Tables updated:
-sarah.test4.morethan2sud
+ - sarah.test4.morethan2sud
 
 Files created:
-../data/final/oddsratios_allRaces.json
-../data/final/oddsratios_anysud_byRace.json
-../data/final/oddsratios_morethan2sud_byRace.json
+ - ../data/final/oddsratios_allRaces.json
+ - ../data/final/oddsratios_anysud_byRace.json
+ - ../data/final/oddsratios_morethan2sud_byRace.json
 
 Specifications:
 ===============
@@ -50,7 +50,7 @@ folder.
 Specifications for the database:
 --------------------------------
 
-sarah.test4
+ - sarah.test4
 
 Specifications for ``modules.json``
 -----------------------------------
