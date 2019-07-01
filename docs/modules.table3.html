@@ -192,7 +192,7 @@ their ‘morethan2sud’ column will be set to ‘True’.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p>
+<dd class="field-odd"><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -215,10 +215,7 @@ race, age, sex and setting.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[type] – [description]</p>
+<dd class="field-odd"><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -236,10 +233,7 @@ race, age, sex and setting.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[type] – [description]</p>
+<dd class="field-odd"><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -259,12 +253,9 @@ are: age, sex and setting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
-<li><p><strong>{str} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
+<li><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str} -- 'AA'</strong><strong>, </strong><strong>'NHPI'</strong><strong>, or </strong><strong>'MR'</strong> (<em>race</em>) – </p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[type] – [description]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -284,12 +275,9 @@ are: age, sex and setting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
-<li><p><strong>{str} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>race</em>) – </p></li>
+<li><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{str} -- 'AA'</strong><strong>, </strong><strong>'NHPI'</strong><strong>, or </strong><strong>'MR'</strong> (<em>race</em>) – </p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[type] – [description]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,8 +354,8 @@ overwriting command line arguments as needed.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{</strong><strong>[</strong><strong>type</strong><strong>]</strong><strong>} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>logger</em>) – </p></li>
-<li><p><strong>{dataframe} --</strong><strong> [</strong><strong>description</strong><strong>]</strong> (<em>df</em>) – </p></li>
+<li><p><strong>{logging.Logger} -- logs error information</strong> (<em>logger</em>) – </p></li>
+<li><p><strong>{dataframe} -- input dataframe where first column is 'sud'</strong> (<em>df</em>) – </p></li>
 </ul>
 </dd>
 </dl>

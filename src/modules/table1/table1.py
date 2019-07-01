@@ -27,7 +27,7 @@ def genRaceDict(logger, inputCSV):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- The logger used for logging error information
         inputCSV {filepath that contains the csv} -- first column "race" contains the race strings, second column "count" contains their counts, and the third column "paper_race" contains the overarching race specified in the paper
 
     Returns:

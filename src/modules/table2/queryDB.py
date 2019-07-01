@@ -63,7 +63,7 @@ def createTest4Table(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         create_query = '''
@@ -101,7 +101,7 @@ def popTest4(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
 
@@ -187,7 +187,7 @@ def divByAllAges(logger, l):
         lD.log
 
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
         l {list} -- l[0] is the no. of AA , l[1] is the no. of NHPI, l[2] is the no. of MR
     '''
     resultList = []
@@ -216,10 +216,7 @@ def allAgesGeneralSUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
 
@@ -308,10 +305,7 @@ def allAgesCategorisedSUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         countDict = {
@@ -367,8 +361,8 @@ def divByAgeBins(logger, lol):
     This function takes in a list of lists called lol, where lol[0] is the list of AAs, lol[0][0] is for ages 1-11 and lol[0][1] is for ages 12-17 and so forth
     
     Arguments:
-        logger {[type]} -- [description]
-        lol {list of lists} -- [description]
+        logger {logging.Logger} -- logs error information
+        lol {list of lists} -- 
     '''
 
     resultLoL = []
@@ -395,10 +389,7 @@ def ageBinnedGeneralSUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
 
@@ -521,10 +512,7 @@ def ageBinnedCategorisedSUD(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         countDict = {}

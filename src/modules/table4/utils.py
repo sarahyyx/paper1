@@ -30,8 +30,8 @@ def logRegress(logger, df):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-        df {dataframe} -- [description]
+        logger {logging.Logger} -- logs error information
+        df {dataframe} -- input dataframe with the first column as 'sud'
     '''
 
     try:

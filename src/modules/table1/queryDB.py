@@ -344,7 +344,7 @@ def createTest3(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         query = '''
@@ -385,7 +385,7 @@ def popDiagCols(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         all_userkeys = "../data/raw_data/firstfilter_allkeys.csv"
@@ -478,7 +478,7 @@ def delAllFalseTest3(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         query = '''
@@ -517,7 +517,7 @@ def relabelVar(logger):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
+        logger {logging.Logger} -- logs error information
     '''
     try:
         # relabel_sex_success = []

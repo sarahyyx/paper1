@@ -29,11 +29,8 @@ def createDF_byRace_anySUD(logger, race):
         lD.log
     
     Arguments:
-        logger {[type]} -- [description]
-        race {str} -- [description]
-    
-    Returns:
-        [type] -- [description]
+        logger {logging.Logger} -- logs error information
+        race {str} -- 'AA', 'NHPI', or 'MR'
     '''
 
     try:

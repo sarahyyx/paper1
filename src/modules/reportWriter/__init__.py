@@ -20,6 +20,7 @@ Details of Operation
 ====================
 
 ``writeTable1.py``
+
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -34,6 +35,7 @@ Important operations
 
 
 ``plotFig1.py``
+
 Data sources that it uses 
 -------------------------
  - ../data/final/diagnosesCount.json
@@ -45,6 +47,7 @@ Important operations
 
 
 ``writeTable2.py``
+
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -63,6 +66,7 @@ Important operations
 
 
  ``writeTable3.py``
+
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -78,6 +82,7 @@ Important operations
 
 
  ``writeTable4.py``
+ 
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
