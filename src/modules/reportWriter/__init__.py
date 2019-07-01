@@ -7,6 +7,7 @@ Before you Begin
 ================
 
 Make sure that you have run the modules:
+
  - table1
  - fig1
  - table2
@@ -18,7 +19,7 @@ Make sure that you have run the modules:
 Details of Operation
 ====================
 
-[writeTable1.py]
+``writeTable1.py``
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -32,7 +33,7 @@ Important operations
  - genRaceSetting()
 
 
-[plotFig1.py]
+``plotFig1.py``
 Data sources that it uses 
 -------------------------
  - ../data/final/diagnosesCount.json
@@ -43,7 +44,7 @@ Important operations
  - genFig()
 
 
-[writeTable2.py]
+``writeTable2.py``
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -61,7 +62,7 @@ Important operations
  - genMRAgeBinnedPrev()
 
 
- [writeTable3.py]
+ ``writeTable3.py``
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json
@@ -76,7 +77,7 @@ Important operations
  - oddsRatiosByRace()
 
 
- [writeTable4.py]
+ ``writeTable4.py``
 Data sources that it uses 
 -------------------------
  - ../data/final/sampleCount.json

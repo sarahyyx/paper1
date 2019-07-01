@@ -398,12 +398,13 @@ section.</p>
 <p>Make sure you have the csv file: DSM Numbers. Convert each sheet in the file into json format
 by using an online csv -&gt; json converter, then copying the json file into the table1.json config
 file under [“params”][“sudcats”].</p>
-<p>Make sure that the functions below are un-commented if it is your first time running the code.
-.. code-block:: python</p>
+<p>Make sure that the functions below are un-commented if it is your first time running the code.</p>
 <blockquote>
-<div><p>queryDB.genSUDUserKeys()
-queryDB.createTest4Table()
-queryDB.popTest4()</p>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">queryDB.genSUDUserKeys()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">queryDB.createTest4Table()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">queryDB.popTest4()</span></code></p></li>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="details-of-operation">
@@ -411,22 +412,32 @@ queryDB.popTest4()</p>
 <p>Firstly, the function genSUDUserKeys() from table2.queryDB generates a csv file of of
 all the users who have a SUD from sarah.test3. Then, createTest4Table() creates the
 table sarah.test4 in the database, and is populated by popTest4().</p>
-<p>The count functions:
-allAgesGeneralSUD()
-allAgesCategorisedSUD()
-ageBinnedGeneralSUD()
-ageBinnedCategorisedSUD()
-then use the data from sarah.test3 and sarah.test4 to generate the required prevalences.</p>
+<dl class="simple">
+<dt>The count functions:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">allAgesGeneralSUD()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allAgesCategorisedSUD()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ageBinnedGeneralSUD()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ageBinnedCategorisedSUD()</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>then use the data from sarah.test3 and sarah.test4 to generate the required prevalences.</p>
 </div>
 <div class="section" id="results">
 <h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
-<p>Tables created:
-sarah.test4</p>
-<p>Files created:
-../data/final/allAgesGeneralSUD.json
-../data/final/allAgesCategorisedSUD.json
-../data/final/ageBinnedGeneralSUD.json
-../data/final/ageBinnedCategorisedSUD.json</p>
+<dl class="simple">
+<dt>Tables created:</dt><dd><ul class="simple">
+<li><p>sarah.test4</p></li>
+</ul>
+</dd>
+<dt>Files created:</dt><dd><ul class="simple">
+<li><p>../data/final/allAgesGeneralSUD.json</p></li>
+<li><p>../data/final/allAgesCategorisedSUD.json</p></li>
+<li><p>../data/final/ageBinnedGeneralSUD.json</p></li>
+<li><p>../data/final/ageBinnedCategorisedSUD.json</p></li>
+</ul>
+</dd>
+</dl>
 </div>
 <div class="section" id="specifications">
 <h3>Specifications:<a class="headerlink" href="#specifications" title="Permalink to this headline">¶</a></h3>
@@ -435,7 +446,11 @@ unless otherwise specified will be placed in the folder <code class="docutils li
 folder.</p>
 <div class="section" id="specifications-for-the-database">
 <h4>Specifications for the database:<a class="headerlink" href="#specifications-for-the-database" title="Permalink to this headline">¶</a></h4>
-<p>sarah.test4</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>sarah.test4</p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="specifications-for-modules-json">
 <h4>Specifications for <code class="docutils literal notranslate"><span class="pre">modules.json</span></code><a class="headerlink" href="#specifications-for-modules-json" title="Permalink to this headline">¶</a></h4>

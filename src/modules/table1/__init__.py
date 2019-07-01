@@ -20,12 +20,11 @@ by using an online csv -> json converter, then copying the json file into the ta
 file under ["params"]["categories"].
 
 Make sure that the functions below are un-commented if it is your first time running the code.
-.. code-block:: python
-    queryDB.createTest2()
-    queryDB.genAllKeys()
-    queryDB.createTest3()
-    queryDB.popDiagCols()
-    queryDB.delAllFalseTest3()
+ - ``queryDB.createTest2()``
+ - ``queryDB.genAllKeys()``
+ - ``queryDB.createTest3()``
+ - ``queryDB.popDiagCols()``
+ - ``queryDB.delAllFalseTest3()``
 
 Details of Operation
 ====================
@@ -38,17 +37,17 @@ Next, the function genRaceDict() from table1 is run to generate a dict that spec
 These strings are then saved in the table1.json config file under ["params"]["races"].
 
 To create the two tables, run the functions below only ONCE.
-queryDB.createTest2()
-queryDB.genAllKeys()
-queryDB.createTest3()
-queryDB.popDiagCols()
-queryDB.delAllFalseTest3() 
+ - ``queryDB.createTest2()``
+ - ``queryDB.genAllKeys()``
+ - ``queryDB.createTest3()``
+ - ``queryDB.popDiagCols()``
+ - ``queryDB.delAllFalseTest3()``
 
 Count functions in queryDB include:
-countMainRace()
-countRaceAge()
-countRaceSex()
-countRaceSetting()
+ - ``countMainRace()``
+ - ``countRaceAge()``
+ - ``countRaceSex()``
+ - ``countRaceSetting()``
 These count functions generate the data and it is saved in a dict, which is converted into a results 
 file: sampleCount.json under data/final.  
 
@@ -56,11 +55,11 @@ Results
 =======
 
 Tables created:
-sarah.test2
-sarah.test3
+ - sarah.test2
+ - sarah.test3
 
 Files created:
-../data/final/sampleCount.json
+ - ../data/final/sampleCount.json
 
 Specifications:
 ===============
@@ -72,8 +71,8 @@ folder.
 Specifications for the database:
 --------------------------------
 
-sarah.newtable1data
-sarah.diagnoses
+ - sarah.test2
+ - sarah.test3
 
 Specifications for ``modules.json``
 -----------------------------------

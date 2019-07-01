@@ -193,16 +193,16 @@ Logistic regression is performed for:
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Race*                      |                            |          |
-|NHPI vs AA                  |1.34          |0.99 - 1.81|
-|MR vs AA                    |2.81            |2.13 - 3.72|
+|NHPI vs AA                  |1.55          |1.15 - 2.08|
+|MR vs AA                    |3.14            |2.39 - 4.12|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.39         |0.3 - 0.52|
-|18 - 34 vs 50+              |1.27         |1.0 - 1.61|
-|35 - 49 vs 50+              |1.27         |0.99 - 1.63|
+|12 - 17 vs 50+              |0.42         |0.32 - 0.56|
+|18 - 34 vs 50+              |1.26         |1.0 - 1.59|
+|35 - 49 vs 50+              |1.28         |1.0 - 1.63|
 |*Sex*                       |                            |          |
-|Male vs Female              |3.26             |2.75 - 3.88|
+|Male vs Female              |3.04             |2.57 - 3.6|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|2.24      |1.8 - 2.8|
+|Hospital vs Mental Health Center|2.19      |1.76 - 2.72|
 |**2 or more SUDs**                |**Odds Ratio**              |**95% CI**|
 |*Race*                            |                            |          |
 |NHPI vs AA                        |0.73          |0.41 - 1.31|
@@ -223,13 +223,13 @@ Logistic regression is performed for:
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |2.42         |0.81 - 7.22|
-|18 - 34 vs 50+              |4.24         |1.69 - 10.68|
-|35 - 49 vs 50+              |2.55         |0.96 - 6.77|
+|12 - 17 vs 50+              |2.97         |1.01 - 8.73|
+|18 - 34 vs 50+              |3.83         |1.55 - 9.47|
+|35 - 49 vs 50+              |2.66         |1.02 - 6.95|
 |*Sex*                       |                            |          |
-|Male vs Female              |4.34             |2.58 - 7.31|
+|Male vs Female              |3.65             |2.2 - 6.07|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|1.56  |0.86 - 2.84|
+|Hospital vs Mental Health Center|1.53  |0.86 - 2.72|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
 |12 - 17 vs 50+                    |2.0   |0.21 - 19.23|
@@ -246,13 +246,13 @@ Logistic regression is performed for:
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.51         |0.32 - 0.83|
-|18 - 34 vs 50+              |1.42         |0.9 - 2.23|
-|35 - 49 vs 50+              |1.37         |0.83 - 2.25|
+|12 - 17 vs 50+              |0.53         |0.33 - 0.85|
+|18 - 34 vs 50+              |1.35         |0.86 - 2.11|
+|35 - 49 vs 50+              |1.32         |0.81 - 2.15|
 |*Sex*                       |                            |          |
-|Male vs Female              |2.75             |2.07 - 3.65|
+|Male vs Female              |2.56             |1.94 - 3.39|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|2.53  |1.85 - 3.45|
+|Hospital vs Mental Health Center|2.45  |1.8 - 3.34|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
 |12 - 17 vs 50+                    |4.08   |1.1 - 15.16|
@@ -269,13 +269,13 @@ Logistic regression is performed for:
 |----------------------------|----------------------------|----------|
 |**Any SUD**                 |**Odds Ratio**              |**95% CI**|
 |*Age in years*              |                            |          |
-|12 - 17 vs 50+              |0.22         |0.14 - 0.34|
-|18 - 34 vs 50+              |1.04         |0.76 - 1.42|
-|35 - 49 vs 50+              |1.2         |0.88 - 1.63|
+|12 - 17 vs 50+              |0.23         |0.15 - 0.36|
+|18 - 34 vs 50+              |1.07         |0.79 - 1.45|
+|35 - 49 vs 50+              |1.21         |0.89 - 1.63|
 |*Sex*                       |                            |          |
-|Male vs Female              |3.55             |2.79 - 4.53|
+|Male vs Female              |3.38             |2.67 - 4.28|
 |*Treatment Setting*         |                            |          |
-|Hospital vs Mental Health Center|1.96  |1.32 - 2.93|
+|Hospital vs Mental Health Center|1.94  |1.32 - 2.85|
 |**2 or more SUDs**                |**Odds Ratio**        |**95% CI**|
 |*Age in years*                    |                      |          |
 |12 - 17 vs 50+                    |1.26   |0.54 - 2.92|

@@ -32,7 +32,7 @@ Results
 =======
 
 Files created:
-../data/final/table4data.json
+ - ../data/final/table4data.json
 
 Specifications:
 ===============

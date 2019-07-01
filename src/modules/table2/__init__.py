@@ -14,10 +14,10 @@ by using an online csv -> json converter, then copying the json file into the ta
 file under ["params"]["sudcats"].
 
 Make sure that the functions below are un-commented if it is your first time running the code.
-.. code-block:: python
-    queryDB.genSUDUserKeys()
-    queryDB.createTest4Table()
-    queryDB.popTest4()
+
+ - ``queryDB.genSUDUserKeys()``
+ - ``queryDB.createTest4Table()``
+ - ``queryDB.popTest4()``
 
 Details of Operation
 ====================
@@ -27,23 +27,23 @@ all the users who have a SUD from sarah.test3. Then, createTest4Table() creates 
 table sarah.test4 in the database, and is populated by popTest4().
 
 The count functions:
-allAgesGeneralSUD()
-allAgesCategorisedSUD()
-ageBinnedGeneralSUD()
-ageBinnedCategorisedSUD()
+ - ``allAgesGeneralSUD()``
+ - ``allAgesCategorisedSUD()``
+ - ``ageBinnedGeneralSUD()``
+ - ``ageBinnedCategorisedSUD()``
 then use the data from sarah.test3 and sarah.test4 to generate the required prevalences.
 
 Results
 =======
 
 Tables created:
-sarah.test4
+ - sarah.test4
 
 Files created:
-../data/final/allAgesGeneralSUD.json
-../data/final/allAgesCategorisedSUD.json
-../data/final/ageBinnedGeneralSUD.json
-../data/final/ageBinnedCategorisedSUD.json
+ - ../data/final/allAgesGeneralSUD.json
+ - ../data/final/allAgesCategorisedSUD.json
+ - ../data/final/ageBinnedGeneralSUD.json
+ - ../data/final/ageBinnedCategorisedSUD.json
 
 Specifications:
 ===============
@@ -55,7 +55,7 @@ folder.
 Specifications for the database:
 --------------------------------
 
-sarah.test4
+ - sarah.test4
 
 Specifications for ``modules.json``
 -----------------------------------
